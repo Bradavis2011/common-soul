@@ -1,0 +1,251 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  userType    String
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  profile UserProfile?
+  services Service[]
+  customerBookings Booking[] @relation("CustomerBookings")
+  healerBookings Booking[] @relation("HealerBookings")
+  customerReviews Review[] @relation("CustomerReviews")
+  healerReviews Review[] @relation("HealerReviews")
+  customerConversations Conversation[] @relation("CustomerConversations")
+  healerConversations   Conversation[] @relation("HealerConversations")
+  sentMessages         Message[]      @relation("SentMessages")
+  
+  @@map("users")
+}
+
+model UserProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  firstName   String
+  lastName    String
+  bio         String?
+  phone       String?
+  location    String?
+  avatarUrl   String?
+  dateOfBirth DateTime?
+  website     String?
+  timezone    String?
+  isProfileComplete Boolean @default(false)
+  profileCompletionScore Int @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  healerProfile HealerProfile?
+  customerProfile CustomerProfile?
+  
+  @@map("user_profiles")
+}
+
+model HealerProfile {
+  id              String   @id @default(cuid())
+  profileId       String   @unique
+  specialties     String?  // JSON string of specialties array
+  hourlyRate      Float?
+  yearsExperience Int?
+  certifications  String?  // JSON string of certifications array
+  education       String?  // Education background
+  languages       String?  // JSON string of languages spoken
+  sessionTypes    String?  // JSON string of session types offered
+  availability    String?  // JSON string of availability schedule
+  consultationFee Float?   // Initial consultation fee
+  sessionDuration String?  // Default session duration
+  cancellationPolicy String? // Cancellation policy
+  paymentMethods  String?  // JSON string of accepted payment methods
+  profileBanner   String?  // Banner image URL
+  socialLinks     String?  // JSON string of social media links
+  testimonials    String?  // JSON string of testimonials
+  isVerified      Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  lastActiveAt    DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt @default(now())
+  
+  profile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  @@map("healer_profiles")
+}
+
+model CustomerProfile {
+  id                String   @id @default(cuid())
+  profileId         String   @unique
+  interests         String?  // JSON string of spiritual interests array
+  preferredLocation String?
+  preferredSessionTypes String? // JSON string of preferred session types
+  goals             String?  // Spiritual/healing goals
+  previousExperience String? // Previous spiritual healing experience
+  healthConditions  String?  // Relevant health conditions (optional)
+  availabilityPreferences String? // JSON string of preferred times
+  budgetRange       String?  // Budget range for sessions
+  communicationStyle String? // Preferred communication style
+  sessionFrequency  String?  // How often they want sessions
+  preferences       String?  // JSON string of other preferences
+  referralSource    String?  // How they heard about the platform
+  emergencyContact  String?  // Emergency contact information
+  consentToContact  Boolean  @default(true)
+  marketingOptIn    Boolean  @default(false)
+  lastBookingAt     DateTime?
+  totalSessions     Int      @default(0)
+  favoriteHealers   String?  // JSON string of favorite healer IDs
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  profile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  @@map("customer_profiles")
+}
+
+model Service {
+  id          String      @id @default(cuid())
+  healerId    String
+  title       String
+  description String
+  duration    Int         // Duration in minutes
+  price       Float
+  category    String
+  imageUrl    String?
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  healer User @relation(fields: [healerId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+  reviews Review[]
+  
+  @@map("services")
+}
+
+model Booking {
+  id          String      @id @default(cuid())
+  customerId  String
+  healerId    String
+  serviceId   String
+  scheduledAt DateTime
+  duration    Int         // Duration in minutes
+  totalPrice  Float
+  status      String @default("PENDING")
+  notes       String?
+  customerNotes String?
+  healerNotes String?
+  cancellationReason String?
+  cancelledAt DateTime?
+  completedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  customer User @relation(name: "CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
+  healer   User @relation(name: "HealerBookings", fields: [healerId], references: [id], onDelete: Cascade)
+  service  Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  review   Review?
+  conversation Conversation?
+  payment Payment?
+  
+  @@map("bookings")
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  customerId  String
+  healerId    String
+  serviceId   String?
+  bookingId   String?  @unique
+  rating      Int      // 1-5 stars
+  title       String?
+  comment     String?
+  isVerified  Boolean  @default(false) // True if from completed booking
+  isPublic    Boolean  @default(true)
+  response    String?  // Healer response
+  respondedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  customer User    @relation(name: "CustomerReviews", fields: [customerId], references: [id], onDelete: Cascade)
+  healer   User    @relation(name: "HealerReviews", fields: [healerId], references: [id], onDelete: Cascade)
+  service  Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  booking  Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  @@map("reviews")
+}
+
+
+model Payment {
+  id              String        @id @default(cuid())
+  bookingId       String        @unique
+  amount          Float         // Total amount paid
+  currency        String        @default("USD")
+  status          String @default("PENDING")
+  paymentMethod   String
+  stripePaymentId String?       // Stripe payment intent ID
+  stripeSessionId String?       // Stripe session ID for checkout
+  platformFee     Float         @default(0) // Platform commission
+  healerAmount    Float         // Amount after platform fee
+  paymentDate     DateTime?
+  refundAmount    Float?        @default(0)
+  refundDate      DateTime?
+  metadata        String?       // JSON string for additional data
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  
+  @@map("payments")
+}
+
+
+model Conversation {
+  id            String    @id @default(cuid())
+  customerId    String
+  healerId      String
+  bookingId     String?   @unique // Optional: link to specific booking
+  lastMessageAt DateTime  @default(now())
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  customer User    @relation(name: "CustomerConversations", fields: [customerId], references: [id], onDelete: Cascade)
+  healer   User    @relation(name: "HealerConversations", fields: [healerId], references: [id], onDelete: Cascade)
+  booking  Booking? @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  messages Message[]
+  
+  @@unique([customerId, healerId])
+  @@map("conversations")
+}
+
+model Message {
+  id             String      @id @default(cuid())
+  conversationId String
+  senderId       String
+  content        String
+  messageType    String @default("TEXT")
+  attachmentUrl  String?     // For images, files, etc.
+  isRead         Boolean     @default(false)
+  readAt         DateTime?
+  isEdited       Boolean     @default(false)
+  editedAt       DateTime?
+  originalContent String?    // Store original content if edited
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation(name: "SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  
+  @@map("messages")
+}
+

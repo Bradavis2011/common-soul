@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+        .loading { background-color: #fff3cd; }
+    </style>
+</head>
+<body>
+    <h1>Network Connectivity Test</h1>
+    <div id="tests"></div>
+
+    <script>
+        const testsDiv = document.getElementById('tests');
+
+        function addTest(name, status, message) {
+            const div = document.createElement('div');
+            div.className = `test ${status}`;
+            div.innerHTML = `<strong>${name}:</strong> ${message}`;
+            testsDiv.appendChild(div);
+        }
+
+        // Test 1: Backend Health Check
+        addTest('Backend Health Check', 'loading', 'Testing...');
+        fetch('http://localhost:3001/health')
+            .then(response => response.json())
+            .then(data => {
+                addTest('Backend Health Check', 'success', `✅ Backend is responding: ${data.message}`);
+            })
+            .catch(error => {
+                addTest('Backend Health Check', 'error', `❌ Backend error: ${error.message}`);
+            });
+
+        // Test 2: CORS Test
+        addTest('CORS Test', 'loading', 'Testing...');
+        fetch('http://localhost:3001/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: 'invalid', password: 'invalid' })
+        })
+            .then(response => {
+                if (response.status === 400 || response.status === 401) {
+                    addTest('CORS Test', 'success', '✅ CORS is working (got expected 400/401 response)');
+                } else {
+                    addTest('CORS Test', 'error', `❌ Unexpected response status: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                addTest('CORS Test', 'error', `❌ CORS error: ${error.message}`);
+            });
+
+        // Test 3: Login Test with Test Account
+        addTest('Login Test', 'loading', 'Testing with test account...');
+        fetch('http://localhost:3001/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                email: 'test@healer.com', 
+                password: 'password123' 
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    addTest('Login Test', 'success', `✅ Login successful! User: ${data.user.firstName} ${data.user.lastName} (${data.user.userType})`);
+                } else {
+                    addTest('Login Test', 'error', `❌ Login failed: ${data.error || 'Unknown error'}`);
+                }
+            })
+            .catch(error => {
+                addTest('Login Test', 'error', `❌ Login error: ${error.message}`);
+            });
+    </script>
+</body>
+</html>
