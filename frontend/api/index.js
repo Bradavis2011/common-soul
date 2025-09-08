@@ -1,14 +1,12 @@
 const express = require('express')
-const http = require('http')
 const cors = require('cors')
 const helmet = require('helmet')
 const morgan = require('morgan')
-const rateLimit = require('express-rate-limit')
 require('dotenv').config()
 
 // Import routes
 const authRoutes = require('../src/routes/auth')
-const profileRoutes = require('../src/routes/profile')
+const profileRoutes = require('../src/routes/profile')  
 const uploadRoutes = require('../src/routes/upload')
 const healerRoutes = require('../src/routes/healer')
 const serviceRoutes = require('../src/routes/service')
@@ -88,5 +86,7 @@ app.use((error, req, res, next) => {
   })
 })
 
-// Export for Vercel
-module.exports = app
+// Export for Vercel - simplified approach
+module.exports = (req, res) => {
+  app(req, res)
+}
