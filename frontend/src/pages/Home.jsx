@@ -7,7 +7,10 @@ import {
   VideoCameraIcon,
   CalendarDaysIcon,
   StarIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  UserGroupIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline'
 
 function Home() {
@@ -15,24 +18,55 @@ function Home() {
 
   const features = [
     {
-      icon: SparklesIcon,
-      title: "Find Your Healer",
-      description: "Browse verified spiritual healers and energy practitioners"
+      icon: MagnifyingGlassIcon,
+      title: "Discover Healers",
+      description: "Find authentic spiritual practitioners near you or online",
+      gradient: "bg-gradient-spiritual",
+      shadow: "hover:shadow-spiritual"
     },
     {
       icon: CalendarDaysIcon,
       title: "Book Sessions",
-      description: "Easy scheduling with secure payment processing"
+      description: "Schedule virtual or in-person healing sessions",
+      gradient: "bg-gradient-nature",
+      shadow: "hover:shadow-nature"
     },
     {
-      icon: VideoCameraIcon,
-      title: "Video Sessions", 
-      description: "Connect via high-quality video calls from anywhere"
+      icon: UserGroupIcon,
+      title: "Join Community",
+      description: "Connect with others on their spiritual journey",
+      gradient: "bg-gradient-sunset",
+      shadow: "hover:shadow-glow"
     },
     {
-      icon: ChatBubbleLeftRightIcon,
-      title: "Real-time Messaging",
-      description: "Stay connected with your healer between sessions"
+      icon: HeartIcon,
+      title: "Share Experiences",
+      description: "Document and share your healing journey",
+      gradient: "bg-gradient-aurora",
+      shadow: "hover:shadow-spiritual"
+    }
+  ]
+
+  const mockHealers = [
+    {
+      name: "Sarah Moonwhisper",
+      specialty: "Crystal Healing & Meditation",
+      rating: 4.9,
+      reviewCount: 127,
+      location: "San Francisco, CA",
+      isVirtual: true,
+      price: "$85/session",
+      tags: ["Crystal Healing", "Meditation", "Chakra Balancing"]
+    },
+    {
+      name: "Marcus Lightbringer",
+      specialty: "Reiki & Energy Healing",
+      rating: 4.8,
+      reviewCount: 89,
+      location: "Boulder, CO",
+      isVirtual: true,
+      price: "$75/session",
+      tags: ["Reiki", "Energy Healing", "Spiritual Counseling"]
     }
   ]
 
@@ -135,12 +169,12 @@ function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="group">
-                <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                  <div className="bg-gradient-to-br from-purple-500 to-teal-500 rounded-2xl p-4 w-16 h-16 mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <feature.icon className="h-8 w-8 text-white" />
+                <div className={`bg-card rounded-xl p-8 shadow-lg ${feature.shadow} transition-all duration-300 transform hover:-translate-y-2 border border-border/50`}>
+                  <div className={`${feature.gradient} rounded-xl p-4 w-16 h-16 mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="h-8 w-8 text-primary-foreground" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-semibold text-card-foreground mb-4">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -180,6 +214,78 @@ function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Featured Healers Section */}
+      <div className="py-24 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Featured <span className="bg-gradient-spiritual bg-clip-text text-transparent">Healers</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Connect with experienced spiritual practitioners ready to guide you on your healing journey
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {mockHealers.map((healer, index) => (
+              <div key={index} className="bg-card rounded-xl p-6 shadow-lg hover:shadow-spiritual transition-all duration-300 border border-border/50">
+                <div className="flex items-start gap-4">
+                  <div className="w-16 h-16 rounded-full bg-gradient-spiritual flex items-center justify-center text-primary-foreground font-bold text-xl">
+                    {healer.name.charAt(0)}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg text-card-foreground">{healer.name}</h3>
+                    <p className="text-muted-foreground">{healer.specialty}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <div className="flex items-center gap-1">
+                        <StarIcon className="w-4 h-4 text-yellow-400" />
+                        <span className="text-sm font-medium">{healer.rating}</span>
+                        <span className="text-sm text-muted-foreground">({healer.reviewCount})</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2">
+                      <MapPinIcon className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">{healer.location}</span>
+                      {healer.isVirtual && (
+                        <>
+                          <VideoCameraIcon className="w-4 h-4 text-accent" />
+                          <span className="text-sm text-accent">Virtual Available</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {healer.tags.map((tag, tagIndex) => (
+                    <span key={tagIndex} className="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex justify-between items-center mt-6">
+                  <div className="text-lg font-semibold text-accent">{healer.price}</div>
+                  <Link 
+                    to="/discover"
+                    className="bg-gradient-spiritual text-primary-foreground px-6 py-2 rounded-full text-sm font-medium hover:shadow-spiritual transition-all duration-200"
+                  >
+                    Book Session
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <Link
+              to="/discover"
+              className="bg-gradient-nature text-primary-foreground px-8 py-3 rounded-full text-lg font-semibold hover:shadow-nature transition-all duration-300 transform hover:scale-105"
+            >
+              View All Healers
+            </Link>
           </div>
         </div>
       </div>
