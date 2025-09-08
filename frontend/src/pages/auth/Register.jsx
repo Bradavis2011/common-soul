@@ -29,9 +29,9 @@ function Register() {
     try {
       const response = await register(formData)
       if (response.user.userType === 'HEALER') {
-        navigate('/healer/dashboard')
+        navigate('/dashboard')
       } else {
-        navigate('/customer/dashboard')
+        navigate('/customer-dashboard')
       }
     } catch (error) {
       console.error('Registration failed:', error)

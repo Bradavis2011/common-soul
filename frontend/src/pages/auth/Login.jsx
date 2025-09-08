@@ -26,9 +26,9 @@ function Login() {
     try {
       const response = await login(formData.email, formData.password)
       if (response.user.userType === 'HEALER') {
-        navigate('/healer/dashboard')
+        navigate('/dashboard')
       } else {
-        navigate('/customer/dashboard')
+        navigate('/customer-dashboard')
       }
     } catch (error) {
       console.error('Login failed:', error)

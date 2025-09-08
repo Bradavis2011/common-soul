@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  common-soul-app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./production.db
+      - JWT_SECRET=${JWT_SECRET}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      # Video conferencing handled by free Jitsi Meet (no API key needed)
+      - EMAIL_FROM=${EMAIL_FROM}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+    volumes:
+      - app_data:/app/backend/prisma
+      - uploads:/app/backend/public/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  app_data:
+  uploads:

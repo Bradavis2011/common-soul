@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
+import ProfileCompletionPrompt from '../../components/profile/ProfileCompletionPrompt'
+import ProfileCompletionWizard from '../../components/profile/ProfileCompletionWizard'
 import { 
   CreditCardIcon, 
   CalendarDaysIcon, 
@@ -28,6 +30,8 @@ function HealerDashboard() {
   })
   const [loading, setLoading] = useState(true)
   const [recentBookings, setRecentBookings] = useState([])
+  const [showPrompt, setShowPrompt] = useState(true)
+  const [showWizard, setShowWizard] = useState(false)
 
   useEffect(() => {
     fetchDashboardData()
@@ -38,12 +42,12 @@ function HealerDashboard() {
       const token = localStorage.getItem('token')
       
       // Fetch services
-      const servicesResponse = await fetch(`${import.meta.env.VITE_API_URL}/services/my-services`, {
+      const servicesResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/services/my-services`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       
       // Fetch bookings
-      const bookingsResponse = await fetch(`${import.meta.env.VITE_API_URL}/bookings?healer=true`, {
+      const bookingsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       
@@ -110,6 +114,19 @@ function HealerDashboard() {
         </h1>
         <p className="text-gray-600 mt-2">Manage your healing services and bookings</p>
       </div>
+
+      {/* Profile Completion Prompt */}
+      {showPrompt && !localStorage.getItem('profile-completion-dismissed') && (
+        <div className="mb-8">
+          <ProfileCompletionPrompt
+            onStartWizard={() => {
+              setShowPrompt(false)
+              setShowWizard(true)
+            }}
+            onDismiss={() => setShowPrompt(false)}
+          />
+        </div>
+      )}
 
       {/* Stats Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -297,6 +314,25 @@ function HealerDashboard() {
                 </div>
               )
             })}
+          </div>
+        </div>
+      )}
+
+      {/* Profile Completion Wizard */}
+      {showWizard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <ProfileCompletionWizard
+                onClose={() => setShowWizard(false)}
+                onComplete={() => {
+                  setShowWizard(false)
+                  setShowPrompt(false)
+                  // Refresh page to show updated profile data
+                  window.location.reload()
+                }}
+              />
+            </div>
           </div>
         </div>
       )}

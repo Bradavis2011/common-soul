@@ -29,7 +29,7 @@ function ServiceList({ onCreateNew, onEdit }) {
   const fetchServices = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/services/my-services`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/services/my-services`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -52,7 +52,7 @@ function ServiceList({ onCreateNew, onEdit }) {
   const handleToggleActive = async (serviceId, isActive) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/services/${serviceId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/services/${serviceId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function ServiceList({ onCreateNew, onEdit }) {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/services/${serviceId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/services/${serviceId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

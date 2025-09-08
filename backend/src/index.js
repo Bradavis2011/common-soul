@@ -27,7 +27,7 @@ app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? 'https://yourproductiondomain.com' 
-    : ['http://localhost:5173', 'http://localhost:5174'],
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
   credentials: true
 }));
 
@@ -51,6 +51,20 @@ app.use(express.urlencoded({ extended: true }));
 // Static file serving for uploads
 app.use('/uploads', express.static('public/uploads'));
 
+// Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '../public')));
+  
+  // Handle React Router - send all non-API requests to index.html
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+  });
+}
+
 // Logging
 app.use(morgan('combined'));
 
@@ -65,6 +79,26 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/messaging', messagingRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Root endpoint with helpful information
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Common Soul API Server',
+    status: 'running',
+    frontend_url: 'http://localhost:5173',
+    api_endpoints: {
+      auth: '/api/auth',
+      profile: '/api/profile',
+      services: '/api/services',
+      bookings: '/api/bookings',
+      payments: '/api/payments',
+      messaging: '/api/messaging',
+      admin: '/api/admin',
+      health: '/health'
+    },
+    note: 'This is the backend API. Visit http://localhost:5173 for the main application.'
+  });
+});
 
 // Health check
 app.get('/health', (req, res) => {

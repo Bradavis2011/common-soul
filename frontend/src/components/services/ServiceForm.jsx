@@ -83,8 +83,8 @@ function ServiceForm({ service, onSave, onCancel }) {
     try {
       const token = localStorage.getItem('token')
       const url = service 
-        ? `${import.meta.env.VITE_API_URL}/services/${service.id}`
-        : `${import.meta.env.VITE_API_URL}/services`
+        ? `${import.meta.env.VITE_API_URL}/api/services/${service.id}`
+        : `${import.meta.env.VITE_API_URL}/api/services`
       
       const response = await fetch(url, {
         method: service ? 'PUT' : 'POST',

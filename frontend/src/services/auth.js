@@ -35,22 +35,22 @@ api.interceptors.response.use(
 )
 
 export const register = async (userData) => {
-  const response = await api.post('/auth/register', userData)
+  const response = await api.post('/api/auth/register', userData)
   return response
 }
 
 export const login = async (email, password) => {
-  const response = await api.post('/auth/login', { email, password })
+  const response = await api.post('/api/auth/login', { email, password })
   return response
 }
 
 export const logout = async () => {
-  const response = await api.post('/auth/logout')
-  return response
+  // Our backend doesn't have a logout endpoint, just return success
+  return Promise.resolve()
 }
 
 export const getCurrentUser = async () => {
-  const response = await api.get('/auth/me')
+  const response = await api.get('/api/auth/me')
   return response.user
 }
 

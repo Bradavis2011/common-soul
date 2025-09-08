@@ -23,7 +23,7 @@ function BookingForm({ service, onSuccess, onCancel }) {
     setError('')
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:3001/api/bookings/availability/${service.id}?date=${selectedDate}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings/availability/${service.id}?date=${selectedDate}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -56,7 +56,7 @@ function BookingForm({ service, onSuccess, onCancel }) {
       const scheduledAt = new Date(`${selectedDate}T${selectedTime}`)
       
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3001/api/bookings', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ import {
   CurrencyDollarIcon,
   ClipboardDocumentListIcon,
   StarIcon,
-  TrendingUpIcon,
+  ChartBarIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 
@@ -103,7 +103,7 @@ function AdminDashboard() {
     {
       title: 'Total Bookings',
       value: stats.totalBookings,
-      icon: TrendingUpIcon,
+      icon: ChartBarIcon,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50'
     },

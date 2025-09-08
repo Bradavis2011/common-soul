@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import ProfileEditForm from '../components/profile/ProfileEditForm'
 import ImageUpload from '../components/ui/ImageUpload'
+import ProfileCompletionWizard from '../components/profile/ProfileCompletionWizard'
 
 function Profile() {
   const { user, updateUser } = useAuth()
@@ -11,6 +12,7 @@ function Profile() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showAvatarUpload, setShowAvatarUpload] = useState(false)
+  const [showCompletionWizard, setShowCompletionWizard] = useState(false)
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -363,7 +365,7 @@ function Profile() {
             A complete profile helps you {isHealer ? 'attract more customers and build trust' : 'find the perfect healers for your needs'}.
           </p>
           <button
-            onClick={() => setIsEditing(true)}
+            onClick={() => setShowCompletionWizard(true)}
             className="bg-yellow-600 text-white px-6 py-2 rounded-md hover:bg-yellow-700 transition-colors"
           >
             Complete Profile Now
@@ -410,6 +412,24 @@ function Profile() {
                 currentImage={profile?.avatarUrl}
                 variant="avatar"
                 placeholder="Upload your profile picture"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Profile Completion Wizard */}
+      {showCompletionWizard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <ProfileCompletionWizard
+                onClose={() => setShowCompletionWizard(false)}
+                onComplete={() => {
+                  setShowCompletionWizard(false)
+                  // Refresh profile data
+                  window.location.reload()
+                }}
               />
             </div>
           </div>
