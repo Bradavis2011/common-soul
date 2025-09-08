@@ -1,8 +1,20 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? require('stripe')(process.env.STRIPE_SECRET_KEY) : null;
 
 class PaymentService {
   constructor() {
     this.platformFeePercentage = 0.10; // 10% platform fee
+  }
+
+  // Check if Stripe is configured
+  isStripeConfigured() {
+    return !!stripe;
+  }
+
+  // Throw error if Stripe not configured
+  requireStripe() {
+    if (!this.isStripeConfigured()) {
+      throw new Error('Stripe not configured. Please set STRIPE_SECRET_KEY environment variable.');
+    }
   }
 
   // Calculate platform fee and healer amount
@@ -19,6 +31,7 @@ class PaymentService {
 
   // Create Stripe checkout session for booking payment
   async createCheckoutSession(booking, successUrl, cancelUrl) {
+    this.requireStripe();
     try {
       const { totalAmount, platformFee, healerAmount } = this.calculateAmounts(booking.totalPrice);
       
@@ -66,6 +79,7 @@ class PaymentService {
 
   // Create payment intent for direct payment
   async createPaymentIntent(booking) {
+    this.requireStripe();
     try {
       const { totalAmount, platformFee, healerAmount } = this.calculateAmounts(booking.totalPrice);
       
@@ -169,6 +183,7 @@ class PaymentService {
 
   // Create refund
   async createRefund(paymentIntentId, amount, reason = 'requested_by_customer') {
+    this.requireStripe();
     try {
       const refund = await stripe.refunds.create({
         payment_intent: paymentIntentId,
@@ -190,6 +205,7 @@ class PaymentService {
 
   // Get payment details from Stripe
   async getPaymentDetails(paymentIntentId) {
+    this.requireStripe();
     try {
       const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
       
@@ -209,6 +225,7 @@ class PaymentService {
 
   // Validate webhook signature
   validateWebhookSignature(body, signature) {
+    this.requireStripe();
     try {
       const event = stripe.webhooks.constructEvent(
         body, 
