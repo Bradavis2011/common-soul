@@ -2,6 +2,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Video, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface HealerCardProps {
   name: string;
@@ -63,11 +64,21 @@ export const HealerCard = ({
           ))}
         </div>
       </CardContent>
-      <CardFooter className="p-6 pt-0 flex justify-between items-center">
-        <div className="text-lg font-semibold text-accent">{price}</div>
-        <Button variant="spiritual" size="sm">
-          Book Session
-        </Button>
+      <CardFooter className="p-6 pt-0">
+        <div className="flex justify-between items-center w-full">
+          <div className="text-lg font-semibold text-accent">{price}</div>
+          <div className="flex gap-2">
+            <Link to={`/session/${name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}>
+              <Button variant="outline" size="sm">
+                <Video className="w-4 h-4 mr-2" />
+                Start Now
+              </Button>
+            </Link>
+            <Button variant="spiritual" size="sm">
+              Book Session
+            </Button>
+          </div>
+        </div>
       </CardFooter>
     </Card>
   );

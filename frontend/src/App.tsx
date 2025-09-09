@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Booking from "./pages/Booking";
 import Messages from "./pages/Messages";
 import HealerProfile from "./pages/HealerProfile";
+import VideoSession from "./pages/VideoSession";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const AppContent = () => {
         <Route path="/booking" element={<Booking />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/healer/:id" element={<HealerProfile />} />
+        <Route path="/session/:sessionId" element={<VideoSession />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

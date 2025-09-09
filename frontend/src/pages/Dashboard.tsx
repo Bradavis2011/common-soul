@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MessageCircle, DollarSign, Star, Users, Clock, Heart, Settings } from "lucide-react";
+import { Calendar, MessageCircle, DollarSign, Star, Users, Clock, Heart, Settings, Video } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [userType] = useState<'seeker' | 'healer'>('healer'); // This would come from auth context
@@ -277,12 +278,18 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Button variant="spiritual" size="lg" className="h-16">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Link to="/session/sarah-moonwhisper">
+          <Button variant="spiritual" size="lg" className="h-16 w-full">
+            <Video className="w-5 h-5 mr-2" />
+            Start Demo Session
+          </Button>
+        </Link>
+        <Button variant="nature" size="lg" className="h-16">
           <Calendar className="w-5 h-5 mr-2" />
           Book New Session
         </Button>
-        <Button variant="nature" size="lg" className="h-16">
+        <Button variant="sunset" size="lg" className="h-16">
           <Users className="w-5 h-5 mr-2" />
           Explore Healers
         </Button>
