@@ -133,15 +133,13 @@ const VideoSession = () => {
 
   if (showVideo) {
     return (
-      <div className="min-h-screen bg-background p-4">
-        <div className="max-w-7xl mx-auto">
-          <VideoCall
-            roomName={sessionData.id}
-            healerName={sessionData.healerName}
-            sessionType={sessionData.sessionType}
-            onCallEnd={handleSessionEnd}
-          />
-        </div>
+      <div className="min-h-screen bg-background p-2">
+        <VideoCall
+          roomName={sessionData.id}
+          healerName={sessionData.healerName}
+          sessionType={sessionData.sessionType}
+          onCallEnd={handleSessionEnd}
+        />
       </div>
     );
   }

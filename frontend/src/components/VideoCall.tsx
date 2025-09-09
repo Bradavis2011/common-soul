@@ -45,7 +45,7 @@ export const VideoCall = ({ roomName, healerName, sessionType, onCallEnd }: Vide
   const jitsiConfig = {
     roomName: `commonsoul-${roomName}`,
     width: '100%',
-    height: 600,
+    height: '80vh',
     parentNode: undefined,
     configOverwrite: {
       startWithAudioMuted: false,
@@ -55,6 +55,17 @@ export const VideoCall = ({ roomName, healerName, sessionType, onCallEnd }: Vide
       disableModeratorIndicator: true,
       startScreenSharing: false,
       enableEmailInStats: false,
+      resolution: 720,
+      constraints: {
+        video: {
+          aspectRatio: 16 / 9,
+          height: {
+            ideal: 720,
+            max: 1080,
+            min: 240
+          }
+        }
+      }
     },
     interfaceConfigOverwrite: {
       DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
@@ -68,6 +79,8 @@ export const VideoCall = ({ roomName, healerName, sessionType, onCallEnd }: Vide
       DISPLAY_WELCOME_PAGE_CONTENT: false,
       DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
       SHOW_CHROME_EXTENSION_BANNER: false,
+      VIDEO_LAYOUT_FIT: 'both',
+      FILM_STRIP_MAX_HEIGHT: 120,
     },
     userInfo: {
       displayName: user?.name || 'Spiritual Seeker',
@@ -195,22 +208,23 @@ export const VideoCall = ({ roomName, healerName, sessionType, onCallEnd }: Vide
       </Card>
 
       {/* Jitsi Meeting */}
-      <Card className="border-spiritual/20 overflow-hidden">
-        <div className="relative">
-          <JitsiMeeting
-            {...jitsiConfig}
-            onApiReady={(externalApi) => {
-              console.log('Jitsi API ready:', externalApi);
-            }}
-            onReadyToClose={handleCallEnd}
-            getIFrameRef={(iframeRef) => {
-              if (iframeRef) {
-                iframeRef.style.borderRadius = '8px';
-              }
-            }}
-          />
-        </div>
-      </Card>
+      <div className="w-full min-h-[80vh] bg-black rounded-lg overflow-hidden border border-spiritual/20">
+        <JitsiMeeting
+          {...jitsiConfig}
+          onApiReady={(externalApi) => {
+            console.log('Jitsi API ready:', externalApi);
+          }}
+          onReadyToClose={handleCallEnd}
+          getIFrameRef={(iframeRef) => {
+            if (iframeRef) {
+              iframeRef.style.borderRadius = '8px';
+              iframeRef.style.width = '100%';
+              iframeRef.style.height = '80vh';
+              iframeRef.style.minHeight = '600px';
+            }
+          }}
+        />
+      </div>
     </div>
   );
 };
