@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { apiService } from '@/services/api';
 
 export interface User {
   id: string;
@@ -6,6 +7,7 @@ export interface User {
   email: string;
   userType: 'seeker' | 'healer';
   avatar?: string;
+  profile?: any;
 }
 
 interface AuthContextType {
@@ -47,22 +49,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await apiService.login(email, password, userType);
       
-      // Mock user data
-      const mockUser: User = {
-        id: Math.random().toString(36).substr(2, 9),
-        name: userType === 'healer' ? 'Sarah Moonwhisper' : 'John Seeker',
-        email,
-        userType,
-        avatar: ''
+      if (!response.success) {
+        throw new Error(response.message || 'Login failed');
+      }
+
+      const userData: User = {
+        id: response.data.user.id,
+        name: `${response.data.user.profile?.firstName || ''} ${response.data.user.profile?.lastName || ''}`.trim() || response.data.user.email,
+        email: response.data.user.email,
+        userType: response.data.user.userType.toLowerCase() as 'seeker' | 'healer',
+        avatar: response.data.user.profile?.avatarUrl || '',
+        profile: response.data.user.profile
       };
       
-      setUser(mockUser);
-      localStorage.setItem('auth_user', JSON.stringify(mockUser));
-    } catch (error) {
-      throw new Error('Login failed');
+      setUser(userData);
+    } catch (error: any) {
+      throw new Error(error.message || 'Login failed');
     } finally {
       setLoading(false);
     }
@@ -72,29 +76,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await apiService.register(name, email, password, userType);
       
-      const mockUser: User = {
-        id: Math.random().toString(36).substr(2, 9),
-        name,
-        email,
-        userType,
-        avatar: ''
+      if (!response.success) {
+        throw new Error(response.message || 'Registration failed');
+      }
+
+      const userData: User = {
+        id: response.data.user.id,
+        name: `${response.data.user.profile?.firstName || ''} ${response.data.user.profile?.lastName || ''}`.trim() || name,
+        email: response.data.user.email,
+        userType: response.data.user.userType.toLowerCase() as 'seeker' | 'healer',
+        avatar: response.data.user.profile?.avatarUrl || '',
+        profile: response.data.user.profile
       };
       
-      setUser(mockUser);
-      localStorage.setItem('auth_user', JSON.stringify(mockUser));
-    } catch (error) {
-      throw new Error('Signup failed');
+      setUser(userData);
+    } catch (error: any) {
+      throw new Error(error.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await apiService.logout();
+    } catch (error) {
+      // Ignore logout errors
+      console.error('Logout error:', error);
+    }
+    
     setUser(null);
-    localStorage.removeItem('auth_user');
   };
 
   const value = {

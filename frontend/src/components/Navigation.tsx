@@ -28,8 +28,8 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
   const actualUserType = user?.userType ?? propUserType ?? 'seeker';
   const [notifications] = useState(3);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/');
   };
 
