@@ -1,9 +1,9 @@
 {
   "version": 2,
   "name": "thecommonsoul",
-  "buildCommand": "cd frontend && npm ci && npm run build",
-  "outputDirectory": "frontend/dist",
-  "installCommand": "cd frontend && npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
   "framework": "vite",
   "rewrites": [
     {
