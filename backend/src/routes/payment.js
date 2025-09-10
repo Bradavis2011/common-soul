@@ -370,4 +370,158 @@ router.post('/refund/:bookingId', authenticateToken, async (req, res) => {
   }
 });
 
+// Create Stripe Connect account for healer
+router.post('/connect/create', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // Get user with healer profile
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        profile: {
+          include: {
+            healerProfile: true
+          }
+        }
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.userType !== 'HEALER') {
+      return res.status(403).json({ error: 'Only healers can create payment accounts' });
+    }
+
+    if (!user.profile?.healerProfile) {
+      return res.status(400).json({ error: 'Healer profile not found' });
+    }
+
+    // Check if already has Stripe Connect account
+    if (user.profile.healerProfile.stripeConnectId) {
+      return res.status(400).json({ error: 'Payment account already exists' });
+    }
+
+    // Create Stripe Connect account
+    const account = await paymentService.createConnectAccount(
+      user.profile.healerProfile,
+      user.email
+    );
+
+    // Update healer profile with Stripe account ID
+    await prisma.healerProfile.update({
+      where: { id: user.profile.healerProfile.id },
+      data: {
+        stripeConnectId: account.accountId
+      }
+    });
+
+    res.json({
+      accountId: account.accountId,
+      status: 'created',
+      needsOnboarding: true
+    });
+
+  } catch (error) {
+    console.error('Error creating Stripe Connect account:', error);
+    res.status(500).json({ error: 'Failed to create payment account' });
+  }
+});
+
+// Create Stripe Connect onboarding link
+router.post('/connect/onboarding', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // Get user with healer profile
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        profile: {
+          include: {
+            healerProfile: true
+          }
+        }
+      }
+    });
+
+    if (!user?.profile?.healerProfile?.stripeConnectId) {
+      return res.status(400).json({ error: 'No payment account found' });
+    }
+
+    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:8084';
+    const returnUrl = `${baseUrl}/healer-management?onboarding=complete`;
+    const refreshUrl = `${baseUrl}/healer-management?onboarding=refresh`;
+
+    // Create onboarding link
+    const link = await paymentService.createAccountLink(
+      user.profile.healerProfile.stripeConnectId,
+      refreshUrl,
+      returnUrl
+    );
+
+    res.json({
+      url: link.url,
+      expires_at: link.expires_at
+    });
+
+  } catch (error) {
+    console.error('Error creating onboarding link:', error);
+    res.status(500).json({ error: 'Failed to create onboarding link' });
+  }
+});
+
+// Get Stripe Connect account status
+router.get('/connect/status', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // Get user with healer profile
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        profile: {
+          include: {
+            healerProfile: true
+          }
+        }
+      }
+    });
+
+    if (!user?.profile?.healerProfile) {
+      return res.status(400).json({ error: 'Healer profile not found' });
+    }
+
+    const stripeConnectId = user.profile.healerProfile.stripeConnectId;
+    
+    if (!stripeConnectId) {
+      return res.json({
+        status: 'not_created',
+        charges_enabled: false,
+        payouts_enabled: false,
+        details_submitted: false
+      });
+    }
+
+    // Get account status from Stripe
+    const accountStatus = await paymentService.getAccountStatus(stripeConnectId);
+
+    res.json({
+      status: 'created',
+      accountId: accountStatus.id,
+      charges_enabled: accountStatus.charges_enabled,
+      payouts_enabled: accountStatus.payouts_enabled,
+      details_submitted: accountStatus.details_submitted,
+      requirements: accountStatus.requirements,
+      capabilities: accountStatus.capabilities
+    });
+
+  } catch (error) {
+    console.error('Error getting account status:', error);
+    res.status(500).json({ error: 'Failed to get account status' });
+  }
+});
+
 module.exports = router;

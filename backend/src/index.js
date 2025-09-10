@@ -13,9 +13,12 @@ const healerRoutes = require('./routes/healer');
 const serviceRoutes = require('./routes/service');
 const reviewRoutes = require('./routes/reviews');
 const bookingRoutes = require('./routes/booking');
+const availabilityRoutes = require('./routes/availability');
 const paymentRoutes = require('./routes/payment');
 const messagingRoutes = require('./routes/messaging');
 const adminRoutes = require('./routes/admin');
+const reportRoutes = require('./routes/reports');
+const credentialRoutes = require('./routes/credentials');
 const socketService = require('./services/socketService');
 
 const app = express();
@@ -27,7 +30,7 @@ app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? process.env.FRONTEND_URL || 'https://common-soul.vercel.app'
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:8081'],
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:8081', 'http://localhost:8084', 'http://localhost:8085'],
   credentials: true
 }));
 
@@ -76,9 +79,12 @@ app.use('/api/healers', healerRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/availability', availabilityRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/messaging', messagingRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/credentials', credentialRoutes);
 
 // Root endpoint with helpful information
 app.get('/', (req, res) => {

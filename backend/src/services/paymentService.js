@@ -29,13 +29,87 @@ class PaymentService {
     };
   }
 
-  // Create Stripe checkout session for booking payment
+  // Create Stripe Connect account for healer
+  async createConnectAccount(healerProfile, email) {
+    this.requireStripe();
+    try {
+      const account = await stripe.accounts.create({
+        type: 'express',
+        country: 'US',
+        email: email,
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true },
+        },
+        business_type: 'individual',
+        metadata: {
+          healerProfileId: healerProfile.id,
+          userId: healerProfile.profileId
+        }
+      });
+
+      return {
+        accountId: account.id,
+        accountUrl: account.login_links ? null : 'needs_onboarding'
+      };
+    } catch (error) {
+      console.error('Error creating Stripe Connect account:', error);
+      throw new Error('Failed to create payment account');
+    }
+  }
+
+  // Create account link for Stripe Connect onboarding
+  async createAccountLink(stripeAccountId, refreshUrl, returnUrl) {
+    this.requireStripe();
+    try {
+      const accountLink = await stripe.accountLinks.create({
+        account: stripeAccountId,
+        refresh_url: refreshUrl,
+        return_url: returnUrl,
+        type: 'account_onboarding',
+      });
+
+      return {
+        url: accountLink.url,
+        expires_at: accountLink.expires_at
+      };
+    } catch (error) {
+      console.error('Error creating account link:', error);
+      throw new Error('Failed to create onboarding link');
+    }
+  }
+
+  // Get Stripe Connect account status
+  async getAccountStatus(stripeAccountId) {
+    this.requireStripe();
+    try {
+      const account = await stripe.accounts.retrieve(stripeAccountId);
+      
+      return {
+        id: account.id,
+        charges_enabled: account.charges_enabled,
+        payouts_enabled: account.payouts_enabled,
+        details_submitted: account.details_submitted,
+        requirements: account.requirements,
+        business_profile: account.business_profile,
+        capabilities: account.capabilities
+      };
+    } catch (error) {
+      console.error('Error getting account status:', error);
+      throw new Error('Failed to get account status');
+    }
+  }
+
+  // Create Stripe checkout session for booking payment (with Connect support)
   async createCheckoutSession(booking, successUrl, cancelUrl) {
     this.requireStripe();
     try {
       const { totalAmount, platformFee, healerAmount } = this.calculateAmounts(booking.totalPrice);
       
-      const session = await stripe.checkout.sessions.create({
+      // Check if healer has Stripe Connect account
+      const healerStripeId = booking.healer.profile?.healerProfile?.stripeConnectId;
+      
+      const sessionParams = {
         payment_method_types: ['card'],
         line_items: [
           {
@@ -64,7 +138,19 @@ class PaymentService {
         },
         customer_email: booking.customer.email,
         expires_at: Math.floor(Date.now() / 1000) + (30 * 60), // 30 minutes
-      });
+      };
+
+      // If healer has Stripe Connect, set up automatic transfer
+      if (healerStripeId) {
+        sessionParams.payment_intent_data = {
+          application_fee_amount: Math.round(platformFee * 100), // Platform fee in cents
+          transfer_data: {
+            destination: healerStripeId,
+          },
+        };
+      }
+
+      const session = await stripe.checkout.sessions.create(sessionParams);
 
       return {
         sessionId: session.id,
@@ -77,13 +163,16 @@ class PaymentService {
     }
   }
 
-  // Create payment intent for direct payment
+  // Create payment intent for direct payment (with Connect support)
   async createPaymentIntent(booking) {
     this.requireStripe();
     try {
       const { totalAmount, platformFee, healerAmount } = this.calculateAmounts(booking.totalPrice);
       
-      const paymentIntent = await stripe.paymentIntents.create({
+      // Check if healer has Stripe Connect account
+      const healerStripeId = booking.healer.profile?.healerProfile?.stripeConnectId;
+      
+      const paymentIntentParams = {
         amount: Math.round(totalAmount * 100), // Stripe expects cents
         currency: 'usd',
         metadata: {
@@ -95,7 +184,17 @@ class PaymentService {
           healerAmount: healerAmount.toString()
         },
         description: `Healing Session: ${booking.service.title}`,
-      });
+      };
+
+      // If healer has Stripe Connect, set up automatic transfer
+      if (healerStripeId) {
+        paymentIntentParams.application_fee_amount = Math.round(platformFee * 100); // Platform fee in cents
+        paymentIntentParams.transfer_data = {
+          destination: healerStripeId,
+        };
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams);
 
       return {
         clientSecret: paymentIntent.client_secret,

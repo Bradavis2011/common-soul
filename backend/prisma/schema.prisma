@@ -13,6 +13,14 @@ model User {
   password    String
   userType    String
   isVerified  Boolean  @default(false)
+  isSuspended Boolean  @default(false)
+  suspensionReason String?
+  suspendedAt DateTime?
+  isBanned    Boolean  @default(false)
+  bannedAt    DateTime?
+  banReason   String?
+  warningCount Int     @default(0)
+  lastWarningAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -25,6 +33,9 @@ model User {
   customerConversations Conversation[] @relation("CustomerConversations")
   healerConversations   Conversation[] @relation("HealerConversations")
   sentMessages         Message[]      @relation("SentMessages")
+  availability         HealerAvailability[]
+  reportsCreated       Report[]       @relation("ReportsCreated")
+  reportsReceived      Report[]       @relation("ReportsReceived")
   
   @@map("users")
 }
@@ -60,8 +71,8 @@ model HealerProfile {
   specialties     String?  // JSON string of specialties array
   hourlyRate      Float?
   yearsExperience Int?
-  certifications  String?  // JSON string of certifications array
-  education       String?  // Education background
+  certificationsData  String?  // JSON string of certifications array
+  educationData       String?  // Education background
   languages       String?  // JSON string of languages spoken
   sessionTypes    String?  // JSON string of session types offered
   availability    String?  // JSON string of availability schedule
@@ -69,16 +80,34 @@ model HealerProfile {
   sessionDuration String?  // Default session duration
   cancellationPolicy String? // Cancellation policy
   paymentMethods  String?  // JSON string of accepted payment methods
+  stripeConnectId String?  // Stripe Connect account ID for receiving payments
   profileBanner   String?  // Banner image URL
   socialLinks     String?  // JSON string of social media links
   testimonials    String?  // JSON string of testimonials
   isVerified      Boolean  @default(false)
   isActive        Boolean  @default(true)
   lastActiveAt    DateTime @default(now())
+  // Quality metrics for trust system
+  averageRating   Float?   @default(0)
+  totalReviews    Int      @default(0)
+  responseRate    Float?   @default(0) // Percentage of messages replied to
+  cancellationRate Float?  @default(0) // Percentage of bookings cancelled
+  noShowRate      Float?   @default(0) // Percentage of sessions missed
+  completedSessions Int    @default(0)
+  totalBookings   Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt @default(now())
   
   profile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  // Credential verification relationships
+  documents         HealerDocument[]
+  certifications    HealerCertification[]
+  education         HealerEducation[]
+  experience        HealerExperience[]
+  references        HealerReference[]
+  backgroundCheck   HealerBackgroundCheck?
+  verificationChecklist HealerVerificationChecklist?
   
   @@map("healer_profiles")
 }
@@ -247,5 +276,209 @@ model Message {
   sender       User         @relation(name: "SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
   
   @@map("messages")
+}
+
+model HealerAvailability {
+  id              String   @id @default(cuid())
+  healerId        String
+  dayOfWeek       Int      // 0 = Sunday, 1 = Monday, etc.
+  isAvailable     Boolean  @default(false)
+  startTime       String   // Time in HH:MM:SS format
+  endTime         String   // Time in HH:MM:SS format
+  breakStartTime  String?  // Optional break start time
+  breakEndTime    String?  // Optional break end time
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  healer User @relation(fields: [healerId], references: [id], onDelete: Cascade)
+  
+  @@unique([healerId, dayOfWeek])
+  @@map("healer_availability")
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reporterId  String
+  targetType  String   // USER, SERVICE, REVIEW, MESSAGE
+  targetId    String
+  targetUserId String? // For linking to the user being reported
+  reason      String   // SPAM, INAPPROPRIATE, FRAUD, NO_SHOW, UNPROFESSIONAL, SAFETY, OTHER
+  details     String?
+  status      String   @default("PENDING") // PENDING, REVIEWED, RESOLVED, DISMISSED
+  resolution  String?
+  createdAt   DateTime @default(now())
+  resolvedAt  DateTime?
+  resolvedBy  String?
+  
+  reporter    User @relation(name: "ReportsCreated", fields: [reporterId], references: [id], onDelete: Cascade)
+  targetUser  User? @relation(name: "ReportsReceived", fields: [targetUserId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+// Credential Verification Models
+
+model HealerDocument {
+  id                 String   @id @default(cuid())
+  healerProfileId    String
+  documentType       String   // 'CERTIFICATION', 'LICENSE', 'EDUCATION', 'INSURANCE', 'RESUME', 'REFERENCE'
+  documentName       String
+  fileUrl            String
+  fileSize           Int?
+  mimeType           String?
+  verificationStatus String   @default("PENDING") // 'PENDING', 'VERIFIED', 'REJECTED', 'EXPIRED'
+  verificationNotes  String?
+  verifiedBy         String?  // Admin ID who verified
+  verifiedAt         DateTime?
+  expiresAt          DateTime? // For licenses/certifications with expiry
+  uploadedAt         DateTime @default(now())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  healerProfile HealerProfile @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+  certifications HealerCertification[]
+  education      HealerEducation[]
+
+  @@map("healer_documents")
+}
+
+model HealerCertification {
+  id                   String   @id @default(cuid())
+  healerProfileId      String
+  certificationName    String
+  issuingOrganization  String
+  certificationNumber  String?
+  issueDate            DateTime?
+  expiryDate           DateTime?
+  verificationUrl      String?  // Link to verify with issuing org
+  documentId           String?  // Link to uploaded document
+  status               String   @default("ACTIVE") // 'ACTIVE', 'EXPIRED', 'REVOKED'
+  verificationStatus   String   @default("PENDING")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  healerProfile HealerProfile    @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+  document      HealerDocument?  @relation(fields: [documentId], references: [id], onDelete: SetNull)
+
+  @@map("healer_certifications")
+}
+
+model HealerEducation {
+  id                 String   @id @default(cuid())
+  healerProfileId    String
+  institutionName    String
+  degreeType         String?  // 'CERTIFICATE', 'DIPLOMA', 'BACHELOR', 'MASTER', 'DOCTORATE', 'OTHER'
+  degreeTitle        String
+  fieldOfStudy       String?
+  startDate          DateTime?
+  endDate            DateTime?
+  graduationStatus   String   @default("COMPLETED") // 'COMPLETED', 'IN_PROGRESS', 'INCOMPLETE'
+  gpa                String?
+  honors             String?
+  documentId         String?  // Link to diploma/transcript
+  verificationStatus String   @default("PENDING")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  healerProfile HealerProfile   @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+  document      HealerDocument? @relation(fields: [documentId], references: [id], onDelete: SetNull)
+
+  @@map("healer_education")
+}
+
+model HealerExperience {
+  id                        String   @id @default(cuid())
+  healerProfileId           String
+  organizationName          String
+  positionTitle             String
+  employmentType            String?  // 'FULL_TIME', 'PART_TIME', 'CONTRACT', 'VOLUNTEER', 'SELF_EMPLOYED'
+  startDate                 DateTime
+  endDate                   DateTime?
+  isCurrent                 Boolean  @default(false)
+  description               String?
+  keyAchievements           String?
+  location                  String?
+  verificationContactName   String?
+  verificationContactEmail  String?
+  verificationContactPhone  String?
+  verificationStatus        String   @default("PENDING")
+  verifiedAt                DateTime?
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  healerProfile HealerProfile @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("healer_experience")
+}
+
+model HealerReference {
+  id                String   @id @default(cuid())
+  healerProfileId   String
+  referenceType     String   // 'PROFESSIONAL', 'ACADEMIC', 'CLIENT', 'MENTOR'
+  contactName       String
+  contactTitle      String?
+  organization      String?
+  relationship      String
+  email             String
+  phone             String?
+  yearsKnown        Int?
+  referenceStatus   String   @default("PENDING") // 'PENDING', 'CONTACTED', 'VERIFIED', 'DECLINED', 'UNREACHABLE'
+  referenceNotes    String?
+  contactedAt       DateTime?
+  respondedAt       DateTime?
+  verificationScore Int?     // 1-10 rating from reference
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  healerProfile HealerProfile @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("healer_references")
+}
+
+model HealerBackgroundCheck {
+  id                String   @id @default(cuid())
+  healerProfileId   String   @unique
+  checkType         String   // 'CRIMINAL', 'IDENTITY', 'EMPLOYMENT', 'EDUCATION', 'PROFESSIONAL_LICENSE'
+  provider          String?  // Background check service provider
+  providerRequestId String?
+  status            String   @default("PENDING") // 'PENDING', 'IN_PROGRESS', 'COMPLETED', 'FAILED', 'DECLINED'
+  result            String?  // 'CLEAR', 'FLAGGED', 'DISQUALIFIED'
+  resultDetails     String?  // JSON with detailed findings
+  initiatedAt       DateTime @default(now())
+  completedAt       DateTime?
+  expiresAt         DateTime? // When check needs renewal
+  cost              Float?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  healerProfile HealerProfile @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("healer_background_checks")
+}
+
+model HealerVerificationChecklist {
+  id                      String   @id @default(cuid())
+  healerProfileId         String   @unique
+  identityVerified        Boolean  @default(false)
+  certificationsVerified  Boolean  @default(false)
+  educationVerified       Boolean  @default(false)
+  experienceVerified      Boolean  @default(false)
+  referencesVerified      Boolean  @default(false)
+  backgroundCheckCompleted Boolean @default(false)
+  interviewCompleted      Boolean  @default(false)
+  insuranceVerified       Boolean  @default(false)
+  portfolioReviewed       Boolean  @default(false)
+  overallStatus           String   @default("PENDING") // 'PENDING', 'IN_REVIEW', 'APPROVED', 'REJECTED'
+  adminNotes              String?
+  rejectedReason          String?
+  approvedBy              String?
+  approvedAt              DateTime?
+  nextReviewDate          DateTime?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  healerProfile HealerProfile @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("healer_verification_checklist")
 }
 

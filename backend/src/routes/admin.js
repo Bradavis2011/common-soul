@@ -409,21 +409,168 @@ router.patch('/reviews/:reviewId/moderate', authenticateToken, requireAdmin, asy
 // Get reported content
 router.get('/reports', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const { page = 1, limit = 20, type, status } = req.query
+    const { page = 1, limit = 20, type, status, sortBy = 'createdAt', sortOrder = 'desc' } = req.query
 
-    // This would require a reports table - for now return empty
+    const where = {}
+    
+    if (type && ['USER', 'SERVICE', 'REVIEW', 'MESSAGE'].includes(type)) {
+      where.targetType = type
+    }
+    
+    if (status && ['PENDING', 'REVIEWED', 'RESOLVED', 'DISMISSED'].includes(status)) {
+      where.status = status
+    }
+
+    const [reports, total] = await Promise.all([
+      prisma.report.findMany({
+        where,
+        include: {
+          reporter: {
+            include: { profile: true }
+          },
+          targetUser: {
+            select: {
+              id: true,
+              email: true,
+              warningCount: true,
+              isSuspended: true,
+              isBanned: true,
+              lastWarningAt: true,
+              profile: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          }
+        },
+        orderBy: { [sortBy]: sortOrder },
+        take: parseInt(limit),
+        skip: (parseInt(page) - 1) * parseInt(limit)
+      }),
+      prisma.report.count({ where })
+    ])
+
     res.json({
-      reports: [],
+      reports,
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
-        total: 0,
-        totalPages: 0
+        total,
+        totalPages: Math.ceil(total / parseInt(limit))
       }
     })
   } catch (error) {
     console.error('Get reports error:', error)
     res.status(500).json({ error: 'Failed to fetch reports' })
+  }
+})
+
+// Resolve a report
+router.patch('/reports/:reportId/resolve', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const { reportId } = req.params
+    const { status, resolution, action } = req.body
+
+    if (!['REVIEWED', 'RESOLVED', 'DISMISSED'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status' })
+    }
+
+    // Update the report
+    const report = await prisma.report.update({
+      where: { id: reportId },
+      data: { 
+        status,
+        resolution: resolution || null,
+        resolvedAt: new Date(),
+        resolvedBy: req.user.id
+      },
+      include: {
+        reporter: { include: { profile: true } },
+        targetUser: { include: { profile: true } }
+      }
+    })
+
+    // Take action if specified
+    if (action && report.targetUserId) {
+      const targetUser = await prisma.user.findUnique({
+        where: { id: report.targetUserId }
+      })
+      
+      if (action === 'ban') {
+        await prisma.user.update({
+          where: { id: report.targetUserId },
+          data: {
+            isBanned: true,
+            bannedAt: new Date(),
+            banReason: `Report resolved: ${report.reason} - ${resolution}`,
+            isSuspended: false // Clear suspension if banned
+          }
+        })
+        
+        // Deactivate all services for banned users
+        await prisma.service.updateMany({
+          where: { healerId: report.targetUserId },
+          data: { isActive: false }
+        })
+        
+      } else if (action === 'suspend') {
+        await prisma.user.update({
+          where: { id: report.targetUserId },
+          data: {
+            isSuspended: true,
+            suspensionReason: `Report resolved: ${report.reason} - ${resolution}`,
+            suspendedAt: new Date()
+          }
+        })
+        
+        // Deactivate services during suspension
+        await prisma.service.updateMany({
+          where: { healerId: report.targetUserId },
+          data: { isActive: false }
+        })
+        
+      } else if (action === 'warn') {
+        const newWarningCount = (targetUser?.warningCount || 0) + 1
+        
+        await prisma.user.update({
+          where: { id: report.targetUserId },
+          data: {
+            warningCount: newWarningCount,
+            lastWarningAt: new Date()
+          }
+        })
+        
+        // Auto-escalate to suspension after 3 warnings
+        if (newWarningCount >= 3) {
+          await prisma.user.update({
+            where: { id: report.targetUserId },
+            data: {
+              isSuspended: true,
+              suspensionReason: `Automatic suspension after ${newWarningCount} warnings`,
+              suspendedAt: new Date()
+            }
+          })
+          
+          await prisma.service.updateMany({
+            where: { healerId: report.targetUserId },
+            data: { isActive: false }
+          })
+        }
+        
+      } else if (action === 'deactivate_services') {
+        await prisma.service.updateMany({
+          where: { healerId: report.targetUserId },
+          data: { isActive: false }
+        })
+      }
+    }
+
+    res.json({ report })
+  } catch (error) {
+    console.error('Resolve report error:', error)
+    res.status(500).json({ error: 'Failed to resolve report' })
   }
 })
 

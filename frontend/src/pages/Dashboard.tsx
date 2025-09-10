@@ -6,9 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MessageCircle, DollarSign, Star, Users, Clock, Heart, Settings, Video } from "lucide-react";
 import { Link } from "react-router-dom";
+import CalendarDashboard from "@/components/Calendar/CalendarDashboard";
+import { ReportButton } from "@/components/ReportButton";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
-  const [userType] = useState<'seeker' | 'healer'>('healer'); // This would come from auth context
+  const { user } = useAuth();
+  const userType = user?.userType === 'healer' ? 'healer' : 'seeker';
 
   const seekerStats = {
     sessionsBooked: 12,
@@ -28,6 +32,7 @@ const Dashboard = () => {
     {
       id: 1,
       clientName: "Emma Johnson",
+      clientId: "client_1",
       type: "Crystal Healing",
       date: "Today",
       time: "2:00 PM",
@@ -38,6 +43,7 @@ const Dashboard = () => {
     {
       id: 2,
       clientName: "Michael Chen",
+      clientId: "client_2",
       type: "Reiki Session",
       date: "Tomorrow",
       time: "10:00 AM", 
@@ -48,6 +54,7 @@ const Dashboard = () => {
     {
       id: 3,
       clientName: "Sarah Williams",
+      clientId: "client_3",
       type: "Spiritual Counseling",
       date: "Friday",
       time: "3:30 PM",
@@ -174,6 +181,16 @@ const Dashboard = () => {
                         {session.status}
                       </Badge>
                       <span className="text-sm font-medium text-accent">{session.amount}</span>
+                      {userType === 'healer' && (
+                        <ReportButton 
+                          targetType="USER"
+                          targetId={session.clientId}
+                          targetUserId={session.clientId}
+                          size="sm"
+                          variant="ghost"
+                          className="h-6 w-6 p-0"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -285,18 +302,24 @@ const Dashboard = () => {
             Start Demo Session
           </Button>
         </Link>
-        <Button variant="nature" size="lg" className="h-16">
-          <Calendar className="w-5 h-5 mr-2" />
-          Book New Session
-        </Button>
-        <Button variant="sunset" size="lg" className="h-16">
-          <Users className="w-5 h-5 mr-2" />
-          Explore Healers
-        </Button>
-        <Button variant="sunset" size="lg" className="h-16">
-          <Heart className="w-5 h-5 mr-2" />
-          Join Community
-        </Button>
+        <Link to="/booking">
+          <Button variant="nature" size="lg" className="h-16">
+            <Calendar className="w-5 h-5 mr-2" />
+            Book New Session
+          </Button>
+        </Link>
+        <Link to="/healers">
+          <Button variant="sunset" size="lg" className="h-16">
+            <Users className="w-5 h-5 mr-2" />
+            Explore Healers
+          </Button>
+        </Link>
+        <Link to="/forum">
+          <Button variant="sunset" size="lg" className="h-16">
+            <Heart className="w-5 h-5 mr-2" />
+            Join Community
+          </Button>
+        </Link>
       </div>
     </div>
   );
@@ -319,10 +342,12 @@ const Dashboard = () => {
                 </p>
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
-            </Button>
+            <Link to="/settings">
+              <Button variant="outline" size="sm">
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -344,14 +369,10 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="sessions" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>All Sessions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Session management interface coming soon...</p>
-              </CardContent>
-            </Card>
+            <CalendarDashboard 
+              healerId={user?.id}
+              viewMode={userType}
+            />
           </TabsContent>
           
           <TabsContent value="messages" className="mt-6">

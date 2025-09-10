@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Heart, MessageCircle, Share, User } from "lucide-react";
 import { useState } from "react";
 
@@ -29,7 +30,10 @@ export const SocialPost = ({
   };
 
   return (
-    <Card className="hover:shadow-nature transition-all duration-300">
+    <Card className="hover:shadow-nature transition-all duration-300 relative">
+      <Badge variant="outline" className="absolute top-2 right-2 text-xs text-orange-600 border-orange-300">
+        DEMO
+      </Badge>
       <CardHeader className="pb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-gradient-nature flex items-center justify-center">

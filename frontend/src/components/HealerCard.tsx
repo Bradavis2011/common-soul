@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Video, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface HealerCardProps {
   name: string;
@@ -14,6 +15,8 @@ interface HealerCardProps {
   price: string;
   avatar: string;
   tags: string[];
+  id?: string;
+  isDemo?: boolean;
 }
 
 export const HealerCard = ({
@@ -26,7 +29,13 @@ export const HealerCard = ({
   price,
   avatar,
   tags,
+  id,
+  isDemo = false,
 }: HealerCardProps) => {
+  const { isAuthenticated } = useAuth();
+  
+  // Generate healer ID from name if not provided
+  const healerId = id || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   return (
     <Card className="hover:shadow-spiritual transition-all duration-300 border-border/50">
       <CardContent className="p-6">
@@ -35,7 +44,14 @@ export const HealerCard = ({
             <User className="w-8 h-8 text-primary-foreground" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-lg text-foreground">{name}</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-lg text-foreground">{name}</h3>
+              {isDemo && (
+                <Badge variant="outline" className="text-xs text-orange-600 border-orange-300">
+                  DEMO
+                </Badge>
+              )}
+            </div>
             <p className="text-muted-foreground">{specialty}</p>
             <div className="flex items-center gap-2 mt-2">
               <div className="flex items-center gap-1">
@@ -68,15 +84,17 @@ export const HealerCard = ({
         <div className="flex justify-between items-center w-full">
           <div className="text-lg font-semibold text-accent">{price}</div>
           <div className="flex gap-2">
-            <Link to={`/session/${name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}>
+            <Link to={isAuthenticated ? `/healer/${healerId}` : "/login"}>
               <Button variant="outline" size="sm">
-                <Video className="w-4 h-4 mr-2" />
-                Start Now
+                <User className="w-4 h-4 mr-2" />
+                View Profile
               </Button>
             </Link>
-            <Button variant="spiritual" size="sm">
-              Book Session
-            </Button>
+            <Link to={isAuthenticated ? "/booking" : "/login"}>
+              <Button variant="spiritual" size="sm">
+                Book Session
+              </Button>
+            </Link>
           </div>
         </div>
       </CardFooter>

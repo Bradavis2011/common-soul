@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, MapPin, Filter } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const specialties = [
   "Meditation", "Reiki", "Crystal Healing", "Tarot Reading", 
@@ -16,6 +19,10 @@ export const SearchFilters = () => {
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [location, setLocation] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const { toast } = useToast();
 
   const toggleSpecialty = (specialty: string) => {
     setSelectedSpecialties(prev => 
@@ -23,6 +30,26 @@ export const SearchFilters = () => {
         ? prev.filter(s => s !== specialty)
         : [...prev, specialty]
     );
+  };
+
+  const handleSearch = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please log in to search for healers.",
+      });
+      navigate("/login");
+      return;
+    }
+    
+    // Build search params based on filters
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('search', searchQuery);
+    if (location) params.set('location', location);
+    if (selectedSessionType) params.set('sessionType', selectedSessionType);
+    if (selectedSpecialties.length > 0) params.set('specialties', selectedSpecialties.join(','));
+    
+    navigate(`/healers?${params.toString()}`);
   };
 
   return (
@@ -40,6 +67,8 @@ export const SearchFilters = () => {
           <Input 
             placeholder="Search healers, practices, or keywords..."
             className="pl-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -90,7 +119,7 @@ export const SearchFilters = () => {
           </div>
         </div>
 
-        <Button variant="aurora" className="w-full">
+        <Button variant="aurora" className="w-full" onClick={handleSearch}>
           Search Healers
         </Button>
       </CardContent>

@@ -10,7 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bell, Menu, Search, Sparkles, Settings, LogOut, User, Calendar, MessageCircle, Heart } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Bell, Menu, Search, Sparkles, Settings, LogOut, User, Calendar, MessageCircle, Heart, Shield, Eye } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -26,19 +31,98 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
   // Use auth context values if available, otherwise fall back to props
   const actualIsAuthenticated = isAuthenticated ?? propIsAuthenticated ?? false;
   const actualUserType = user?.userType ?? propUserType ?? 'seeker';
-  const [notifications] = useState(3);
+  
+  // Mock notifications data with diverse types
+  const [notifications] = useState([
+    {
+      id: 1,
+      type: "booking",
+      title: "New session booking",
+      message: "Emma Johnson has booked a Crystal Healing session for tomorrow at 2:00 PM",
+      time: "5 min ago",
+      read: false,
+      link: "/dashboard?tab=sessions"
+    },
+    {
+      id: 2,
+      type: "payment",
+      title: "Payment received", 
+      message: "You received $85 for your session with Michael Chen",
+      time: "1 hour ago",
+      read: false,
+      link: "/dashboard?tab=earnings"
+    },
+    {
+      id: 3,
+      type: "message",
+      title: "New message",
+      message: "Sarah Williams sent you a message about tomorrow's session",
+      time: "2 hours ago",
+      read: true,
+      link: "/messages"
+    },
+    {
+      id: 4,
+      type: "review",
+      title: "New review received",
+      message: "Marcus Thompson left you a 5-star review: 'Amazing healing energy!'",
+      time: "1 day ago",
+      read: false,
+      link: "/my-profile"
+    },
+    {
+      id: 5,
+      type: "cancellation",
+      title: "Session cancelled",
+      message: "Lisa Rodriguez cancelled her Reiki session scheduled for Friday",
+      time: "2 days ago",
+      read: true,
+      link: "/dashboard?tab=sessions"
+    },
+    {
+      id: 6,
+      type: "reminder",
+      title: "Update your availability",
+      message: "Remember to set your availability for next week to receive more bookings",
+      time: "3 days ago",
+      read: true,
+      link: "/healer-management?tab=availability"
+    }
+  ]);
+  
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   const handleLogout = async () => {
     await logout();
     navigate('/');
   };
 
+  const handleSearch = () => {
+    navigate('/healers');
+  };
+
+  const handleMessagesClick = () => {
+    navigate('/messages');
+    // Scroll to top when navigating to messages
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleNotificationClick = (notification: any) => {
+    navigate(notification.link);
+    // Scroll to top when navigating
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
 
   const navItems = [
-    { label: "Discover", href: "/" },
+    { label: "Discover", href: "/about" },
     { label: "Healers", href: "/healers" },
-    { label: "Community", href: "/community" },
-    { label: "Sessions", href: "/sessions" }
+    { label: "Community", href: "/forum" },
+    { label: "Sessions", href: "/dashboard" }
   ];
 
   return (
@@ -69,37 +153,74 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
           {/* Right Side */}
           <div className="flex items-center gap-4">
             {/* Search */}
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
+            <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={handleSearch}>
               <Search className="w-4 h-4" />
             </Button>
 
             {actualIsAuthenticated ? (
               <>
                 {/* Notifications */}
-                <div className="relative">
-                  <Button variant="ghost" size="sm">
-                    <Bell className="w-4 h-4" />
-                  </Button>
-                  {notifications > 0 && (
-                    <Badge 
-                      variant="destructive" 
-                      className="absolute -top-2 -right-2 w-5 h-5 text-xs p-0 flex items-center justify-center"
-                    >
-                      {notifications}
-                    </Badge>
-                  )}
-                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="sm" className="relative">
+                      <Bell className="w-4 h-4" />
+                      {unreadCount > 0 && (
+                        <Badge 
+                          variant="destructive" 
+                          className="absolute -top-2 -right-2 w-5 h-5 text-xs p-0 flex items-center justify-center"
+                        >
+                          {unreadCount}
+                        </Badge>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80 p-0" align="end">
+                    <div className="p-4 border-b">
+                      <h4 className="font-semibold">Notifications</h4>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      {notifications.length > 0 ? (
+                        notifications.map((notification) => (
+                          <div 
+                            key={notification.id} 
+                            className={`p-4 border-b hover:bg-muted/50 cursor-pointer transition-colors ${!notification.read ? 'bg-muted/30' : ''}`}
+                            onClick={() => handleNotificationClick(notification)}
+                          >
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium leading-none">
+                                {notification.title}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {notification.message}
+                              </p>
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs text-muted-foreground">
+                                  {notification.time}
+                                </p>
+                                {!notification.read && (
+                                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-4 text-center text-muted-foreground">
+                          <p className="text-sm">No new notifications</p>
+                        </div>
+                      )}
+                    </div>
+                  </PopoverContent>
+                </Popover>
 
                 {/* Quick Actions */}
                 <div className="hidden md:flex items-center gap-2">
-                  <Link to="/messages">
+                  <Button variant="ghost" size="sm" onClick={handleMessagesClick}>
+                    <MessageCircle className="w-4 h-4" />
+                  </Button>
+                  <Link to="/settings">
                     <Button variant="ghost" size="sm">
-                      <MessageCircle className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                  <Link to="/calendar">
-                    <Button variant="ghost" size="sm">
-                      <Calendar className="w-4 h-4" />
+                      <Settings className="w-4 h-4" />
                     </Button>
                   </Link>
                 </div>
@@ -111,7 +232,7 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
                       <Avatar className="h-8 w-8">
                         <AvatarImage src="" alt="User" />
                         <AvatarFallback>
-                          {actualUserType === 'healer' ? 'H' : 'S'}
+                          {user?.name ? user.name.charAt(0).toUpperCase() : (actualUserType === 'healer' ? 'H' : 'S')}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
@@ -139,12 +260,35 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
                       </DropdownMenuItem>
                     </Link>
                     
-                    <Link to="/profile">
+                    <Link to="/settings">
                       <DropdownMenuItem>
                         <Settings className="mr-2 h-4 w-4" />
-                        <span>Profile Settings</span>
+                        <span>Account Settings</span>
                       </DropdownMenuItem>
                     </Link>
+                    
+                    {actualUserType === 'healer' && (
+                      <>
+                        <Link to="/healer-management">
+                          <DropdownMenuItem>
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Healer Dashboard</span>
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link to="/healer-management?tab=profile">
+                          <DropdownMenuItem>
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Edit Public Profile</span>
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link to={user?.id ? `/healer/${user.id}` : '/my-profile'}>
+                          <DropdownMenuItem>
+                            <Eye className="mr-2 h-4 w-4" />
+                            <span>View My Public Profile</span>
+                          </DropdownMenuItem>
+                        </Link>
+                      </>
+                    )}
                     
                     {actualUserType === 'seeker' && (
                       <Link to="/favorites">
@@ -161,6 +305,16 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
                         <span>My Sessions</span>
                       </DropdownMenuItem>
                     </Link>
+                    
+                    {/* Admin Links - only for admin users */}
+                    {(user?.isAdmin || user?.userType === 'admin') && (
+                      <Link to="/admin/reports">
+                        <DropdownMenuItem>
+                          <Shield className="mr-2 h-4 w-4" />
+                          <span>Admin Reports</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
                     
                     <DropdownMenuSeparator />
                     

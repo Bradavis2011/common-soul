@@ -1,6 +1,7 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { authenticateToken } = require('../middleware/auth');
+const availabilityService = require('../services/availabilityService');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -31,19 +32,15 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Service not found or inactive' });
     }
 
-    // Check for conflicting bookings
-    const conflictingBooking = await prisma.booking.findFirst({
-      where: {
-        healerId: service.healerId,
-        scheduledAt: new Date(scheduledAt),
-        status: {
-          in: ['PENDING', 'CONFIRMED']
-        }
-      }
-    });
+    // Check if time slot is available using availability service
+    const isAvailable = await availabilityService.isSlotAvailable(
+      service.healerId,
+      new Date(scheduledAt),
+      service.duration
+    );
 
-    if (conflictingBooking) {
-      return res.status(409).json({ error: 'Time slot is already booked' });
+    if (!isAvailable) {
+      return res.status(409).json({ error: 'Time slot is not available' });
     }
 
     // Create booking
@@ -244,61 +241,23 @@ router.get('/availability/:serviceId', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Service not found' });
     }
 
-    // Get existing bookings for the date
-    const startDate = new Date(date);
-    startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(date);
-    endDate.setHours(23, 59, 59, 999);
-
-    const existingBookings = await prisma.booking.findMany({
-      where: {
-        healerId: service.healerId,
-        scheduledAt: {
-          gte: startDate,
-          lte: endDate
-        },
-        status: {
-          in: ['PENDING', 'CONFIRMED']
-        }
-      },
-      select: {
-        scheduledAt: true,
-        duration: true
-      }
-    });
-
-    // Generate available slots (simplified - would need proper scheduling logic)
-    const availableSlots = [];
-    const workingHours = [9, 10, 11, 12, 14, 15, 16, 17]; // 9 AM to 5 PM, skip lunch
-
-    workingHours.forEach(hour => {
-      const slotTime = new Date(date);
-      slotTime.setHours(hour, 0, 0, 0);
-
-      const isBooked = existingBookings.some(booking => {
-        const bookingStart = new Date(booking.scheduledAt);
-        const bookingEnd = new Date(bookingStart.getTime() + booking.duration * 60000);
-        const slotEnd = new Date(slotTime.getTime() + service.duration * 60000);
-
-        return (slotTime >= bookingStart && slotTime < bookingEnd) ||
-               (slotEnd > bookingStart && slotEnd <= bookingEnd) ||
-               (slotTime <= bookingStart && slotEnd >= bookingEnd);
-      });
-
-      if (!isBooked) {
-        availableSlots.push({
-          time: slotTime,
-          available: true
-        });
-      }
-    });
+    // Use availability service to get available slots
+    const availableSlots = await availabilityService.getAvailableSlots(
+      service.healerId,
+      date,
+      service.duration
+    );
 
     res.json({
       service: {
         id: service.id,
         title: service.title,
         duration: service.duration,
-        price: service.price
+        price: service.price,
+        healer: {
+          id: service.healer.id,
+          name: `${service.healer.profile?.firstName || ''} ${service.healer.profile?.lastName || ''}`.trim()
+        }
       },
       date: date,
       availableSlots

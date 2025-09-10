@@ -99,8 +99,10 @@ router.post('/', authenticateToken, requireUserType('HEALER'), [
   body('isActive').optional().isBoolean().withMessage('isActive must be a boolean')
 ], async (req, res) => {
   try {
+    console.log('Create service request body:', req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('Service validation errors:', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
 

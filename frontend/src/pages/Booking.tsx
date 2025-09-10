@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,16 +9,46 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Clock, MapPin, Video, Star, CreditCard, Calendar as CalendarIcon, User } from "lucide-react";
+import { ArrowLeft, Clock, MapPin, Video, Star, CreditCard, Calendar as CalendarIcon, User, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
+import CheckoutPayment from "@/components/Payment/CheckoutPayment";
+import PaymentStatus from "@/components/Payment/PaymentStatus";
+import BookingCalendar from "@/components/Calendar/BookingCalendar";
+import apiService from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Booking = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
+  const { toast } = useToast();
+  
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>("");
   const [sessionType, setSessionType] = useState<string>("virtual");
   const [duration, setDuration] = useState<string>("60");
+  const [intentions, setIntentions] = useState<string>("");
+  const [experience, setExperience] = useState<string>("");
+  
+  const [currentBooking, setCurrentBooking] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
+  const [showPayment, setShowPayment] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Check URL parameters for payment return
+  const paymentParam = searchParams.get('payment');
+  const bookingParam = searchParams.get('booking');
+
+  // Temporarily disable auth redirect for testing
+  // useEffect(() => {
+  //   // Only redirect if we're sure the user is not authenticated
+  //   // This prevents redirects while auth is still loading
+  //   if (isAuthenticated === false) {
+  //     navigate('/login');
+  //     return;
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   // Mock healer data
   const healer = {
@@ -36,10 +66,6 @@ const Booking = () => {
     }
   };
 
-  const availableTimes = [
-    "9:00 AM", "10:30 AM", "12:00 PM", "1:30 PM", 
-    "3:00 PM", "4:30 PM", "6:00 PM", "7:30 PM"
-  ];
 
   const sessionTypes = [
     { value: "virtual", label: "Virtual Session", icon: Video, description: "Connect from anywhere via video call" },
@@ -56,21 +82,111 @@ const Booking = () => {
       return;
     }
 
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
     setIsLoading(true);
-    
-    // Simulate booking process
-    setTimeout(() => {
-      setIsLoading(false);
+    setError(null);
+
+    try {
+      // Create a datetime string for the booking
+      const [time, period] = selectedTime.split(' ');
+      const [hours, minutes] = time.split(':').map(Number);
+      let hour24 = hours;
+      if (period === 'PM' && hours !== 12) hour24 += 12;
+      if (period === 'AM' && hours === 12) hour24 = 0;
+
+      const scheduledAt = new Date(selectedDate);
+      scheduledAt.setHours(hour24, minutes || 0, 0, 0);
+
+      // Create booking via API
+      const bookingData = {
+        healerId: 'mock-healer-id', // In real app, get from URL params
+        serviceId: 'mock-service-id', // In real app, get from selected service
+        scheduledAt: scheduledAt.toISOString(),
+        duration: parseInt(duration),
+        totalPrice: calculateTotal(),
+        notes: intentions || '',
+        customerNotes: experience ? `Experience level: ${experience}` : ''
+      };
+
+      const response = await apiService.createBooking(bookingData);
+      
+      if (response.success) {
+        setCurrentBooking(response.data);
+        setShowPayment(true);
+        toast({
+          title: "Booking Created!",
+          description: "Now proceeding to payment...",
+        });
+      } else {
+        throw new Error(response.message || 'Failed to create booking');
+      }
+    } catch (error: any) {
+      const errorMessage = error.message || 'Failed to create booking';
+      setError(errorMessage);
       toast({
-        title: "Booking Confirmed!",
-        description: `Your session with ${healer.name} is scheduled for ${selectedDate.toDateString()} at ${selectedTime}`,
+        title: "Booking Failed",
+        description: errorMessage,
+        variant: "destructive",
       });
-    }, 2000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle payment success/failure
+  const handlePaymentSuccess = () => {
+    navigate('/sessions');
+  };
+
+  const handlePaymentError = (error: string) => {
+    setError(error);
+    setShowPayment(false);
   };
 
   const calculateTotal = () => {
     return healer.pricing[duration as keyof typeof healer.pricing] || 0;
   };
+
+  // Show payment status if returning from Stripe
+  if (paymentParam && bookingParam) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <PaymentStatus />
+        </div>
+      </div>
+    );
+  }
+
+  // Show payment form if booking is created
+  if (showPayment && currentBooking) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <div className="max-w-md mx-auto">
+            <div className="mb-6 text-center">
+              <h1 className="text-2xl font-bold mb-2">Complete Your Payment</h1>
+              <p className="text-muted-foreground">Secure payment for your healing session</p>
+            </div>
+            
+            <CheckoutPayment
+              bookingId={currentBooking.id}
+              totalAmount={calculateTotal()}
+              serviceTitle={healer.specialty}
+              healerName={healer.name}
+              sessionDuration={parseInt(duration)}
+              onPaymentSuccess={handlePaymentSuccess}
+              onPaymentError={handlePaymentError}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -78,7 +194,7 @@ const Booking = () => {
       <div className="border-b bg-card">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/healers')}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Healers
             </Button>
@@ -91,6 +207,13 @@ const Booking = () => {
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8">
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Healer Info */}
           <div className="lg:col-span-1">
@@ -181,36 +304,14 @@ const Booking = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <Label className="text-sm font-medium mb-3 block">Choose Date</Label>
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={setSelectedDate}
-                      disabled={(date) => date < new Date() || date.getDay() === 0}
-                      className="rounded-md border"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label className="text-sm font-medium mb-3 block">Available Times</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {availableTimes.map((time) => (
-                        <Button
-                          key={time}
-                          variant={selectedTime === time ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedTime(time)}
-                          className="justify-start"
-                        >
-                          <Clock className="w-4 h-4 mr-2" />
-                          {time}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <BookingCalendar
+                  healerId="mock-healer-id"
+                  selectedDate={selectedDate}
+                  onDateSelect={setSelectedDate}
+                  selectedTime={selectedTime}
+                  onTimeSelect={setSelectedTime}
+                  duration={parseInt(duration)}
+                />
               </CardContent>
             </Card>
 
@@ -249,6 +350,8 @@ const Booking = () => {
                   <Label htmlFor="intentions">What would you like to focus on in this session?</Label>
                   <Textarea 
                     id="intentions"
+                    value={intentions}
+                    onChange={(e) => setIntentions(e.target.value)}
                     placeholder="Share your intentions, concerns, or areas you'd like to work on..."
                     className="mt-2"
                   />
@@ -256,7 +359,7 @@ const Booking = () => {
                 
                 <div>
                   <Label htmlFor="experience">Have you had similar sessions before?</Label>
-                  <Select>
+                  <Select value={experience} onValueChange={setExperience}>
                     <SelectTrigger className="mt-2">
                       <SelectValue placeholder="Select your experience level" />
                     </SelectTrigger>
@@ -285,13 +388,17 @@ const Booking = () => {
                     <span>${calculateTotal()}</span>
                   </div>
                   <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>Platform fee</span>
-                    <span>$5</span>
+                    <span>Platform fee (10%)</span>
+                    <span>${(calculateTotal() * 0.1).toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>Healer receives</span>
+                    <span>${(calculateTotal() * 0.9).toFixed(2)}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-medium text-lg">
                     <span>Total</span>
-                    <span>${calculateTotal() + 5}</span>
+                    <span>${calculateTotal()}</span>
                   </div>
                 </div>
 
@@ -302,7 +409,7 @@ const Booking = () => {
                   onClick={handleBooking}
                   disabled={isLoading || !selectedDate || !selectedTime}
                 >
-                  {isLoading ? "Processing..." : `Book Session - $${calculateTotal() + 5}`}
+                  {isLoading ? "Processing..." : `Book Session - $${calculateTotal()}`}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center mt-3">
