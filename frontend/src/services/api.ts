@@ -389,10 +389,7 @@ class ApiService {
     return this.request('/payments/connect/status');
   }
 
-  // Availability management methods
-  async getHealerAvailability(healerId: string): Promise<ApiResponse> {
-    return this.request(`/availability/${healerId}`);
-  }
+  // Availability management methods (duplicate removed)
 
   async getMyAvailability(): Promise<ApiResponse> {
     return this.request('/availability');
