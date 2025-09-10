@@ -2,6 +2,8 @@
 
 A comprehensive platform connecting spiritual healers with seekers, built with React and Node.js.
 
+<!-- Trigger deployment -->
+
 ## Features
 
 - 🔐 User authentication for healers and customers
