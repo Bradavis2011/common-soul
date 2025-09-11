@@ -20,8 +20,35 @@ const adminRoutes = require('./routes/admin');
 const reportRoutes = require('./routes/reports');
 const credentialRoutes = require('./routes/credentials');
 const socketService = require('./services/socketService');
+const { PrismaClient } = require('@prisma/client');
 
 const app = express();
+
+// Initialize database on startup
+async function initializeDatabase() {
+  if (process.env.NODE_ENV === 'production') {
+    try {
+      console.log('Initializing database...');
+      const { exec } = require('child_process');
+      await new Promise((resolve, reject) => {
+        exec('npx prisma db push --accept-data-loss', (error, stdout, stderr) => {
+          if (error) {
+            console.error('Database initialization error:', error);
+            // Don't reject - continue startup even if db push fails
+            resolve();
+          } else {
+            console.log('Database initialized successfully');
+            console.log(stdout);
+            resolve();
+          }
+        });
+      });
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+      // Continue startup anyway
+    }
+  }
+}
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3001;
 
@@ -99,6 +126,17 @@ app.get('/health', (req, res) => {
   res.status(200).json({ message: 'Server is running', timestamp: new Date().toISOString() });
 });
 
+// Debug endpoint for environment variables (only in production for now)
+app.get('/debug', (req, res) => {
+  const env = process.env.NODE_ENV;
+  const dbUrl = process.env.DATABASE_URL;
+  res.json({
+    node_env: env,
+    database_url_present: !!dbUrl,
+    database_url_type: dbUrl ? (dbUrl.startsWith('postgres') ? 'postgresql' : 'other') : 'none'
+  });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
@@ -126,9 +164,16 @@ process.on('unhandledRejection', (reason, promise) => {
 // Initialize Socket.IO
 socketService.init(server);
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-}).on('error', (error) => {
-  console.error('Server error:', error);
-});
+// Start server with database initialization
+async function startServer() {
+  await initializeDatabase();
+  
+  server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV}`);
+  }).on('error', (error) => {
+    console.error('Server error:', error);
+  });
+}
+
+startServer();

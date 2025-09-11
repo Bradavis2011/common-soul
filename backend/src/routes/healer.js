@@ -6,6 +6,17 @@ const { authenticateToken, requireUserType } = require('../middleware/auth');
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// Test database connectivity
+router.get('/test', async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ status: 'Database connection successful' });
+  } catch (error) {
+    console.error('Database test error:', error);
+    res.status(500).json({ error: 'Database connection failed', details: error.message });
+  }
+});
+
 // Get all public healers with filtering
 router.get('/', async (req, res) => {
   try {
