@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import StripeConnectOnboarding from "@/components/Payment/StripeConnectOnboarding";
 import { 
   User, 
   Bell, 
@@ -214,7 +215,7 @@ const Settings = () => {
         </div>
 
         <Tabs defaultValue="account" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className={`grid w-full ${user?.userType === 'HEALER' ? 'grid-cols-6' : 'grid-cols-5'}`}>
             <TabsTrigger value="account" className="flex items-center gap-2">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Account</span>
@@ -223,6 +224,12 @@ const Settings = () => {
               <Bell className="w-4 h-4" />
               <span className="hidden sm:inline">Notifications</span>
             </TabsTrigger>
+            {user?.userType === 'HEALER' && (
+              <TabsTrigger value="payments" className="flex items-center gap-2">
+                <CreditCard className="w-4 h-4" />
+                <span className="hidden sm:inline">Payments</span>
+              </TabsTrigger>
+            )}
             <TabsTrigger value="privacy" className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
               <span className="hidden sm:inline">Privacy</span>
@@ -372,6 +379,62 @@ const Settings = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Payments Tab - Only for Healers */}
+          {user?.userType === 'HEALER' && (
+            <TabsContent value="payments" className="space-y-6">
+              <StripeConnectOnboarding showEarnings={false} />
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CreditCard className="w-5 h-5" />
+                    Payment Settings
+                  </CardTitle>
+                  <CardDescription>
+                    Manage your payment preferences and payout settings
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label className="text-base">Platform Commission</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Standard 10% fee on all transactions
+                        </p>
+                      </div>
+                      <Badge variant="outline">10%</Badge>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div className="space-y-3">
+                      <Label className="text-base">Payment Information</Label>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="text-muted-foreground">Processing</p>
+                          <p className="font-medium">Stripe Connect</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Payout Schedule</p>
+                          <p className="font-medium">Weekly</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Supported Cards</p>
+                          <p className="font-medium">Visa, Mastercard, Amex</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Currency</p>
+                          <p className="font-medium">USD</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
 
           {/* Notifications Tab */}
           <TabsContent value="notifications" className="space-y-6">

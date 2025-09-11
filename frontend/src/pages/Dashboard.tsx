@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import CalendarDashboard from "@/components/Calendar/CalendarDashboard";
 import { ReportButton } from "@/components/ReportButton";
 import { useAuth } from "@/contexts/AuthContext";
+import StripeConnectOnboarding from "@/components/Payment/StripeConnectOnboarding";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -387,18 +388,54 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="earnings" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>{userType === 'healer' ? 'Earnings Analytics' : 'Journey Progress'}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  {userType === 'healer' 
-                    ? 'Detailed earnings analytics coming soon...' 
-                    : 'Journey tracking and insights coming soon...'}
-                </p>
-              </CardContent>
-            </Card>
+            {userType === 'healer' ? (
+              <div className="space-y-6">
+                <StripeConnectOnboarding showEarnings={true} />
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Earnings Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <div className="text-sm text-muted-foreground">This Month</div>
+                        <div className="text-2xl font-bold">${healerStats.monthlyEarnings}</div>
+                        <div className="text-sm text-green-600">+12% from last month</div>
+                      </div>
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <div className="text-sm text-muted-foreground">Total Sessions</div>
+                        <div className="text-2xl font-bold">{healerStats.totalSessions}</div>
+                        <div className="text-sm text-muted-foreground">All time</div>
+                      </div>
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <div className="text-sm text-muted-foreground">Average Rating</div>
+                        <div className="text-2xl font-bold">{healerStats.rating}</div>
+                        <div className="text-sm text-muted-foreground">Based on {healerStats.totalSessions} sessions</div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                      <h4 className="font-medium text-blue-900 dark:text-blue-100">Platform Fee: 10%</h4>
+                      <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                        We charge a 10% fee on each transaction to maintain our platform, provide customer support, and ensure secure payments.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Journey Progress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Journey tracking and insights coming soon...
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
         </Tabs>
       </div>
