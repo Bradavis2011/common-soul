@@ -10,7 +10,16 @@ const prisma = new PrismaClient();
 router.get('/test', async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
-    res.json({ status: 'Database connection successful' });
+    
+    // Debug: Count all healers
+    const allUsers = await prisma.user.count();
+    const allHealers = await prisma.user.count({ where: { userType: 'HEALER' } });
+    
+    res.json({ 
+      status: 'Database connection successful',
+      allUsers,
+      allHealers
+    });
   } catch (error) {
     console.error('Database test error:', error);
     res.status(500).json({ error: 'Database connection failed', details: error.message });
@@ -42,7 +51,8 @@ router.get('/', async (req, res) => {
       profile: {
         healerProfile: {
           isActive: true,
-          isVerified: true
+          // DEMO: Commented out verification requirement to show demo healers
+          // isVerified: true // TODO: Uncomment for production after healer verification process
         }
       }
     };
@@ -116,6 +126,8 @@ router.get('/', async (req, res) => {
         orderBy = { profile: { healerProfile: { averageRating: 'desc' } } };
     }
 
+    console.log('Where conditions:', JSON.stringify(whereConditions, null, 2));
+    
     const healers = await prisma.user.findMany({
       where: whereConditions,
       select: {
