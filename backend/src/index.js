@@ -30,7 +30,7 @@ app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? process.env.FRONTEND_URL || 'https://common-soul.vercel.app'
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:8081', 'http://localhost:8084', 'http://localhost:8085'],
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:8081', 'http://localhost:8082', 'http://localhost:8083', 'http://localhost:8084', 'http://localhost:8085'],
   credentials: true
 }));
 
@@ -54,19 +54,7 @@ app.use(express.urlencoded({ extended: true }));
 // Static file serving for uploads
 app.use('/uploads', express.static('public/uploads'));
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
-  app.use(express.static(path.join(__dirname, '../public')));
-  
-  // Handle React Router - send all non-API requests to index.html
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api/')) {
-      return next();
-    }
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-  });
-}
+// API-only backend - frontend is deployed separately on Vercel
 
 // Logging
 app.use(morgan('combined'));

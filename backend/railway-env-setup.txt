@@ -1,0 +1,30 @@
+# Railway Environment Variables Setup
+
+# After logging in and connecting to your Railway project, run these commands:
+
+# Core Application Variables
+railway variables set NODE_ENV="production"
+railway variables set JWT_SECRET="your-super-secure-jwt-secret-change-this-in-production-make-it-long-and-random"
+railway variables set JWT_EXPIRES_IN="7d"
+
+# Frontend CORS Configuration
+railway variables set FRONTEND_URL="https://thecommonsoul.com"
+
+# Database (Railway will provide this automatically when you add PostgreSQL)
+# railway variables set DATABASE_URL="postgresql://..." (automatically set by Railway)
+
+# Stripe Configuration (use your production keys)
+railway variables set STRIPE_SECRET_KEY="sk_live_..."
+railway variables set STRIPE_PUBLISHABLE_KEY="pk_live_..."
+railway variables set STRIPE_WEBHOOK_SECRET="whsec_..."
+
+# Cloudinary Configuration
+railway variables set CLOUDINARY_CLOUD_NAME="your-cloudinary-name"
+railway variables set CLOUDINARY_API_KEY="your-cloudinary-key"
+railway variables set CLOUDINARY_API_SECRET="your-cloudinary-secret"
+
+# Port (Railway handles this automatically)
+# railway variables set PORT="3001" (Railway will override this)
+
+# Additional Production Settings
+railway variables set SESSION_SECRET="another-super-secure-secret-for-sessions"

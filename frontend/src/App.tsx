@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,29 +7,38 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Booking from "./pages/Booking";
-import Messages from "./pages/Messages";
-import HealerProfile from "./pages/HealerProfile";
-import HealerManagement from "./pages/HealerManagement";
-import VideoSession from "./pages/VideoSession";
-import AdminReportManagement from "./pages/AdminReportManagement";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Support from "./pages/Support";
-import FAQ from "./pages/FAQ";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import HealerSearch from "./pages/HealerSearch";
-import Forum from "./pages/Forum";
-import Settings from "./pages/Settings";
-import DemoAccounts from "./pages/DemoAccounts";
-import HealerOnboarding from "./pages/HealerOnboarding";
-import CredentialVerification from "./pages/CredentialVerification";
-import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+
+// Lazy load pages for better performance
+const Index = lazy(() => import("./pages/Index"));
+const Login = lazy(() => import("./pages/Login"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Booking = lazy(() => import("./pages/Booking"));
+const Messages = lazy(() => import("./pages/Messages"));
+const HealerProfile = lazy(() => import("./pages/HealerProfile"));
+const HealerManagement = lazy(() => import("./pages/HealerManagement"));
+const VideoSession = lazy(() => import("./pages/VideoSession"));
+const AdminReportManagement = lazy(() => import("./pages/AdminReportManagement"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Support = lazy(() => import("./pages/Support"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const HealerSearch = lazy(() => import("./pages/HealerSearch"));
+const Forum = lazy(() => import("./pages/Forum"));
+const Settings = lazy(() => import("./pages/Settings"));
+const DemoAccounts = lazy(() => import("./pages/DemoAccounts"));
+const HealerOnboarding = lazy(() => import("./pages/HealerOnboarding"));
+const CredentialVerification = lazy(() => import("./pages/CredentialVerification"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-[200px]">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -39,7 +49,8 @@ const AppContent = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navigation isAuthenticated={isAuthenticated} userType={user?.userType || 'seeker'} />
       <main className="flex-1">
-        <Routes>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={
@@ -90,7 +101,8 @@ const AppContent = () => {
           } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
-        </Routes>
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </div>
