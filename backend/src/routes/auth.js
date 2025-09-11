@@ -8,6 +8,30 @@ const { authenticateToken } = require('../middleware/auth');
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// Test database connectivity
+router.get('/test', async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1 as test`;
+    
+    const userCount = await prisma.user.count();
+    const healerCount = await prisma.user.count({ where: { userType: 'HEALER' } });
+    const customerCount = await prisma.user.count({ where: { userType: 'CUSTOMER' } });
+    
+    res.json({ 
+      status: 'Authentication service operational',
+      database: 'connected',
+      stats: {
+        totalUsers: userCount,
+        healers: healerCount,
+        customers: customerCount
+      }
+    });
+  } catch (error) {
+    console.error('Auth test error:', error);
+    res.status(500).json({ error: 'Database connection failed', details: error.message });
+  }
+});
+
 // Register endpoint
 router.post('/register', [
   body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
