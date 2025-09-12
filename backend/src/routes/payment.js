@@ -2,6 +2,7 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { authenticateToken } = require('../middleware/auth');
 const paymentService = require('../services/paymentService');
+const emailService = require('../services/emailService');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -273,12 +274,39 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         }
       });
 
-      // If payment completed, update booking status
+      // If payment completed, update booking status and send notification
       if (result.status === 'COMPLETED') {
-        await prisma.booking.update({
+        const updatedBooking = await prisma.booking.update({
           where: { id: result.bookingId },
-          data: { status: 'CONFIRMED' }
+          data: { status: 'CONFIRMED' },
+          include: {
+            service: true,
+            healer: { include: { profile: true } },
+            customer: { include: { profile: true } }
+          }
         });
+
+        // Send payment confirmation emails
+        try {
+          const payment = await prisma.payment.findUnique({
+            where: { bookingId: result.bookingId },
+            include: {
+              booking: {
+                include: {
+                  service: true,
+                  healer: { include: { profile: true } },
+                  customer: { include: { profile: true } }
+                }
+              }
+            }
+          });
+
+          if (payment) {
+            await emailService.sendPaymentNotification(payment, 'payment_completed');
+          }
+        } catch (error) {
+          console.error('Failed to send payment notification email:', error);
+        }
       }
     }
 
@@ -355,6 +383,28 @@ router.post('/refund/:bookingId', authenticateToken, async (req, res) => {
         where: { id: bookingId },
         data: { status: 'CANCELLED' }
       });
+    }
+
+    // Send refund notification email
+    try {
+      const updatedPayment = await prisma.payment.findUnique({
+        where: { bookingId },
+        include: {
+          booking: {
+            include: {
+              service: true,
+              healer: { include: { profile: true } },
+              customer: { include: { profile: true } }
+            }
+          }
+        }
+      });
+
+      if (updatedPayment) {
+        await emailService.sendPaymentNotification(updatedPayment, 'refund_processed');
+      }
+    } catch (error) {
+      console.error('Failed to send refund notification email:', error);
     }
 
     res.json({

@@ -2,6 +2,7 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { authenticateToken } = require('../middleware/auth');
 const availabilityService = require('../services/availabilityService');
+const emailService = require('../services/emailService');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -65,6 +66,14 @@ router.post('/', authenticateToken, async (req, res) => {
         }
       }
     });
+
+    // Send booking confirmation emails
+    try {
+      await emailService.sendBookingConfirmation(booking);
+    } catch (error) {
+      console.error('Failed to send booking confirmation email:', error);
+      // Don't fail the booking if email fails
+    }
 
     res.status(201).json(booking);
   } catch (error) {
@@ -214,6 +223,14 @@ router.patch('/:id/status', authenticateToken, async (req, res) => {
         }
       }
     });
+
+    // Send status update email notification
+    try {
+      await emailService.sendBookingStatusUpdate(updatedBooking, booking.status, status);
+    } catch (error) {
+      console.error('Failed to send booking status update email:', error);
+      // Don't fail the update if email fails
+    }
 
     res.json(updatedBooking);
   } catch (error) {
