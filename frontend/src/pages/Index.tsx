@@ -146,26 +146,41 @@ const Index = () => {
         className="relative h-[70vh] flex items-center justify-center text-center bg-cover bg-center"
         style={{ backgroundImage: `url(${spiritualHero})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-background/40 via-background/60 to-background/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2C1A4D]/60 via-[#6D3FB2]/50 to-[#C44BC7]/40"></div>
         <div className="relative z-10 max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-            Find Your
-            <span className="block bg-gradient-spiritual bg-clip-text text-transparent">
-              Spiritual Guide
+          <h1 
+            className="text-5xl md:text-6xl font-bold text-white mb-4"
+            style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
+          >
+            Find Your Guide.
+            <span className="block bg-gradient-to-r from-[#EDE6D9] via-white to-[#A3C9A8] bg-clip-text text-transparent">
+              Trust Your Journey.
             </span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Connect with authentic spiritual healers, shamans, and guides. Book virtual or local sessions, ceremonies, and discover your path to healing.
+          <p 
+            className="text-xl text-[#EDE6D9] mb-8 max-w-2xl mx-auto leading-relaxed"
+            style={{ fontFamily: 'Inter, Helvetica, sans-serif' }}
+          >
+            Connect with authentic spiritual healers who understand your path. Book sessions, find guidance, and discover transformation through trust and healing.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link to={isAuthenticated ? "/healers" : "/login"}>
-              <Button variant="aurora" size="lg" className="px-8">
+              <Button 
+                size="lg" 
+                className="px-8 bg-gradient-to-r from-[#2C1A4D] to-[#C44BC7] text-white hover:shadow-lg hover:shadow-[#C44BC7]/30 font-bold rounded-lg transition-all"
+                style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+              >
                 <Search className="w-5 h-5 mr-2" />
-                Find Healers
+                Find Your Guide
               </Button>
             </Link>
             <Link to={!isAuthenticated ? "/login" : userType === 'HEALER' ? "/healer-management" : "/dashboard"}>
-              <Button variant="outline" size="lg" className="px-8">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="px-8 bg-white/10 border-white/30 text-white hover:bg-white hover:text-[#2C1A4D] font-medium rounded-lg backdrop-blur-sm"
+                style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+              >
                 <Leaf className="w-5 h-5 mr-2" />
                 Share Your Practice
               </Button>

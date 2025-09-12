@@ -126,15 +126,15 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
   ];
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 border-b border-violet-600/20" style={{ backgroundColor: '#2C1A4D' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <img 
-              src="/assets/Logo.png" 
+              src="/assets/Logo2.png" 
               alt="Common Soul Logo" 
-              className="h-8 w-auto"
+              className="h-12 sm:h-14 md:h-16 w-auto max-w-none"
             />
           </Link>
 
@@ -144,7 +144,8 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
               <Link
                 key={item.href}
                 to={item.href}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-white hover:text-[#C44BC7] transition-colors font-medium border-b-2 border-transparent hover:border-[#C44BC7] pb-1"
+                style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
               >
                 {item.label}
               </Link>
@@ -154,7 +155,12 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
           {/* Right Side */}
           <div className="flex items-center gap-4">
             {/* Search */}
-            <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={handleSearch}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden sm:flex text-white hover:text-[#C44BC7] hover:bg-white/10" 
+              onClick={handleSearch}
+            >
               <Search className="w-4 h-4" />
             </Button>
 
@@ -329,12 +335,21 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
             ) : (
               <div className="flex items-center gap-2">
                 <Link to="/login">
-                  <Button variant="ghost" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="bg-white border-[#2C1A4D] text-[#2C1A4D] hover:bg-[#2C1A4D] hover:text-white font-medium rounded-lg"
+                    style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                  >
                     Sign In
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button variant="spiritual" size="sm">
+                  <Button 
+                    size="sm"
+                    className="bg-gradient-to-r from-[#2C1A4D] to-[#C44BC7] text-white hover:shadow-lg hover:shadow-[#C44BC7]/30 font-bold rounded-lg transition-all"
+                    style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                  >
                     Join Now
                   </Button>
                 </Link>

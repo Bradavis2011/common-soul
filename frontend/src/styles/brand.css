@@ -1,0 +1,134 @@
+/* Common Soul Brand Styles */
+
+/* Typography Classes */
+.brand-heading {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  color: #2C1A4D;
+}
+
+.brand-subheading {
+  font-family: 'Poppins', Arial, sans-serif !important;
+  color: #6D3FB2;
+  font-weight: 600;
+}
+
+.brand-body {
+  font-family: 'Inter', Helvetica, sans-serif !important;
+  color: #2B2B2B;
+}
+
+.brand-accent {
+  color: #C44BC7;
+}
+
+/* Button Classes */
+.brand-button-primary {
+  background: linear-gradient(to right, #2C1A4D, #C44BC7) !important;
+  color: white !important;
+  font-family: 'Poppins', Arial, sans-serif !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.brand-button-primary:hover {
+  box-shadow: 0 10px 25px rgba(196, 75, 199, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.brand-button-secondary {
+  background: white !important;
+  border: 2px solid #2C1A4D !important;
+  color: #2C1A4D !important;
+  font-family: 'Poppins', Arial, sans-serif !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.brand-button-secondary:hover {
+  background: #2C1A4D !important;
+  color: white !important;
+}
+
+/* Card Classes */
+.brand-card {
+  background: white;
+  border-radius: 12px !important;
+  border: 1px solid rgba(109, 63, 178, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(44, 26, 77, 0.08) !important;
+  transition: all 0.3s ease !important;
+}
+
+.brand-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(44, 26, 77, 0.15) !important;
+}
+
+.brand-card-header {
+  font-family: 'Poppins', Arial, sans-serif !important;
+  color: #2C1A4D !important;
+  font-weight: 600 !important;
+}
+
+/* Background Classes */
+.brand-bg-gradient {
+  background: linear-gradient(135deg, #2C1A4D, #6D3FB2, #C44BC7) !important;
+}
+
+.brand-bg-light {
+  background: #EDE6D9 !important;
+}
+
+.brand-bg-sage {
+  background: #A3C9A8 !important;
+}
+
+/* Navigation Overrides */
+.brand-nav-link {
+  color: white !important;
+  font-family: 'Poppins', Arial, sans-serif !important;
+  font-weight: 500 !important;
+  border-bottom: 2px solid transparent !important;
+  padding-bottom: 4px !important;
+  transition: all 0.3s ease !important;
+}
+
+.brand-nav-link:hover {
+  color: #C44BC7 !important;
+  border-bottom-color: #C44BC7 !important;
+}
+
+/* Form Elements */
+.brand-input {
+  border: 2px solid rgba(109, 63, 178, 0.2) !important;
+  border-radius: 8px !important;
+  font-family: 'Inter', Helvetica, sans-serif !important;
+  transition: all 0.3s ease !important;
+}
+
+.brand-input:focus {
+  border-color: #C44BC7 !important;
+  box-shadow: 0 0 0 3px rgba(196, 75, 199, 0.1) !important;
+}
+
+/* Text Styles */
+.text-brand-primary { color: #2C1A4D !important; }
+.text-brand-violet { color: #6D3FB2 !important; }
+.text-brand-magenta { color: #C44BC7 !important; }
+.text-brand-sage { color: #A3C9A8 !important; }
+.text-brand-beige { color: #EDE6D9 !important; }
+.text-brand-charcoal { color: #2B2B2B !important; }
+
+/* Background Colors */
+.bg-brand-primary { background-color: #2C1A4D !important; }
+.bg-brand-violet { background-color: #6D3FB2 !important; }
+.bg-brand-magenta { background-color: #C44BC7 !important; }
+.bg-brand-sage { background-color: #A3C9A8 !important; }
+.bg-brand-beige { background-color: #EDE6D9 !important; }
+
+/* Border Colors */
+.border-brand-primary { border-color: #2C1A4D !important; }
+.border-brand-violet { border-color: #6D3FB2 !important; }
+.border-brand-magenta { border-color: #C44BC7 !important; }
+.border-brand-sage { border-color: #A3C9A8 !important; }

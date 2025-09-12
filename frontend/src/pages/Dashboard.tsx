@@ -298,25 +298,44 @@ const Dashboard = () => {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Link to="/session/sarah-moonwhisper">
-          <Button variant="spiritual" size="lg" className="h-16 w-full">
+          <Button 
+            size="lg" 
+            className="h-16 w-full bg-gradient-to-r from-[#2C1A4D] to-[#C44BC7] text-white hover:shadow-lg hover:shadow-[#C44BC7]/30 font-bold rounded-lg transition-all"
+            style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+          >
             <Video className="w-5 h-5 mr-2" />
             Start Demo Session
           </Button>
         </Link>
         <Link to="/booking">
-          <Button variant="nature" size="lg" className="h-16">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-16 w-full bg-white border-[#2C1A4D] text-[#2C1A4D] hover:bg-[#2C1A4D] hover:text-white font-medium rounded-lg"
+            style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+          >
             <Calendar className="w-5 h-5 mr-2" />
             Book New Session
           </Button>
         </Link>
         <Link to="/healers">
-          <Button variant="sunset" size="lg" className="h-16">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-16 w-full bg-white border-[#6D3FB2] text-[#6D3FB2] hover:bg-[#6D3FB2] hover:text-white font-medium rounded-lg"
+            style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+          >
             <Users className="w-5 h-5 mr-2" />
             Explore Healers
           </Button>
         </Link>
         <Link to="/forum">
-          <Button variant="sunset" size="lg" className="h-16">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-16 w-full bg-white border-[#A3C9A8] text-[#A3C9A8] hover:bg-[#A3C9A8] hover:text-white font-medium rounded-lg"
+            style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+          >
             <Heart className="w-5 h-5 mr-2" />
             Join Community
           </Button>
@@ -337,8 +356,16 @@ const Dashboard = () => {
                 <AvatarFallback>US</AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-2xl font-bold">Welcome back!</h1>
-                <p className="text-muted-foreground">
+                <h1 
+                  className="text-3xl font-bold text-[#2C1A4D] mb-2"
+                  style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
+                >
+                  Welcome back!
+                </h1>
+                <p 
+                  className="text-[#6D3FB2] font-medium"
+                  style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                >
                   {userType === 'healer' ? 'Healer Dashboard' : 'Your Spiritual Journey'}
                 </p>
               </div>
