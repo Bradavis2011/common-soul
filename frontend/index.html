@@ -28,6 +28,125 @@
     <meta name="twitter:title" content="Common Soul - Connect with Spiritual Healers" />
     <meta name="twitter:description" content="Connect with verified spiritual healers, book sessions, and embark on your healing journey." />
     <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Common Soul",
+      "url": "https://thecommonsoul.com",
+      "logo": "https://thecommonsoul.com/assets/LogoPurple.png",
+      "description": "Connect with verified spiritual healers, book sessions, and embark on your healing journey. Find the perfect healer for your spiritual growth and wellbeing.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "",
+        "contactType": "customer service",
+        "email": "hello@thecommonsoul.com"
+      },
+      "sameAs": [],
+      "founder": {
+        "@type": "Organization",
+        "name": "Common Soul Team"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Spiritual Healing Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Crystal Healing Sessions",
+              "description": "Professional crystal healing therapy sessions for energy alignment and spiritual wellbeing",
+              "category": "Spiritual Healing"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Reiki Energy Healing",
+              "description": "Traditional Reiki healing sessions for stress relief, emotional healing, and energy balance",
+              "category": "Energy Healing"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Local Business Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Common Soul",
+      "image": "https://thecommonsoul.com/assets/LogoPurple.png",
+      "url": "https://thecommonsoul.com",
+      "telephone": "",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday", 
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "serviceType": "Spiritual Healing Platform",
+      "areaServed": "Worldwide",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Spiritual Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service", 
+              "name": "Spiritual Healing Consultations",
+              "provider": {
+                "@type": "Organization",
+                "name": "Common Soul"
+              }
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Website Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Common Soul",
+      "url": "https://thecommonsoul.com",
+      "description": "Connect with verified spiritual healers, book sessions, and embark on your healing journey",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Common Soul"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://thecommonsoul.com/healers?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
 
   <body>

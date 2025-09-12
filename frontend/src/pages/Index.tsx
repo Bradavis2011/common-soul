@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SearchFilters } from "@/components/SearchFilters";
 import { HealerCard } from "@/components/HealerCard";
 import { SocialPost } from "@/components/SocialPost";
+import { SEOHead, seoConfigs } from "@/components/SEOHead";
 import { Search, Users, Calendar, Heart, Star, TrendingUp, MessageCircle, PlayCircle, Leaf, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -140,7 +141,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEOHead {...seoConfigs.home} />
+      <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section 
         className="relative h-[70vh] flex items-center justify-center text-center bg-cover bg-center"
@@ -417,6 +420,7 @@ const Index = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
