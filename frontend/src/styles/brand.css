@@ -132,3 +132,83 @@
 .border-brand-violet { border-color: #6D3FB2 !important; }
 .border-brand-magenta { border-color: #C44BC7 !important; }
 .border-brand-sage { border-color: #A3C9A8 !important; }
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .brand-heading {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .brand-subheading {
+    font-size: 1.125rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  .brand-body {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  .brand-button-primary,
+  .brand-button-secondary {
+    min-height: 48px !important;
+    min-width: 48px !important;
+    font-size: 1rem !important;
+    padding: 12px 20px !important;
+  }
+  
+  .brand-card {
+    margin: 0 16px !important;
+    padding: 16px !important;
+  }
+  
+  /* Mobile Navigation */
+  .mobile-nav-height {
+    height: 72px !important;
+  }
+  
+  .mobile-logo {
+    height: 32px !important;
+  }
+  
+  /* Mobile Hero Section */
+  .mobile-hero-padding {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  .mobile-hero-title {
+    font-size: 2.25rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .mobile-hero-subtitle {
+    font-size: 1.125rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 24px !important;
+  }
+  
+  /* Touch Targets */
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+}
+
+/* Small Mobile (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .brand-heading {
+    font-size: 1.75rem !important;
+  }
+  
+  .mobile-hero-title {
+    font-size: 2rem !important;
+  }
+  
+  .brand-card {
+    margin: 0 12px !important;
+    padding: 12px !important;
+  }
+}

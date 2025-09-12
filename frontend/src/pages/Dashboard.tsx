@@ -296,11 +296,11 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link to="/session/sarah-moonwhisper">
           <Button 
             size="lg" 
-            className="h-16 w-full bg-gradient-to-r from-[#2C1A4D] to-[#C44BC7] text-white hover:shadow-lg hover:shadow-[#C44BC7]/30 font-bold rounded-lg transition-all"
+            className="h-16 sm:h-20 w-full bg-gradient-to-r from-[#2C1A4D] to-[#C44BC7] text-white hover:shadow-lg hover:shadow-[#C44BC7]/30 font-bold rounded-lg transition-all text-sm sm:text-base"
             style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
           >
             <Video className="w-5 h-5 mr-2" />
@@ -311,7 +311,7 @@ const Dashboard = () => {
           <Button 
             variant="outline" 
             size="lg" 
-            className="h-16 w-full bg-white border-[#2C1A4D] text-[#2C1A4D] hover:bg-[#2C1A4D] hover:text-white font-medium rounded-lg"
+            className="h-16 sm:h-20 w-full bg-white border-[#2C1A4D] text-[#2C1A4D] hover:bg-[#2C1A4D] hover:text-white font-medium rounded-lg text-sm sm:text-base"
             style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
           >
             <Calendar className="w-5 h-5 mr-2" />
@@ -322,7 +322,7 @@ const Dashboard = () => {
           <Button 
             variant="outline" 
             size="lg" 
-            className="h-16 w-full bg-white border-[#6D3FB2] text-[#6D3FB2] hover:bg-[#6D3FB2] hover:text-white font-medium rounded-lg"
+            className="h-16 sm:h-20 w-full bg-white border-[#6D3FB2] text-[#6D3FB2] hover:bg-[#6D3FB2] hover:text-white font-medium rounded-lg text-sm sm:text-base"
             style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
           >
             <Users className="w-5 h-5 mr-2" />
@@ -333,7 +333,7 @@ const Dashboard = () => {
           <Button 
             variant="outline" 
             size="lg" 
-            className="h-16 w-full bg-white border-[#A3C9A8] text-[#A3C9A8] hover:bg-[#A3C9A8] hover:text-white font-medium rounded-lg"
+            className="h-16 sm:h-20 w-full bg-white border-[#A3C9A8] text-[#A3C9A8] hover:bg-[#A3C9A8] hover:text-white font-medium rounded-lg text-sm sm:text-base"
             style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
           >
             <Heart className="w-5 h-5 mr-2" />

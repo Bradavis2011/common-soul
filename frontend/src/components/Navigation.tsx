@@ -15,6 +15,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Bell, Menu, Search, Sparkles, Settings, LogOut, User, Calendar, MessageCircle, Heart, Shield, Eye } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,6 +34,7 @@ interface NavigationProps {
 export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: propUserType }: NavigationProps) => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Use auth context values if available, otherwise fall back to props
   const actualIsAuthenticated = isAuthenticated ?? propIsAuthenticated ?? false;
@@ -128,13 +136,13 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
   return (
     <nav className="sticky top-0 z-50 border-b border-violet-600/20" style={{ backgroundColor: '#2C1A4D' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <img 
               src="/assets/Logo2.png" 
               alt="Common Soul Logo" 
-              className="h-12 sm:h-14 md:h-16 w-auto max-w-none"
+              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto max-w-none"
             />
           </Link>
 
@@ -357,9 +365,97 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
             )}
 
             {/* Mobile Menu */}
-            <Button variant="ghost" size="sm" className="md:hidden">
-              <Menu className="w-4 h-4" />
-            </Button>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="md:hidden text-white hover:text-[#C44BC7] hover:bg-white/10"
+                >
+                  <Menu className="w-6 h-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] bg-brand-primary">
+                <SheetHeader className="border-b border-white/20 pb-4">
+                  <SheetTitle className="text-white font-bold text-xl" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                    Common Soul
+                  </SheetTitle>
+                </SheetHeader>
+                
+                <div className="mt-6 space-y-4">
+                  {/* Navigation Links */}
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-white hover:text-[#C44BC7] hover:bg-white/10 rounded-lg transition-colors"
+                      style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                  
+                  {/* Authentication Actions */}
+                  {!actualIsAuthenticated ? (
+                    <div className="space-y-3 pt-4 border-t border-white/20">
+                      <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button 
+                          variant="outline" 
+                          className="w-full bg-white border-white text-[#2C1A4D] hover:bg-[#C44BC7] hover:text-white font-medium"
+                          style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                        >
+                          Sign In
+                        </Button>
+                      </Link>
+                      <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button 
+                          className="w-full bg-gradient-to-r from-[#C44BC7] to-[#6D3FB2] text-white font-bold"
+                          style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                        >
+                          Join Now
+                        </Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-3 pt-4 border-t border-white/20">
+                      <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start text-white hover:text-[#C44BC7] hover:bg-white/10"
+                          style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                        >
+                          <User className="w-4 h-4 mr-3" />
+                          Dashboard
+                        </Button>
+                      </Link>
+                      <Link to="/settings" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start text-white hover:text-[#C44BC7] hover:bg-white/10"
+                          style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                        >
+                          <Settings className="w-4 h-4 mr-3" />
+                          Settings
+                        </Button>
+                      </Link>
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start text-white hover:text-[#C44BC7] hover:bg-white/10"
+                        style={{ fontFamily: 'Poppins, Arial, sans-serif' }}
+                        onClick={() => {
+                          handleLogout();
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        <LogOut className="w-4 h-4 mr-3" />
+                        Log Out
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
