@@ -131,10 +131,11 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-spiritual rounded-full flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="font-bold text-xl">Common Soul</span>
+            <img 
+              src="/assets/Logo.png" 
+              alt="Common Soul Logo" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
