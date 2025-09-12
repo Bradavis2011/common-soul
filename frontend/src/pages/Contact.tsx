@@ -86,7 +86,7 @@ const Contact = () => {
       icon: Mail,
       title: "Legal Matters",
       description: "Compliance & legal questions",
-      value: "legal@valiapath.com",
+      value: "legal@thecommonsoul.com",
       color: "text-nature"
     },
     {

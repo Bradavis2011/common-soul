@@ -77,7 +77,7 @@ export const Footer = () => {
                 Privacy Policy
               </ScrollLink>
               <a 
-                href="mailto:legal@valiapath.com" 
+                href="mailto:legal@thecommonsoul.com" 
                 className="block text-muted-foreground hover:text-foreground transition-colors"
               >
                 Legal Inquiries
@@ -116,10 +116,10 @@ export const Footer = () => {
           <p className="text-xs text-muted-foreground">
             For compliance or legal matters, contact our legal team at: 
             <a 
-              href="mailto:legal@valiapath.com" 
+              href="mailto:legal@thecommonsoul.com" 
               className="ml-1 text-foreground hover:underline"
             >
-              legal@valiapath.com
+              legal@thecommonsoul.com
             </a>
           </p>
         </div>

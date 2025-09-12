@@ -94,7 +94,7 @@ const Terms = () => {
                 </p>
                 <div className="flex items-center justify-center gap-2 font-medium">
                   <Mail className="w-4 h-4" />
-                  <span>legal@valiapath.com</span>
+                  <span>legal@thecommonsoul.com</span>
                 </div>
               </div>
             </CardContent>
