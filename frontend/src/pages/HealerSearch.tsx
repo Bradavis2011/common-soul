@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { apiService } from '@/services/api';
+import { spiritualAnalytics } from '@/services/analytics';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -171,6 +172,16 @@ const HealerSearch = () => {
   useEffect(() => {
     const fetchHealers = async () => {
       try {
+        // Track healer search analytics
+        spiritualAnalytics.searchHealers({
+          search_query: searchQuery,
+          location: locationFilter,
+          specialty: specialtyFilter,
+          session_type: sessionTypeFilter,
+          rating_filter: ratingFilter,
+          sort_by: sortBy
+        });
+
         const response = await apiService.getHealers({
           search: searchQuery,
           location: locationFilter,

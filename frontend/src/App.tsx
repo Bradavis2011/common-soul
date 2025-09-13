@@ -1,13 +1,16 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import ErrorBoundary, { setupGlobalErrorHandling } from "@/components/ErrorBoundary";
+import { analytics, trackPageView } from "@/services/analytics";
+import PerformanceDashboard from "@/components/PerformanceDashboard";
 
 // Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -42,14 +45,35 @@ const LoadingSpinner = () => (
 
 const queryClient = new QueryClient();
 
+// Analytics page tracking component
+const AnalyticsTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Initialize analytics and global error handling on app start
+    analytics.initialize();
+    setupGlobalErrorHandling();
+    analytics.trackSessionStart();
+  }, []);
+
+  useEffect(() => {
+    // Track page views on route changes
+    trackPageView(location.pathname, document.title);
+  }, [location]);
+
+  return null;
+};
+
 const AppContent = () => {
   const { isAuthenticated, user } = useAuth();
   
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Navigation isAuthenticated={isAuthenticated} userType={user?.userType || 'seeker'} />
-      <main className="flex-1">
-        <Suspense fallback={<LoadingSpinner />}>
+    <ErrorBoundary>
+      <AnalyticsTracker />
+      <div className="min-h-screen bg-background flex flex-col">
+        <Navigation isAuthenticated={isAuthenticated} userType={user?.userType || 'seeker'} />
+        <main className="flex-1">
+          <Suspense fallback={<LoadingSpinner />}>
           <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
@@ -106,6 +130,8 @@ const AppContent = () => {
       </main>
       <Footer />
     </div>
+    <PerformanceDashboard />
+    </ErrorBoundary>
   );
 };
 
