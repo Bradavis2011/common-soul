@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -34,19 +35,25 @@ interface ErrorStats {
 }
 
 const PerformanceDashboard: React.FC = () => {
+  const { user, isAuthenticated } = useAuth();
   const [metrics, setMetrics] = useState<PerformanceMetrics | null>(null);
   const [errors, setErrors] = useState<ErrorStats>({ errorCount: 0, errorRate: 0 });
   const [isVisible, setIsVisible] = useState(false);
 
-  // Only show in development or for admin users
+  // Only show for admin users (and in development for testing)
   useEffect(() => {
+    const isAdmin = user?.isAdmin || user?.userType === 'admin';
+    const isDev = import.meta.env.DEV;
+    const hasDebugParam = window.location.search.includes('debug=true');
+    
+    // Show if: admin user OR (development AND authenticated) OR debug parameter with admin
     const shouldShow = 
-      import.meta.env.DEV || 
-      localStorage.getItem('showPerformanceDashboard') === 'true' ||
-      window.location.search.includes('debug=true');
+      (isAuthenticated && isAdmin) || 
+      (isDev && isAuthenticated) ||
+      (hasDebugParam && isAuthenticated && isAdmin);
     
     setIsVisible(shouldShow);
-  }, []);
+  }, [user, isAuthenticated]);
 
   useEffect(() => {
     if (!isVisible) return;
