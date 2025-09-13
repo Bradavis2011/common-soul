@@ -6,7 +6,8 @@
       "Bash(curl:*)",
       "Bash(npx prisma:*)",
       "WebFetch(domain:thecommonsoul.com)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm start)"
     ],
     "deny": [],
     "ask": []

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,13 +20,20 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { ShareButton } from "@/components/ShareButton";
+import forumService, { ForumPost } from "@/services/forumService";
 
 const Forum = () => {
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
+  const [newPostCategory, setNewPostCategory] = useState("healing-experiences");
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewPostForm, setShowNewPostForm] = useState(false);
+  const [posts, setPosts] = useState<ForumPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
 
   // Mock forum data
   const categories = [
@@ -64,54 +71,38 @@ const Forum = () => {
     }
   ];
 
-  const mockPosts = [
-    {
-      id: 1,
-      title: "My incredible Reiki healing experience",
-      content: "I just had my first Reiki session and I'm still processing the profound shift I felt. The energy was so powerful and I feel like something deep inside me has healed...",
-      author: "SoulSeeker92",
-      category: "Healing Experiences", 
-      replies: 12,
-      likes: 28,
-      timeAgo: "2 hours ago",
-      isPinned: true
-    },
-    {
-      id: 2,
-      title: "How do I know if a healer is right for me?",
-      content: "I'm new to spiritual healing and feeling overwhelmed by all the options. What questions should I ask potential healers? How do I trust my intuition in choosing?",
-      author: "NewToHealing",
-      category: "Questions & Answers",
-      replies: 8,
-      likes: 15,
-      timeAgo: "4 hours ago",
-      isPinned: false
-    },
-    {
-      id: 3,
-      title: "Crystal healing meditation - life changing results",
-      content: "After 3 months of working with Sarah Moonwhisper, my anxiety has completely transformed. Her crystal healing sessions combined with meditation practices have...",
-      author: "CrystalMama",
-      category: "Healing Experiences",
-      replies: 15,
-      likes: 42,
-      timeAgo: "1 day ago",
-      isPinned: false
-    },
-    {
-      id: 4,
-      title: "Spiritual awakening - need guidance", 
-      content: "I'm going through what I think is a spiritual awakening and feeling lost. Has anyone else experienced intense dreams, synchronicities, and emotional shifts?",
-      author: "AwakeningNow",
-      category: "Spiritual Growth",
-      replies: 23,
-      likes: 31,
-      timeAgo: "2 days ago", 
-      isPinned: false
-    }
-  ];
 
-  const handleCreatePost = () => {
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
+      const response = await forumService.getPosts();
+      setPosts(response.posts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load forum posts.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreatePost = async () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please log in to create posts.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!newPostTitle.trim() || !newPostContent.trim()) {
       toast({
         title: "Missing Information",
@@ -121,14 +112,43 @@ const Forum = () => {
       return;
     }
 
-    toast({
-      title: "Post Created!",
-      description: "Your post has been submitted and will appear shortly"
-    });
+    try {
+      const newPost = await forumService.createPost({
+        title: newPostTitle.trim(),
+        content: newPostContent.trim(),
+        category: newPostCategory
+      });
 
-    setNewPostTitle("");
-    setNewPostContent("");
-    setShowNewPostForm(false);
+      setPosts([newPost, ...posts]);
+
+      toast({
+        title: "Post Created!",
+        description: "Your post has been submitted and will appear shortly"
+      });
+
+      setNewPostTitle("");
+      setNewPostContent("");
+      setShowNewPostForm(false);
+    } catch (error) {
+      console.error('Error creating post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create post.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const formatTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return 'Just now';
   };
 
   return (
@@ -161,7 +181,17 @@ const Forum = () => {
                 </div>
               </div>
               <Button
-                onClick={() => setShowNewPostForm(!showNewPostForm)}
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    toast({
+                      title: "Login Required",
+                      description: "Please log in to create posts.",
+                      variant: "destructive"
+                    });
+                    return;
+                  }
+                  setShowNewPostForm(!showNewPostForm);
+                }}
                 className="h-12 px-6"
                 variant="spiritual"
               >
@@ -196,6 +226,16 @@ const Forum = () => {
                     placeholder="Post title..."
                     className="font-medium"
                   />
+                  <select
+                    value={newPostCategory}
+                    onChange={(e) => setNewPostCategory(e.target.value)}
+                    className="w-full p-2 border rounded-md"
+                  >
+                    <option value="healing-experiences">Healing Experiences</option>
+                    <option value="spiritual-growth">Spiritual Growth</option>
+                    <option value="questions-answers">Questions & Answers</option>
+                    <option value="healer-recommendations">Healer Recommendations</option>
+                  </select>
                   <Textarea
                     value={newPostContent}
                     onChange={(e) => setNewPostContent(e.target.value)}
@@ -209,7 +249,7 @@ const Forum = () => {
                     >
                       Cancel
                     </Button>
-                    <Button onClick={handleCreatePost}>
+                    <Button onClick={handleCreatePost} disabled={!isAuthenticated}>
                       Create Post
                     </Button>
                   </div>
@@ -218,59 +258,92 @@ const Forum = () => {
             )}
 
             {/* Posts List */}
-            <div className="space-y-4">
-              {mockPosts.map((post) => (
-                <Link key={post.id} to={`/forum/post/${post.id}`} className="block">
-                  <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            {loading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {posts.map((post) => (
+                  <Card key={post.id} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
-                    <div className="flex gap-4">
-                      <Avatar className="w-10 h-10">
-                        <AvatarFallback>
-                          {post.author.substring(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          {post.isPinned && (
-                            <Pin className="w-4 h-4 text-spiritual" />
-                          )}
-                          <h3 className="font-semibold text-lg hover:text-spiritual transition-colors">
-                            {post.title}
-                          </h3>
-                          <Badge variant="secondary" className="text-xs">
-                            {post.category}
-                          </Badge>
-                        </div>
+                      <div className="flex gap-4">
+                        <Avatar className="w-10 h-10">
+                          <AvatarImage src={post.author.avatarUrl} />
+                          <AvatarFallback>
+                            {post.author.name.substring(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
                         
-                        <p className="text-muted-foreground mb-4 line-clamp-2">
-                          {post.content}
-                        </p>
-                        
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <span className="font-medium">{post.author}</span>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            {post.isPinned && (
+                              <Pin className="w-4 h-4 text-spiritual" />
+                            )}
+                            <Link to={`/forum/post/${post.id}`} className="flex-1">
+                              <h3 className="font-semibold text-lg hover:text-spiritual transition-colors">
+                                {post.title}
+                              </h3>
+                            </Link>
+                            <Badge variant="secondary" className="text-xs">
+                              {post.category}
+                            </Badge>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            <span>{post.timeAgo}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <MessageCircle className="w-3 h-3" />
-                            <span>{post.replies} replies</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Heart className="w-3 h-3" />
-                            <span>{post.likes} likes</span>
+                          
+                          <Link to={`/forum/post/${post.id}`} className="block mb-4">
+                            <p className="text-muted-foreground line-clamp-2">
+                              {post.content}
+                            </p>
+                          </Link>
+                          
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                              <div className="flex items-center gap-1">
+                                <span className="font-medium">{post.author.name}</span>
+                                {post.author.isVerified && (
+                                  <Badge variant="default" className="text-xs ml-1">
+                                    {post.author.userType === 'healer' ? 'Verified' : 'Verified'}
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                <span>{formatTimeAgo(post.createdAt)}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <MessageCircle className="w-3 h-3" />
+                                <span>{post.commentsCount} replies</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Heart className="w-3 h-3" />
+                                <span>{post.likesCount} likes</span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-1">
+                              <ShareButton
+                                title={post.title}
+                                text={`Check out this forum post: ${post.title}`}
+                                url={`/forum/post/${post.id}`}
+                                variant="ghost"
+                                size="sm"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
                     </CardContent>
                   </Card>
-                </Link>
-              ))}
-            </div>
+                ))}
+                {posts.length === 0 && (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p className="text-lg font-medium mb-2">No posts yet</p>
+                    <p className="text-sm">Be the first to start a discussion!</p>
+                  </div>
+                )}
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="categories" className="mt-6">

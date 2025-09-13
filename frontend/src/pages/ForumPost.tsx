@@ -20,133 +20,46 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ReportButton } from "@/components/ReportButton";
+import { ShareButton } from "@/components/ShareButton";
 import { useAuth } from "@/contexts/AuthContext";
+import forumService, { ForumPost as ForumPostType, ForumComment } from "@/services/forumService";
 
-interface ForumComment {
-  id: string;
-  author: {
-    name: string;
-    avatar?: string;
-    userType: 'seeker' | 'healer';
-    isVerified?: boolean;
-  };
-  content: string;
-  timestamp: Date;
-  likes: number;
-  isLiked: boolean;
-  replies?: ForumComment[];
-}
-
-interface ForumPostData {
-  id: string;
-  title: string;
-  content: string;
-  author: {
-    name: string;
-    avatar?: string;
-    userType: 'seeker' | 'healer';
-    isVerified?: boolean;
-  };
-  category: string;
-  tags: string[];
-  timestamp: Date;
-  likes: number;
-  commentCount: number;
-  viewCount: number;
-  isLiked: boolean;
-  isPinned: boolean;
-  isLocked: boolean;
-  comments: ForumComment[];
-}
 
 const ForumPost = () => {
   const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, isAuthenticated } = useAuth();
-  const [post, setPost] = useState<ForumPostData | null>(null);
+  const [post, setPost] = useState<ForumPostType | null>(null);
   const [newComment, setNewComment] = useState("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Mock forum post data
-  const mockPost: ForumPostData = {
-    id: postId || "1",
-    title: "My First Reiki Session Experience - Incredible Energy Shifts!",
-    content: `I just had my first Reiki session with Marcus Lightbringer yesterday and I'm still processing the incredible experience! 
-
-As someone who was initially skeptical about energy healing, I went in with an open mind but honestly didn't expect much. Within the first 10 minutes, I started feeling this warm, tingling sensation moving through my body. 
-
-Marcus was so professional and explained everything he was doing. He helped me understand how blocked energy was affecting my daily life and relationships. During the session, I actually felt emotional releases - I started crying without knowing why, but it felt so cleansing.
-
-The most amazing part was afterwards. I felt this incredible lightness, like a weight had been lifted from my shoulders. My chronic shoulder tension that I've had for months was completely gone! Even today, I'm sleeping better and feeling more centered.
-
-For anyone considering energy healing but feeling unsure - I'd say trust your intuition. Sometimes our souls know what we need even when our minds are skeptical. 
-
-Has anyone else had similar experiences with their first energy healing session? I'd love to hear your stories! ✨`,
-    author: {
-      name: "EmmaJourney",
-      userType: "seeker",
-      isVerified: false
-    },
-    category: "Healing Experiences",
-    tags: ["reiki", "energy-healing", "first-experience", "transformation"],
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6), // 6 hours ago
-    likes: 24,
-    commentCount: 8,
-    viewCount: 156,
-    isLiked: false,
-    isPinned: false,
-    isLocked: false,
-    comments: [
-      {
-        id: "1",
-        author: {
-          name: "SoulSeeker92",
-          userType: "seeker",
-          isVerified: false
-        },
-        content: "Thank you for sharing this! I've been considering energy healing for months but was nervous. Your story gives me courage to book my first session.",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4),
-        likes: 12,
-        isLiked: false
-      },
-      {
-        id: "2",
-        author: {
-          name: "Marcus Lightbringer",
-          userType: "healer",
-          isVerified: true
-        },
-        content: "Emma, it was such a joy working with you! Your openness to the healing process made such a difference. Thank you for sharing your experience - it helps others understand what to expect. 🙏",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3),
-        likes: 18,
-        isLiked: false
-      },
-      {
-        id: "3",
-        author: {
-          name: "CrystalMama",
-          userType: "seeker",
-          isVerified: false
-        },
-        content: "I had a very similar experience with my first session! The emotional release was unexpected but so healing. It's beautiful how our bodies know what they need.",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-        likes: 8,
-        isLiked: false
-      }
-    ]
-  };
 
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => {
-      setPost(mockPost);
-      setLoading(false);
-    }, 500);
-  }, [postId]);
+    if (!postId) return;
+    
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        const postData = await forumService.getPost(postId);
+        setPost(postData);
+      } catch (error) {
+        console.error('Error fetching forum post:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load forum post.",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPost();
+  }, [postId, toast]);
 
-  const handleLike = () => {
+  const handleLike = async () => {
     if (!isAuthenticated) {
       toast({
         title: "Login Required",
@@ -156,16 +69,26 @@ Has anyone else had similar experiences with their first energy healing session?
       return;
     }
 
-    if (post) {
+    if (!post) return;
+
+    try {
+      const result = await forumService.togglePostLike(post.id);
       setPost({
         ...post,
-        isLiked: !post.isLiked,
-        likes: post.isLiked ? post.likes - 1 : post.likes + 1
+        isLiked: result.isLiked,
+        likesCount: result.likesCount
+      });
+    } catch (error) {
+      console.error('Error toggling post like:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update like status.",
+        variant: "destructive"
       });
     }
   };
 
-  const handleCommentLike = (commentId: string) => {
+  const handleCommentLike = async (commentId: string) => {
     if (!isAuthenticated) {
       toast({
         title: "Login Required",
@@ -175,21 +98,31 @@ Has anyone else had similar experiences with their first energy healing session?
       return;
     }
 
-    if (post) {
+    if (!post || !post.comments) return;
+
+    try {
+      const result = await forumService.toggleCommentLike(commentId);
       const updatedComments = post.comments.map(comment => 
         comment.id === commentId 
           ? {
               ...comment,
-              isLiked: !comment.isLiked,
-              likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1
+              isLiked: result.isLiked,
+              likesCount: result.likesCount
             }
           : comment
       );
       setPost({ ...post, comments: updatedComments });
+    } catch (error) {
+      console.error('Error toggling comment like:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update comment like status.",
+        variant: "destructive"
+      });
     }
   };
 
-  const handleSubmitComment = () => {
+  const handleSubmitComment = async () => {
     if (!isAuthenticated) {
       toast({
         title: "Login Required",
@@ -199,37 +132,36 @@ Has anyone else had similar experiences with their first energy healing session?
       return;
     }
 
-    if (!newComment.trim()) return;
+    if (!newComment.trim() || !post) return;
 
-    const comment: ForumComment = {
-      id: Date.now().toString(),
-      author: {
-        name: user?.name || "Anonymous",
-        userType: user?.userType || "seeker",
-        isVerified: false
-      },
-      content: newComment,
-      timestamp: new Date(),
-      likes: 0,
-      isLiked: false
-    };
+    try {
+      const comment = await forumService.addComment(post.id, {
+        content: newComment.trim()
+      });
 
-    if (post) {
       setPost({
         ...post,
-        comments: [...post.comments, comment],
-        commentCount: post.commentCount + 1
+        comments: [...(post.comments || []), comment],
+        commentsCount: post.commentsCount + 1
+      });
+
+      setNewComment("");
+      toast({
+        title: "Comment Posted",
+        description: "Your comment has been added to the discussion."
+      });
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add comment.",
+        variant: "destructive"
       });
     }
-
-    setNewComment("");
-    toast({
-      title: "Comment Posted",
-      description: "Your comment has been added to the discussion."
-    });
   };
 
-  const formatTimeAgo = (date: Date) => {
+  const formatTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -289,7 +221,7 @@ Has anyone else had similar experiences with their first energy healing session?
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <Avatar className="w-10 h-10">
-                  <AvatarImage src={post.author.avatar} />
+                  <AvatarImage src={post.author.avatarUrl} />
                   <AvatarFallback>
                     {post.author.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -305,9 +237,9 @@ Has anyone else had similar experiences with their first energy healing session?
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="w-3 h-3" />
-                    {formatTimeAgo(post.timestamp)}
+                    {formatTimeAgo(post.createdAt)}
                     <span>•</span>
-                    <span>{post.viewCount} views</span>
+                    <span>{post.viewsCount} views</span>
                   </div>
                 </div>
               </div>
@@ -315,9 +247,13 @@ Has anyone else had similar experiences with their first energy healing session?
                 <Button variant="ghost" size="sm">
                   <BookmarkPlus className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm">
-                  <Share className="w-4 h-4" />
-                </Button>
+                <ShareButton
+                  title={post.title}
+                  text={`Check out this forum post: ${post.title}`}
+                  url={`/forum/post/${post.id}`}
+                  variant="ghost"
+                  size="sm"
+                />
                 <ReportButton 
                   targetType="MESSAGE" 
                   targetId={post.id} 
@@ -351,11 +287,11 @@ Has anyone else had similar experiences with their first energy healing session?
                 className={`gap-2 ${post.isLiked ? 'text-red-500' : 'text-muted-foreground'}`}
               >
                 <Heart className={`w-4 h-4 ${post.isLiked ? 'fill-current' : ''}`} />
-                {post.likes}
+                {post.likesCount}
               </Button>
               <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground">
                 <MessageCircle className="w-4 h-4" />
-                {post.commentCount} {post.commentCount === 1 ? 'Comment' : 'Comments'}
+                {post.commentsCount} {post.commentsCount === 1 ? 'Comment' : 'Comments'}
               </Button>
             </div>
           </CardContent>
@@ -364,7 +300,7 @@ Has anyone else had similar experiences with their first energy healing session?
         {/* Comments Section */}
         <Card>
           <CardHeader>
-            <h3 className="text-lg font-semibold">Discussion ({post.commentCount})</h3>
+            <h3 className="text-lg font-semibold">Discussion ({post.commentsCount})</h3>
           </CardHeader>
           <CardContent>
             {/* New Comment Form */}
@@ -390,10 +326,10 @@ Has anyone else had similar experiences with their first energy healing session?
 
             {/* Comments */}
             <div className="space-y-6">
-              {post.comments.map((comment) => (
-                <div key={comment.id} className="flex gap-3">
+              {(post.comments || []).map((comment) => (
+                <div key={comment.id} id={`comment-${comment.id}`} className="flex gap-3">
                   <Avatar className="w-8 h-8">
-                    <AvatarImage src={comment.author.avatar} />
+                    <AvatarImage src={comment.author.avatarUrl} />
                     <AvatarFallback className="text-xs">
                       {comment.author.name.charAt(0).toUpperCase()}
                     </AvatarFallback>
@@ -407,7 +343,7 @@ Has anyone else had similar experiences with their first energy healing session?
                         </Badge>
                       )}
                       <span className="text-xs text-muted-foreground">
-                        {formatTimeAgo(comment.timestamp)}
+                        {formatTimeAgo(comment.createdAt)}
                       </span>
                     </div>
                     <p className="text-sm leading-relaxed mb-3">{comment.content}</p>
@@ -419,12 +355,20 @@ Has anyone else had similar experiences with their first energy healing session?
                         className={`h-auto p-0 text-xs ${comment.isLiked ? 'text-red-500' : 'text-muted-foreground'}`}
                       >
                         <Heart className={`w-3 h-3 mr-1 ${comment.isLiked ? 'fill-current' : ''}`} />
-                        {comment.likes}
+                        {comment.likesCount}
                       </Button>
                       <Button variant="ghost" size="sm" className="h-auto p-0 text-xs text-muted-foreground">
                         <Reply className="w-3 h-3 mr-1" />
                         Reply
                       </Button>
+                      <ShareButton
+                        title={`Comment by ${comment.author.name}`}
+                        text={`Check out this comment: ${comment.content.substring(0, 100)}${comment.content.length > 100 ? '...' : ''}`}
+                        url={`/forum/post/${post.id}#comment-${comment.id}`}
+                        variant="ghost"
+                        size="sm"
+                        className="h-auto p-0 text-xs"
+                      />
                       <ReportButton 
                         targetType="MESSAGE" 
                         targetId={comment.id} 
@@ -438,7 +382,7 @@ Has anyone else had similar experiences with their first energy healing session?
               ))}
             </div>
 
-            {post.comments.length === 0 && (
+            {(!post.comments || post.comments.length === 0) && (
               <div className="text-center py-8 text-muted-foreground">
                 <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
                 <p className="text-lg font-medium mb-2">No comments yet</p>

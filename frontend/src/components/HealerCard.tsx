@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Video, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { ShareButton } from "./ShareButton";
 
 interface HealerCardProps {
   name: string;
@@ -84,6 +85,13 @@ export const HealerCard = ({
         <div className="flex justify-between items-center w-full">
           <div className="text-lg font-semibold" style={{ color: '#C44BC7' }}>{price}</div>
           <div className="flex gap-2">
+            <ShareButton
+              title={`${name} - ${specialty} Healer`}
+              text={`Check out ${name}, a ${specialty} healer with ${rating}⭐ rating. ${location}${isVirtual ? ' | Virtual sessions available' : ''}`}
+              url={`/healer/${healerId}`}
+              variant="outline"
+              size="sm"
+            />
             <Link to={isAuthenticated ? `/healer/${healerId}` : "/login"}>
               <Button variant="outline" size="sm">
                 <User className="w-4 h-4 mr-2" />

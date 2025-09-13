@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, MessageCircle, Share, User } from "lucide-react";
 import { useState } from "react";
+import { ShareButton } from "./ShareButton";
 
 interface SocialPostProps {
   author: string;
@@ -76,10 +77,15 @@ export const SocialPost = ({
             <MessageCircle className="w-4 h-4" />
             {comments}
           </Button>
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground">
-            <Share className="w-4 h-4" />
-            Share
-          </Button>
+          <ShareButton
+            title={`${author} on Common Soul`}
+            text={content.length > 100 ? `${content.substring(0, 97)}...` : content}
+            url="/"
+            variant="ghost"
+            size="sm"
+            showText={true}
+            className="text-muted-foreground"
+          />
         </div>
       </CardContent>
     </Card>

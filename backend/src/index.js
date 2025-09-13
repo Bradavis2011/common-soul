@@ -19,6 +19,7 @@ const messagingRoutes = require('./routes/messaging');
 const adminRoutes = require('./routes/admin');
 const reportRoutes = require('./routes/reports');
 const credentialRoutes = require('./routes/credentials');
+const forumRoutes = require('./routes/forum');
 const socketService = require('./services/socketService');
 const { PrismaClient } = require('@prisma/client');
 
@@ -57,7 +58,7 @@ app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? process.env.FRONTEND_URL || 'https://common-soul.vercel.app'
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:8081', 'http://localhost:8082', 'http://localhost:8083', 'http://localhost:8084', 'http://localhost:8085'],
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:8080', 'http://localhost:8081', 'http://localhost:8082', 'http://localhost:8083', 'http://localhost:8084', 'http://localhost:8085'],
   credentials: true
 }));
 
@@ -100,6 +101,7 @@ app.use('/api/messaging', messagingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/credentials', credentialRoutes);
+app.use('/api/forum', forumRoutes);
 
 // Root endpoint with helpful information
 app.get('/', (req, res) => {

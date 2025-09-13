@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -36,6 +36,12 @@ model User {
   availability         HealerAvailability[]
   reportsCreated       Report[]       @relation("ReportsCreated")
   reportsReceived      Report[]       @relation("ReportsReceived")
+  
+  // Forum relations
+  forumPosts           ForumPost[]    @relation("ForumPostAuthor")
+  forumComments        ForumComment[] @relation("ForumCommentAuthor")
+  forumPostLikes       ForumPostLike[]
+  forumCommentLikes    ForumCommentLike[]
   
   @@map("users")
 }
@@ -480,5 +486,76 @@ model HealerVerificationChecklist {
   healerProfile HealerProfile @relation(fields: [healerProfileId], references: [id], onDelete: Cascade)
 
   @@map("healer_verification_checklist")
+}
+
+// Forum Models
+
+model ForumPost {
+  id            String   @id @default(cuid())
+  title         String
+  content       String
+  authorId      String
+  category      String   // "healing-experiences", "spiritual-growth", "questions-answers", etc.
+  tags          String? // JSON string of tag array
+  isPinned      Boolean  @default(false)
+  isLocked      Boolean  @default(false)
+  isHidden      Boolean  @default(false) // For moderation
+  likesCount    Int      @default(0)
+  commentsCount Int      @default(0)
+  viewsCount    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author   User           @relation("ForumPostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  comments ForumComment[]
+  likes    ForumPostLike[]
+
+  @@map("forum_posts")
+}
+
+model ForumComment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  content   String
+  parentId  String?  // For nested replies
+  isHidden  Boolean  @default(false) // For moderation
+  likesCount Int     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  post     ForumPost          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author   User               @relation("ForumCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  parent   ForumComment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  ForumComment[]     @relation("CommentReplies")
+  likes    ForumCommentLike[]
+
+  @@map("forum_comments")
+}
+
+model ForumPostLike {
+  id     String @id @default(cuid())
+  postId String
+  userId String
+  createdAt DateTime @default(now())
+
+  post ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId]) // Prevent duplicate likes
+  @@map("forum_post_likes")
+}
+
+model ForumCommentLike {
+  id        String @id @default(cuid())
+  commentId String
+  userId    String
+  createdAt DateTime @default(now())
+
+  comment ForumComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId]) // Prevent duplicate likes
+  @@map("forum_comment_likes")
 }
 
