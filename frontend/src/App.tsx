@@ -30,6 +30,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const HealerSearch = lazy(() => import("./pages/HealerSearch"));
 const Forum = lazy(() => import("./pages/Forum"));
+const ForumPost = lazy(() => import("./pages/ForumPost"));
 const Settings = lazy(() => import("./pages/Settings"));
 const DemoAccounts = lazy(() => import("./pages/DemoAccounts"));
 const HealerOnboarding = lazy(() => import("./pages/HealerOnboarding"));
@@ -115,6 +116,7 @@ const AppContent = () => {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/healers" element={<HealerSearch />} />
           <Route path="/forum" element={<Forum />} />
+          <Route path="/forum/post/:postId" element={<ForumPost />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/demo-accounts" element={<DemoAccounts />} />
           <Route path="/healer-onboarding" element={<HealerOnboarding />} />

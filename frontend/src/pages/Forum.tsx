@@ -220,8 +220,9 @@ const Forum = () => {
             {/* Posts List */}
             <div className="space-y-4">
               {mockPosts.map((post) => (
-                <Card key={post.id} className="hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
+                <Link key={post.id} to={`/forum/post/${post.id}`} className="block">
+                  <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                    <CardContent className="p-6">
                     <div className="flex gap-4">
                       <Avatar className="w-10 h-10">
                         <AvatarFallback>
@@ -234,7 +235,7 @@ const Forum = () => {
                           {post.isPinned && (
                             <Pin className="w-4 h-4 text-spiritual" />
                           )}
-                          <h3 className="font-semibold text-lg hover:text-spiritual cursor-pointer">
+                          <h3 className="font-semibold text-lg hover:text-spiritual transition-colors">
                             {post.title}
                           </h3>
                           <Badge variant="secondary" className="text-xs">
@@ -265,8 +266,9 @@ const Forum = () => {
                         </div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </TabsContent>
