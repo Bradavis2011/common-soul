@@ -549,7 +549,7 @@ const HealerSearch = () => {
                               <p className="text-muted-foreground mb-2">{healer.specialty}</p>
                               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-1">
-                                  <Star className="w-4 h-4 fill-accent text-accent" />
+                                  <Star className="w-4 h-4" style={{ fill: '#C44BC7', color: '#C44BC7' }} />
                                   <span>{healer.rating} ({healer.reviewCount} reviews)</span>
                                 </div>
                                 <div className="flex items-center gap-1">

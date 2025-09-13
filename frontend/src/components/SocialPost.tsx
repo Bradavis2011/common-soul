@@ -53,7 +53,7 @@ export const SocialPost = ({
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="text-sm text-accent bg-secondary px-2 py-1 rounded-full"
+                className="text-sm text-black bg-gray-100 px-2 py-1 rounded-full border"
               >
                 #{tag}
               </span>
@@ -66,7 +66,8 @@ export const SocialPost = ({
             variant="ghost"
             size="sm"
             onClick={handleLike}
-            className={`gap-2 ${isLiked ? 'text-accent' : 'text-muted-foreground'}`}
+            className={`gap-2 ${isLiked ? '' : 'text-muted-foreground'}`}
+            style={isLiked ? { color: '#C44BC7' } : {}}
           >
             <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
             {likeCount}

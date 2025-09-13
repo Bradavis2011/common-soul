@@ -177,7 +177,7 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
                 {/* Notifications */}
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="ghost" size="sm" className="relative">
+                    <Button variant="ghost" size="sm" className="relative text-white hover:text-[#C44BC7] hover:bg-white/10">
                       <Bell className="w-4 h-4" />
                       {unreadCount > 0 && (
                         <Badge 
@@ -230,11 +230,11 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
 
                 {/* Quick Actions */}
                 <div className="hidden md:flex items-center gap-2">
-                  <Button variant="ghost" size="sm" onClick={handleMessagesClick}>
+                  <Button variant="ghost" size="sm" className="text-white hover:text-[#C44BC7] hover:bg-white/10" onClick={handleMessagesClick}>
                     <MessageCircle className="w-4 h-4" />
                   </Button>
                   <Link to="/settings">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" className="text-white hover:text-[#C44BC7] hover:bg-white/10">
                       <Settings className="w-4 h-4" />
                     </Button>
                   </Link>

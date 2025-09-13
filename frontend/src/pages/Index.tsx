@@ -392,7 +392,7 @@ const Index = () => {
                   </Badge>
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                      <Star key={i} className="w-4 h-4" style={{ fill: '#C44BC7', color: '#C44BC7' }} />
                     ))}
                   </div>
                   <p className="text-muted-foreground mb-4 italic">"{testimonial.text}"</p>

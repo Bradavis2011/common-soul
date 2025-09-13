@@ -128,7 +128,7 @@ const Dashboard = () => {
                 <p className="text-sm text-muted-foreground">Rating</p>
                 <div className="flex items-center gap-1">
                   <p className="text-2xl font-bold">{healerStats.rating}</p>
-                  <Star className="w-5 h-5 fill-accent text-accent" />
+                  <Star className="w-5 h-5" style={{ fill: '#C44BC7', color: '#C44BC7' }} />
                 </div>
               </div>
               <div className="w-12 h-12 bg-gradient-sunset rounded-full flex items-center justify-center">
@@ -175,24 +175,24 @@ const Dashboard = () => {
                       <p className="text-sm text-muted-foreground">{session.type}</p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex flex-col items-end">
                     <p className="font-medium">{session.date}, {session.time}</p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-1">
                       <Badge variant={session.status === 'confirmed' ? 'default' : 'secondary'}>
                         {session.status}
                       </Badge>
-                      <span className="text-sm font-medium text-accent">{session.amount}</span>
-                      {userType === 'healer' && (
-                        <ReportButton 
-                          targetType="USER"
-                          targetId={session.clientId}
-                          targetUserId={session.clientId}
-                          size="sm"
-                          variant="ghost"
-                          className="h-6 w-6 p-0"
-                        />
-                      )}
+                      <span className="text-sm font-medium" style={{ color: '#C44BC7' }}>{session.amount}</span>
                     </div>
+                    {userType === 'healer' && (
+                      <ReportButton 
+                        targetType="USER"
+                        targetId={session.clientId}
+                        targetUserId={session.clientId}
+                        size="sm"
+                        variant="ghost"
+                        className="h-6 w-6 p-0 self-end"
+                      />
+                    )}
                   </div>
                 </div>
               ))}

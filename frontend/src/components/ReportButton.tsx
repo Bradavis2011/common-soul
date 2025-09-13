@@ -92,8 +92,7 @@ export const ReportButton = ({
           size={size} 
           className={`text-muted-foreground hover:text-destructive ${className}`}
         >
-          <Flag className="w-4 h-4 mr-2" />
-          Report
+          <Flag className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       

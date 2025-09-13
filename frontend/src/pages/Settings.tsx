@@ -265,7 +265,7 @@ const Settings = () => {
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-2">
-                    <Button variant="outline" className="flex items-center gap-2">
+                    <Button variant="outline" className="flex items-center gap-2 bg-white text-black hover:bg-gray-100 border border-gray-300">
                       <Camera className="w-4 h-4" />
                       Change Photo
                     </Button>
@@ -319,7 +319,7 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <Button onClick={handleSaveAccount} disabled={isLoading}>
+                <Button onClick={handleSaveAccount} disabled={isLoading} className="bg-white text-black hover:bg-gray-100 border border-gray-300">
                   {isLoading ? "Saving..." : "Save Changes"}
                 </Button>
               </CardContent>
@@ -373,6 +373,7 @@ const Settings = () => {
                 <Button 
                   onClick={handleChangePassword} 
                   disabled={isLoading || !currentPassword || !newPassword || !confirmPassword}
+                  className="bg-white text-black hover:bg-gray-100 border border-gray-300"
                 >
                   {isLoading ? "Changing..." : "Change Password"}
                 </Button>
@@ -531,7 +532,7 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <Button onClick={handleSaveNotifications} disabled={isLoading}>
+                <Button onClick={handleSaveNotifications} disabled={isLoading} className="bg-white text-black hover:bg-gray-100 border border-gray-300">
                   {isLoading ? "Saving..." : "Save Notification Settings"}
                 </Button>
               </CardContent>
@@ -608,7 +609,7 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <Button onClick={handleSavePrivacy} disabled={isLoading}>
+                <Button onClick={handleSavePrivacy} disabled={isLoading} className="bg-white text-black hover:bg-gray-100 border border-gray-300">
                   {isLoading ? "Saving..." : "Save Privacy Settings"}
                 </Button>
               </CardContent>
@@ -695,7 +696,7 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <Button onClick={handleSavePreferences} disabled={isLoading}>
+                <Button onClick={handleSavePreferences} disabled={isLoading} className="bg-white text-black hover:bg-gray-100 border border-gray-300">
                   {isLoading ? "Saving..." : "Save Preferences"}
                 </Button>
               </CardContent>
@@ -721,7 +722,7 @@ const Settings = () => {
                     <p className="text-sm text-muted-foreground mb-4">
                       Download a copy of all your data including profile information, sessions, and messages.
                     </p>
-                    <Button onClick={handleExportData} variant="outline">
+                    <Button onClick={handleExportData} variant="outline" className="bg-white text-black hover:bg-gray-100 border border-gray-300">
                       <Download className="w-4 h-4 mr-2" />
                       Request Data Export
                     </Button>
@@ -732,7 +733,7 @@ const Settings = () => {
                     <p className="text-sm text-muted-foreground mb-4">
                       Permanently delete your account and all associated data. This action cannot be undone.
                     </p>
-                    <Button onClick={handleDeleteAccount} variant="destructive">
+                    <Button onClick={handleDeleteAccount} variant="destructive" className="bg-red-600 text-white hover:bg-red-700">
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete Account
                     </Button>

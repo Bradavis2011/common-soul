@@ -228,7 +228,7 @@ const Booking = () => {
                     <h3 className="font-bold text-lg">{healer.name}</h3>
                     <p className="text-muted-foreground">{healer.specialty}</p>
                     <div className="flex items-center gap-1 mt-1">
-                      <Star className="w-4 h-4 fill-accent text-accent" />
+                      <Star className="w-4 h-4" style={{ fill: '#C44BC7', color: '#C44BC7' }} />
                       <span className="font-medium">{healer.rating}</span>
                       <span className="text-muted-foreground">({healer.reviewCount} reviews)</span>
                     </div>

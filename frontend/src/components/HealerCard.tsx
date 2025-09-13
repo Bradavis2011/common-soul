@@ -55,7 +55,7 @@ export const HealerCard = ({
             <p className="text-muted-foreground">{specialty}</p>
             <div className="flex items-center gap-2 mt-2">
               <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 fill-accent text-accent" />
+                <Star className="w-4 h-4" style={{ fill: '#C44BC7', color: '#C44BC7' }} />
                 <span className="text-sm font-medium">{rating}</span>
                 <span className="text-sm text-muted-foreground">({reviewCount})</span>
               </div>
@@ -65,8 +65,8 @@ export const HealerCard = ({
               <span className="text-sm text-muted-foreground">{location}</span>
               {isVirtual && (
                 <>
-                  <Video className="w-4 h-4 text-accent" />
-                  <span className="text-sm text-accent">Virtual Available</span>
+                  <Video className="w-4 h-4" style={{ color: '#C44BC7' }} />
+                  <span className="text-sm" style={{ color: '#C44BC7' }}>Virtual Available</span>
                 </>
               )}
             </div>
@@ -82,7 +82,7 @@ export const HealerCard = ({
       </CardContent>
       <CardFooter className="p-6 pt-0">
         <div className="flex justify-between items-center w-full">
-          <div className="text-lg font-semibold text-accent">{price}</div>
+          <div className="text-lg font-semibold" style={{ color: '#C44BC7' }}>{price}</div>
           <div className="flex gap-2">
             <Link to={isAuthenticated ? `/healer/${healerId}` : "/login"}>
               <Button variant="outline" size="sm">
