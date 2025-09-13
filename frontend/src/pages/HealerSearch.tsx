@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { apiService } from '@/services/api';
 import { spiritualAnalytics } from '@/services/analytics';
+import { useAdvancedSearch, SearchFilters } from '@/hooks/useAdvancedSearch';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
 import { HealerCard } from "@/components/HealerCard";
 import { 
   Search, 
@@ -24,7 +26,9 @@ import {
   Users,
   Award,
   Video,
-  Home
+  Home,
+  Loader2,
+  X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useSearchParams } from "react-router-dom";
@@ -38,16 +42,20 @@ const mockHealers = [
     rating: 4.9,
     reviewCount: 127,
     location: "San Francisco, CA",
+    coordinates: { lat: 37.7749, lng: -122.4194 },
     isVirtual: true,
     price: "$85/session",
-    priceRange: "80-100",
+    priceValue: 85,
     avatar: "",
     tags: ["Crystal Healing", "Meditation", "Chakra Balancing"],
     experience: "8 years",
+    experienceYears: 8,
     sessionTypes: ["Virtual", "In-Person"],
     languages: ["English", "Spanish"],
     availability: "Weekdays",
-    bio: "Certified crystal healer with deep knowledge of chakra alignment and meditation practices."
+    bio: "Certified crystal healer with deep knowledge of chakra alignment and meditation practices.",
+    verified: true,
+    responseTime: "Within 2 hours"
   },
   {
     id: "marcus-lightbringer",
@@ -56,16 +64,20 @@ const mockHealers = [
     rating: 4.8,
     reviewCount: 89,
     location: "Boulder, CO",
+    coordinates: { lat: 40.0150, lng: -105.2705 },
     isVirtual: true,
     price: "$75/session",
-    priceRange: "60-80",
+    priceValue: 75,
     avatar: "",
     tags: ["Reiki", "Energy Healing", "Spiritual Counseling"],
     experience: "12 years",
+    experienceYears: 12,
     sessionTypes: ["Virtual", "In-Person"], 
     languages: ["English"],
     availability: "Evenings",
-    bio: "Reiki Master with extensive experience in energy healing and spiritual guidance."
+    bio: "Reiki Master with extensive experience in energy healing and spiritual guidance.",
+    verified: true,
+    responseTime: "Within 4 hours"
   },
   {
     id: "luna-starseeker",
@@ -74,16 +86,20 @@ const mockHealers = [
     rating: 4.9,
     reviewCount: 156,
     location: "Austin, TX",
+    coordinates: { lat: 30.2672, lng: -97.7431 },
     isVirtual: true,
     price: "$60/session",
-    priceRange: "40-60",
+    priceValue: 60,
     avatar: "",
     tags: ["Tarot", "Astrology", "Divination"],
     experience: "6 years",
+    experienceYears: 6,
     sessionTypes: ["Virtual"],
     languages: ["English", "French"],
     availability: "Weekends",
-    bio: "Intuitive tarot reader and astrologer helping clients navigate life's transitions."
+    bio: "Intuitive tarot reader and astrologer helping clients navigate life's transitions.",
+    verified: true,
+    responseTime: "Within 1 hour"
   },
   {
     id: "river-sage",
@@ -92,16 +108,20 @@ const mockHealers = [
     rating: 4.7,
     reviewCount: 73,
     location: "Sedona, AZ", 
+    coordinates: { lat: 34.8697, lng: -111.7610 },
     isVirtual: false,
     price: "$120/session",
-    priceRange: "100-150",
+    priceValue: 120,
     avatar: "",
     tags: ["Shamanic Journey", "Soul Retrieval", "Plant Medicine"],
     experience: "15 years",
+    experienceYears: 15,
     sessionTypes: ["In-Person"],
     languages: ["English"],
     availability: "Weekdays",
-    bio: "Traditional shamanic practitioner offering deep healing and soul work."
+    bio: "Traditional shamanic practitioner offering deep healing and soul work.",
+    verified: true,
+    responseTime: "Within 24 hours"
   },
   {
     id: "ocean-flow",
@@ -110,16 +130,20 @@ const mockHealers = [
     rating: 4.6,
     reviewCount: 94,
     location: "Portland, OR",
+    coordinates: { lat: 45.5152, lng: -122.6784 },
     isVirtual: true,
     price: "$70/session",
-    priceRange: "60-80", 
+    priceValue: 70, 
     avatar: "",
     tags: ["Sound Bath", "Tibetan Bowls", "Meditation"],
-    experience: "5 years", 
+    experience: "5 years",
+    experienceYears: 5, 
     sessionTypes: ["Virtual", "In-Person"],
     languages: ["English"],
     availability: "Flexible",
-    bio: "Sound healing practitioner creating transformative experiences through vibrational therapy."
+    bio: "Sound healing practitioner creating transformative experiences through vibrational therapy.",
+    verified: true,
+    responseTime: "Within 6 hours"
   },
   {
     id: "mystic-rose",
@@ -128,16 +152,20 @@ const mockHealers = [
     rating: 4.8,
     reviewCount: 112,
     location: "Nashville, TN",
+    coordinates: { lat: 36.1627, lng: -86.7816 },
     isVirtual: true,
     price: "$90/session",
-    priceRange: "80-100",
+    priceValue: 90,
     avatar: "",
     tags: ["Life Coaching", "Spiritual Guidance", "Meditation"],
     experience: "10 years",
+    experienceYears: 10,
     sessionTypes: ["Virtual", "In-Person"],
     languages: ["English"], 
     availability: "Weekdays",
-    bio: "Compassionate spiritual counselor helping clients find clarity and purpose."
+    bio: "Compassionate spiritual counselor helping clients find clarity and purpose.",
+    verified: true,
+    responseTime: "Within 3 hours"
   }
 ];
 
@@ -145,57 +173,62 @@ const HealerSearch = () => {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   
-  // API data state
-  const [healers, setHealers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [pagination, setPagination] = useState(null);
-  
   // Initialize filters from URL parameters
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || "");
-  const [locationFilter, setLocationFilter] = useState(searchParams.get('location') || "");
-  const [specialtyFilter, setSpecialtyFilter] = useState("");
-  const [priceRangeFilter, setPriceRangeFilter] = useState("");
-  const [sessionTypeFilter, setSessionTypeFilter] = useState(searchParams.get('sessionType') || "");
-  const [availabilityFilter, setAvailabilityFilter] = useState("");
-  const [ratingFilter, setRatingFilter] = useState("");
+  const initialFilters: Partial<SearchFilters> = {
+    search: searchParams.get('search') || '',
+    location: searchParams.get('location') || '',
+    sessionTypes: searchParams.get('sessionType') ? [searchParams.get('sessionType')!] : [],
+    specialties: searchParams.get('specialties') ? searchParams.get('specialties')!.split(',') : []
+  };
+  
+  const {
+    filters,
+    filteredHealers,
+    loading,
+    suggestions,
+    activeFiltersCount,
+    filterOptions,
+    setHealers,
+    setLoading,
+    updateFilter,
+    addToFilter,
+    removeFromFilter,
+    clearFilters,
+    totalResults,
+    hasActiveFilters
+  } = useAdvancedSearch(initialFilters);
+  
   const [showFilters, setShowFilters] = useState(false);
-  const [filteredHealers, setFilteredHealers] = useState(mockHealers);
-  const [sortBy, setSortBy] = useState("rating");
-
-  // Handle specialties from URL params (comma-separated)
-  const urlSpecialties = searchParams.get('specialties');
-  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>(
-    urlSpecialties ? urlSpecialties.split(',') : []
-  );
 
   // Fetch healers from API
   useEffect(() => {
     const fetchHealers = async () => {
       try {
+        setLoading(true);
+        
         // Track healer search analytics
         spiritualAnalytics.searchHealers({
-          search_query: searchQuery,
-          location: locationFilter,
-          specialty: specialtyFilter,
-          session_type: sessionTypeFilter,
-          rating_filter: ratingFilter,
-          sort_by: sortBy
+          search_query: filters.search,
+          location: filters.location,
+          specialty: filters.specialties.join(','),
+          session_type: filters.sessionTypes.join(','),
+          rating_filter: filters.minRating.toString(),
+          sort_by: filters.sortBy
         });
 
         const response = await apiService.getHealers({
-          search: searchQuery,
-          location: locationFilter,
-          specialty: specialtyFilter,
-          sessionType: sessionTypeFilter,
-          rating: ratingFilter,
-          sortBy,
+          search: filters.search,
+          location: filters.location,
+          specialty: filters.specialties.join(','),
+          sessionType: filters.sessionTypes.join(','),
+          rating: filters.minRating.toString(),
+          sortBy: filters.sortBy,
           page: 1,
           limit: 20
         });
         
         if (response.success) {
-          setHealers(response.data.healers || []);
-          setPagination(response.data.pagination);
+          setHealers(response.data.healers || mockHealers);
         } else {
           // Fall back to mock data if API fails
           setHealers(mockHealers);
@@ -210,66 +243,10 @@ const HealerSearch = () => {
     };
 
     fetchHealers();
-  }, []); // Initial fetch
+  }, [filters, setHealers, setLoading]); // Initial fetch
 
-  // Filter healers (now works with both API and mock data)
-  useEffect(() => {
-    let filtered = healers.filter(healer => {
-      const matchesSearch = !searchQuery || 
-        healer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        healer.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        healer.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      const matchesLocation = !locationFilter || 
-        healer.location.toLowerCase().includes(locationFilter.toLowerCase());
-      
-      const matchesSpecialty = !specialtyFilter || 
-        healer.tags.some(tag => tag.toLowerCase().includes(specialtyFilter.toLowerCase()));
-      
-      // Check if healer has any of the selected specialties from URL params
-      const matchesSelectedSpecialties = selectedSpecialties.length === 0 || 
-        selectedSpecialties.some(specialty => 
-          healer.tags.some(tag => tag.toLowerCase().includes(specialty.toLowerCase()))
-        );
-      
-      const matchesPriceRange = !priceRangeFilter || healer.priceRange === priceRangeFilter;
-      
-      const matchesSessionType = !sessionTypeFilter || 
-        healer.sessionTypes.includes(sessionTypeFilter);
-      
-      const matchesAvailability = !availabilityFilter || 
-        healer.availability.toLowerCase().includes(availabilityFilter.toLowerCase());
-      
-      const matchesRating = !ratingFilter || healer.rating >= parseFloat(ratingFilter);
-
-      return matchesSearch && matchesLocation && matchesSpecialty && matchesSelectedSpecialties &&
-             matchesPriceRange && matchesSessionType && matchesAvailability && matchesRating;
-    });
-
-    // Sort results
-    if (sortBy === "rating") {
-      filtered.sort((a, b) => b.rating - a.rating);
-    } else if (sortBy === "price_low") {
-      filtered.sort((a, b) => parseInt(a.price.match(/\d+/)?.[0] || "0") - parseInt(b.price.match(/\d+/)?.[0] || "0"));
-    } else if (sortBy === "price_high") {
-      filtered.sort((a, b) => parseInt(b.price.match(/\d+/)?.[0] || "0") - parseInt(a.price.match(/\d+/)?.[0] || "0"));
-    } else if (sortBy === "reviews") {
-      filtered.sort((a, b) => b.reviewCount - a.reviewCount);
-    }
-
-    setFilteredHealers(filtered);
-  }, [healers, searchQuery, locationFilter, specialtyFilter, selectedSpecialties, priceRangeFilter, sessionTypeFilter, availabilityFilter, ratingFilter, sortBy]);
-
-  const clearFilters = () => {
-    setSearchQuery("");
-    setLocationFilter("");
-    setSpecialtyFilter("");
-    setSelectedSpecialties([]);
-    setPriceRangeFilter("");
-    setSessionTypeFilter("");
-    setAvailabilityFilter("");
-    setRatingFilter("");
-  };
+  // Search suggestions handler
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleBookSession = (healerName: string) => {
     toast({
@@ -293,17 +270,38 @@ const HealerSearch = () => {
           {/* Search Bar */}
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-4 items-end">
-              <div className="flex-1">
+              <div className="flex-1 relative">
                 <Label htmlFor="search">Search by name, specialty, or healing type</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={filters.search}
+                    onChange={(e) => {
+                      updateFilter('search', e.target.value);
+                      setShowSuggestions(e.target.value.length > 1);
+                    }}
+                    onFocus={() => setShowSuggestions(filters.search.length > 1)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                     placeholder="Crystal healing, Reiki, Tarot reading..."
                     className="pl-10 h-12"
                   />
+                  {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 bg-background border rounded-md mt-1 z-50 shadow-lg max-h-48 overflow-y-auto">
+                      {suggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          className="w-full text-left px-4 py-2 hover:bg-muted transition-colors border-b last:border-b-0"
+                          onClick={() => {
+                            updateFilter('search', suggestion);
+                            setShowSuggestions(false);
+                          }}
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex gap-2">
@@ -314,12 +312,18 @@ const HealerSearch = () => {
                 >
                   <Filter className="w-4 h-4 mr-2" />
                   Filters
+                  {hasActiveFilters && (
+                    <Badge variant="secondary" className="ml-2 h-5 w-5 p-0 text-xs">
+                      {activeFiltersCount}
+                    </Badge>
+                  )}
                 </Button>
                 <Button
                   variant="spiritual"
                   className="h-12 px-6"
                   onClick={() => toast({ title: "Searching...", description: "Finding healers that match your criteria" })}
                 >
+                  {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Search className="w-4 h-4 mr-2" />}
                   Search
                 </Button>
               </div>
@@ -353,97 +357,139 @@ const HealerSearch = () => {
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
                     <Input
-                      value={locationFilter}
-                      onChange={(e) => setLocationFilter(e.target.value)}
-                      placeholder="City, State"
+                      value={filters.location}
+                      onChange={(e) => updateFilter('location', e.target.value)}
+                      placeholder="City, State or within 25 miles"
                       className="pl-10"
                     />
                   </div>
+                  {filters.location && (
+                    <div className="space-y-2">
+                      <Label>Search Radius: {filters.radius} miles</Label>
+                      <Slider
+                        value={[filters.radius]}
+                        onValueChange={(value) => updateFilter('radius', value[0])}
+                        max={100}
+                        min={5}
+                        step={5}
+                        className="w-full"
+                      />
+                    </div>
+                  )}
                 </div>
 
-                {/* Session Type */}
+                {/* Specialties - Multiple Selection */}
                 <div className="space-y-2">
-                  <Label>Session Type</Label>
-                  <Select value={sessionTypeFilter} onValueChange={setSessionTypeFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Any" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any">Any</SelectItem>
-                      <SelectItem value="Virtual">Virtual</SelectItem>
-                      <SelectItem value="In-Person">In-Person</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label>Specialties</Label>
+                  <div className="space-y-2 max-h-32 overflow-y-auto">
+                    {filterOptions.specialties.map((specialty) => (
+                      <div key={specialty} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`specialty-${specialty}`}
+                          checked={filters.specialties.includes(specialty)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              addToFilter('specialties', specialty);
+                            } else {
+                              removeFromFilter('specialties', specialty);
+                            }
+                          }}
+                        />
+                        <Label htmlFor={`specialty-${specialty}`} className="text-sm">
+                          {specialty}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Specialty */}
+                {/* Session Types - Multiple Selection */}
                 <div className="space-y-2">
-                  <Label>Specialty</Label>
-                  <Select value={specialtyFilter} onValueChange={setSpecialtyFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Any specialty" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any-specialty">Any specialty</SelectItem>
-                      <SelectItem value="reiki">Reiki</SelectItem>
-                      <SelectItem value="crystal">Crystal Healing</SelectItem>
-                      <SelectItem value="tarot">Tarot Reading</SelectItem>
-                      <SelectItem value="meditation">Meditation</SelectItem>
-                      <SelectItem value="shamanic">Shamanic Healing</SelectItem>
-                      <SelectItem value="sound">Sound Healing</SelectItem>
-                      <SelectItem value="counseling">Spiritual Counseling</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label>Session Types</Label>
+                  <div className="space-y-2">
+                    {filterOptions.sessionTypes.map((sessionType) => (
+                      <div key={sessionType} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`session-${sessionType}`}
+                          checked={filters.sessionTypes.includes(sessionType)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              addToFilter('sessionTypes', sessionType);
+                            } else {
+                              removeFromFilter('sessionTypes', sessionType);
+                            }
+                          }}
+                        />
+                        <Label htmlFor={`session-${sessionType}`} className="text-sm">
+                          {sessionType}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Price Range */}
+                {/* Price Range Slider */}
                 <div className="space-y-2">
-                  <Label>Price Range</Label>
-                  <Select value={priceRangeFilter} onValueChange={setPriceRangeFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Any price" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any-price">Any price</SelectItem>
-                      <SelectItem value="40-60">$40 - $60</SelectItem>
-                      <SelectItem value="60-80">$60 - $80</SelectItem>
-                      <SelectItem value="80-100">$80 - $100</SelectItem>
-                      <SelectItem value="100-150">$100 - $150</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label>Price Range: ${filters.priceRange[0]} - ${filters.priceRange[1]}</Label>
+                  <Slider
+                    value={filters.priceRange}
+                    onValueChange={(value) => updateFilter('priceRange', value as [number, number])}
+                    max={200}
+                    min={0}
+                    step={5}
+                    className="w-full"
+                  />
                 </div>
 
-                {/* Rating */}
+                {/* Experience Range Slider */}
                 <div className="space-y-2">
-                  <Label>Minimum Rating</Label>
-                  <Select value={ratingFilter} onValueChange={setRatingFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Any rating" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any-rating">Any rating</SelectItem>
-                      <SelectItem value="4.5">4.5+ Stars</SelectItem>
-                      <SelectItem value="4.0">4.0+ Stars</SelectItem>
-                      <SelectItem value="3.5">3.5+ Stars</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label>Experience: {filters.experience[0]} - {filters.experience[1]} years</Label>
+                  <Slider
+                    value={filters.experience}
+                    onValueChange={(value) => updateFilter('experience', value as [number, number])}
+                    max={20}
+                    min={0}
+                    step={1}
+                    className="w-full"
+                  />
                 </div>
 
-                {/* Availability */}
+                {/* Rating Slider */}
                 <div className="space-y-2">
-                  <Label>Availability</Label>
-                  <Select value={availabilityFilter} onValueChange={setAvailabilityFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Any time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any-time">Any time</SelectItem>
-                      <SelectItem value="weekdays">Weekdays</SelectItem>
-                      <SelectItem value="weekends">Weekends</SelectItem>
-                      <SelectItem value="evenings">Evenings</SelectItem>
-                      <SelectItem value="flexible">Flexible</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label>Minimum Rating: {filters.minRating} stars</Label>
+                  <Slider
+                    value={[filters.minRating]}
+                    onValueChange={(value) => updateFilter('minRating', value[0])}
+                    max={5}
+                    min={0}
+                    step={0.1}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Languages - Multiple Selection */}
+                <div className="space-y-2">
+                  <Label>Languages</Label>
+                  <div className="space-y-2 max-h-24 overflow-y-auto">
+                    {filterOptions.languages.map((language) => (
+                      <div key={language} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`language-${language}`}
+                          checked={filters.languages.includes(language)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              addToFilter('languages', language);
+                            } else {
+                              removeFromFilter('languages', language);
+                            }
+                          }}
+                        />
+                        <Label htmlFor={`language-${language}`} className="text-sm">
+                          {language}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -452,42 +498,86 @@ const HealerSearch = () => {
           {/* Results */}
           <div className="lg:col-span-3">
             {/* Active Filters Display */}
-            {(searchQuery || locationFilter || sessionTypeFilter || selectedSpecialties.length > 0) && (
+            {hasActiveFilters && (
               <div className="mb-6 p-4 bg-muted/30 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
                   <Filter className="w-4 h-4" />
-                  <span className="font-medium">Active Filters:</span>
+                  <span className="font-medium">Active Filters ({activeFiltersCount}):</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {searchQuery && (
+                  {filters.search && (
                     <Badge variant="secondary" className="gap-1">
-                      Search: {searchQuery}
-                      <button onClick={() => setSearchQuery("")} className="ml-1 hover:text-destructive">×</button>
+                      Search: {filters.search}
+                      <button onClick={() => updateFilter('search', '')} className="ml-1 hover:text-destructive">
+                        <X className="w-3 h-3" />
+                      </button>
                     </Badge>
                   )}
-                  {locationFilter && (
+                  {filters.location && (
                     <Badge variant="secondary" className="gap-1">
-                      Location: {locationFilter}
-                      <button onClick={() => setLocationFilter("")} className="ml-1 hover:text-destructive">×</button>
+                      Location: {filters.location} ({filters.radius}mi)
+                      <button onClick={() => updateFilter('location', '')} className="ml-1 hover:text-destructive">
+                        <X className="w-3 h-3" />
+                      </button>
                     </Badge>
                   )}
-                  {sessionTypeFilter && (
-                    <Badge variant="secondary" className="gap-1">
-                      Session: {sessionTypeFilter}
-                      <button onClick={() => setSessionTypeFilter("")} className="ml-1 hover:text-destructive">×</button>
-                    </Badge>
-                  )}
-                  {selectedSpecialties.map(specialty => (
+                  {filters.specialties.map(specialty => (
                     <Badge key={specialty} variant="secondary" className="gap-1">
                       {specialty}
                       <button 
-                        onClick={() => setSelectedSpecialties(prev => prev.filter(s => s !== specialty))} 
+                        onClick={() => removeFromFilter('specialties', specialty)} 
                         className="ml-1 hover:text-destructive"
                       >
-                        ×
+                        <X className="w-3 h-3" />
                       </button>
                     </Badge>
                   ))}
+                  {filters.sessionTypes.map(sessionType => (
+                    <Badge key={sessionType} variant="secondary" className="gap-1">
+                      {sessionType}
+                      <button 
+                        onClick={() => removeFromFilter('sessionTypes', sessionType)} 
+                        className="ml-1 hover:text-destructive"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {filters.languages.map(language => (
+                    <Badge key={language} variant="secondary" className="gap-1">
+                      {language}
+                      <button 
+                        onClick={() => removeFromFilter('languages', language)} 
+                        className="ml-1 hover:text-destructive"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {(filters.priceRange[0] > 0 || filters.priceRange[1] < 200) && (
+                    <Badge variant="secondary" className="gap-1">
+                      Price: ${filters.priceRange[0]}-${filters.priceRange[1]}
+                      <button onClick={() => updateFilter('priceRange', [0, 200])} className="ml-1 hover:text-destructive">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  {(filters.experience[0] > 0 || filters.experience[1] < 20) && (
+                    <Badge variant="secondary" className="gap-1">
+                      Experience: {filters.experience[0]}-{filters.experience[1]} years
+                      <button onClick={() => updateFilter('experience', [0, 20])} className="ml-1 hover:text-destructive">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  {filters.minRating > 0 && (
+                    <Badge variant="secondary" className="gap-1">
+                      Rating: {filters.minRating}+ stars
+                      <button onClick={() => updateFilter('minRating', 0)} className="ml-1 hover:text-destructive">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
                   <Button variant="ghost" size="sm" onClick={clearFilters} className="h-6 px-2 text-xs">
                     Clear All
                   </Button>
@@ -499,16 +589,18 @@ const HealerSearch = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-bold">
-                  {filteredHealers.length} Healer{filteredHealers.length !== 1 ? 's' : ''} Found
+                  {totalResults} Healer{totalResults !== 1 ? 's' : ''} Found
                 </h2>
                 <p className="text-muted-foreground">
-                  Showing results {searchQuery && `for "${searchQuery}"`}
+                  {filters.search && `Showing results for "${filters.search}"`}
+                  {!filters.search && hasActiveFilters && 'Filtered results'}
+                  {!filters.search && !hasActiveFilters && 'All available healers'}
                 </p>
               </div>
               <div className="flex items-center gap-2 mt-4 sm:mt-0">
                 <Label htmlFor="sort">Sort by:</Label>
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-40">
+                <Select value={filters.sortBy} onValueChange={(value) => updateFilter('sortBy', value)}>
+                  <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -516,6 +608,9 @@ const HealerSearch = () => {
                     <SelectItem value="reviews">Most Reviews</SelectItem>
                     <SelectItem value="price_low">Price: Low to High</SelectItem>
                     <SelectItem value="price_high">Price: High to Low</SelectItem>
+                    <SelectItem value="experience">Most Experienced</SelectItem>
+                    <SelectItem value="distance">Closest First</SelectItem>
+                    <SelectItem value="name">Name (A-Z)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -555,6 +650,11 @@ const HealerSearch = () => {
                                 <div className="flex items-center gap-1">
                                   <MapPin className="w-4 h-4" />
                                   <span>{healer.location}</span>
+                                  {healer.distance && (
+                                    <span className="text-xs text-muted-foreground ml-1">
+                                      ({healer.distance.toFixed(1)} mi)
+                                    </span>
+                                  )}
                                 </div>
                                 {healer.isVirtual && (
                                   <Badge variant="secondary">
