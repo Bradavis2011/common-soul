@@ -29,65 +29,11 @@ const Dashboard = () => {
     followers: 89
   };
 
-  const upcomingSessions = [
-    {
-      id: 1,
-      clientName: "Emma Johnson",
-      clientId: "client_1",
-      type: "Crystal Healing",
-      date: "Today",
-      time: "2:00 PM",
-      duration: "60 min",
-      amount: "$85",
-      status: "confirmed"
-    },
-    {
-      id: 2,
-      clientName: "Michael Chen",
-      clientId: "client_2",
-      type: "Reiki Session",
-      date: "Tomorrow",
-      time: "10:00 AM", 
-      duration: "90 min",
-      amount: "$120",
-      status: "pending"
-    },
-    {
-      id: 3,
-      clientName: "Sarah Williams",
-      clientId: "client_3",
-      type: "Spiritual Counseling",
-      date: "Friday",
-      time: "3:30 PM",
-      duration: "45 min",
-      amount: "$75",
-      status: "confirmed"
-    }
-  ];
+  // Start with empty sessions for new users - will be populated with real data
+  const upcomingSessions = [];
 
-  const recentMessages = [
-    {
-      id: 1,
-      from: "Emma Johnson",
-      preview: "Thank you for the beautiful session yesterday...",
-      time: "2 hours ago",
-      unread: true
-    },
-    {
-      id: 2,
-      from: "Marcus Thompson",
-      preview: "I'd like to book another session for next week...",
-      time: "1 day ago",
-      unread: false
-    },
-    {
-      id: 3,
-      from: "Lisa Rodriguez",
-      preview: "The meditation techniques you shared...",
-      time: "3 days ago",
-      unread: false
-    }
-  ];
+  // Start with empty messages for new users - will be populated with real data
+  const recentMessages = [];
 
   const HealerDashboard = () => (
     <div className="space-y-6">
@@ -164,7 +110,7 @@ const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {upcomingSessions.map((session) => (
+              {upcomingSessions.length > 0 ? upcomingSessions.map((session) => (
                 <div key={session.id} className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="flex items-center gap-3">
                     <Avatar className="w-10 h-10">
@@ -195,7 +141,13 @@ const Dashboard = () => {
                     )}
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p className="text-lg font-medium mb-2">No upcoming sessions</p>
+                  <p className="text-sm">When you have sessions booked, they'll appear here.</p>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -210,7 +162,7 @@ const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentMessages.map((message) => (
+              {recentMessages.length > 0 ? recentMessages.map((message) => (
                 <div key={message.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 cursor-pointer">
                   <Avatar className="w-10 h-10">
                     <AvatarFallback>{message.from.split(' ').map(n => n[0]).join('')}</AvatarFallback>
@@ -226,7 +178,13 @@ const Dashboard = () => {
                     )}
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p className="text-lg font-medium mb-2">No recent messages</p>
+                  <p className="text-sm">When you receive messages, they'll appear here.</p>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -34,107 +34,11 @@ const Messages = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const conversations: Conversation[] = [
-    {
-      id: "1",
-      name: "Emma Johnson",
-      lastMessage: "Thank you for the beautiful session yesterday! I feel so much lighter.",
-      lastMessageTime: "2m ago",
-      unreadCount: 2,
-      isOnline: true,
-      role: "seeker"
-    },
-    {
-      id: "2", 
-      name: "Marcus Thompson",
-      lastMessage: "I'd like to book another session for next week. Are you available?",
-      lastMessageTime: "1h ago",
-      unreadCount: 0,
-      isOnline: false,
-      role: "seeker"
-    },
-    {
-      id: "3",
-      name: "Lisa Rodriguez",
-      lastMessage: "The meditation techniques you shared have been so helpful...",
-      lastMessageTime: "2d ago",
-      unreadCount: 1,
-      isOnline: true,
-      role: "seeker"
-    },
-    {
-      id: "4",
-      name: "Sarah Moonwhisper",
-      lastMessage: "Looking forward to our session tomorrow!",
-      lastMessageTime: "3d ago",
-      unreadCount: 0,
-      isOnline: false,
-      role: "healer"
-    }
-  ];
+  // Start with empty conversations for new users - will be populated with real data
+  const conversations: Conversation[] = [];
 
-  const [messages, setMessages] = useState<Record<string, Message[]>>({
-    "1": [
-      {
-        id: "1",
-        senderId: "emma",
-        content: "Hi! I'm really looking forward to our session today. Is there anything I should prepare beforehand?",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-        type: "text"
-      },
-      {
-        id: "2", 
-        senderId: "me",
-        content: "Hello Emma! I'm excited to work with you too. Just bring an open heart and mind. We'll start with some grounding exercises, so wearing comfortable clothing would be great.",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 1.5),
-        type: "text"
-      },
-      {
-        id: "3",
-        senderId: "emma", 
-        content: "Perfect! I have my crystals ready too. Should I have them nearby during our virtual session?",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60),
-        type: "text"
-      },
-      {
-        id: "4",
-        senderId: "me",
-        content: "Absolutely! Having your crystals nearby will enhance the energy flow. We can even work with them during the session. I sense you have a strong connection with rose quartz?",
-        timestamp: new Date(Date.now() - 1000 * 60 * 30),
-        type: "text"
-      },
-      {
-        id: "5",
-        senderId: "emma",
-        content: "Wow, you're so intuitive! Yes, rose quartz is my favorite. Thank you for the beautiful session yesterday! I feel so much lighter. 💕",
-        timestamp: new Date(Date.now() - 1000 * 60 * 2),
-        type: "text"
-      }
-    ],
-    "2": [
-      {
-        id: "1",
-        senderId: "marcus",
-        content: "Hi, I really enjoyed our Reiki session last week. The energy work was incredible.",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
-        type: "text"
-      },
-      {
-        id: "2",
-        senderId: "me", 
-        content: "I'm so glad you found it helpful, Marcus! Your energy was very receptive to the healing.",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 23),
-        type: "text"
-      },
-      {
-        id: "3",
-        senderId: "marcus",
-        content: "I'd like to book another session for next week. Are you available Tuesday or Wednesday evening?",
-        timestamp: new Date(Date.now() - 1000 * 60 * 60),
-        type: "text"
-      }
-    ]
-  });
+  // Start with empty messages for new users - will be populated with real data
+  const [messages, setMessages] = useState<Record<string, Message[]>>({});
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

@@ -40,63 +40,8 @@ export const Navigation = ({ isAuthenticated: propIsAuthenticated, userType: pro
   const actualIsAuthenticated = isAuthenticated ?? propIsAuthenticated ?? false;
   const actualUserType = user?.userType ?? propUserType ?? 'seeker';
   
-  // Mock notifications data with diverse types
-  const [notifications] = useState([
-    {
-      id: 1,
-      type: "booking",
-      title: "New session booking",
-      message: "Emma Johnson has booked a Crystal Healing session for tomorrow at 2:00 PM",
-      time: "5 min ago",
-      read: false,
-      link: "/dashboard?tab=sessions"
-    },
-    {
-      id: 2,
-      type: "payment",
-      title: "Payment received", 
-      message: "You received $85 for your session with Michael Chen",
-      time: "1 hour ago",
-      read: false,
-      link: "/dashboard?tab=earnings"
-    },
-    {
-      id: 3,
-      type: "message",
-      title: "New message",
-      message: "Sarah Williams sent you a message about tomorrow's session",
-      time: "2 hours ago",
-      read: true,
-      link: "/messages"
-    },
-    {
-      id: 4,
-      type: "review",
-      title: "New review received",
-      message: "Marcus Thompson left you a 5-star review: 'Amazing healing energy!'",
-      time: "1 day ago",
-      read: false,
-      link: "/my-profile"
-    },
-    {
-      id: 5,
-      type: "cancellation",
-      title: "Session cancelled",
-      message: "Lisa Rodriguez cancelled her Reiki session scheduled for Friday",
-      time: "2 days ago",
-      read: true,
-      link: "/dashboard?tab=sessions"
-    },
-    {
-      id: 6,
-      type: "reminder",
-      title: "Update your availability",
-      message: "Remember to set your availability for next week to receive more bookings",
-      time: "3 days ago",
-      read: true,
-      link: "/healer-management?tab=availability"
-    }
-  ]);
+  // Start with empty notifications for new users
+  const [notifications] = useState([]);
   
   const unreadCount = notifications.filter(n => !n.read).length;
 
