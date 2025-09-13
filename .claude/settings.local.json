@@ -7,7 +7,9 @@
       "Bash(npx prisma:*)",
       "WebFetch(domain:thecommonsoul.com)",
       "Bash(git push:*)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "WebSearch",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []
