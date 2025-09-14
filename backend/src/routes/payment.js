@@ -7,6 +7,20 @@ const emailService = require('../services/emailService');
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// Payment service status endpoint
+router.get('/', (req, res) => {
+  res.json({
+    status: 'Payment service operational',
+    endpoints: {
+      'POST /create-checkout/:bookingId': 'Create checkout session for booking payment',
+      'POST /webhook': 'Stripe webhook handler',
+      'GET /session/:sessionId': 'Get checkout session status',
+      'POST /refund/:paymentIntentId': 'Process refund'
+    },
+    stripe: process.env.STRIPE_PUBLISHABLE_KEY ? 'configured' : 'not configured'
+  });
+});
+
 // Create checkout session for booking payment
 router.post('/create-checkout/:bookingId', authenticateToken, async (req, res) => {
   try {
