@@ -10,25 +10,37 @@ const prisma = new PrismaClient();
 // Payment service status endpoint
 router.get('/', (req, res) => {
   console.log('Payment root endpoint accessed');
-  res.json({
-    status: 'Payment service operational',
-    timestamp: new Date().toISOString(),
-    endpoints: {
-      'POST /create-checkout/:bookingId': 'Create checkout session for booking payment',
-      'POST /webhook': 'Stripe webhook handler',
-      'GET /session/:sessionId': 'Get checkout session status',
-      'POST /refund/:paymentIntentId': 'Process refund'
-    },
-    stripe: process.env.STRIPE_PUBLISHABLE_KEY ? 'configured' : 'not configured'
-  });
+  try {
+    res.json({
+      status: 'Payment service operational',
+      timestamp: new Date().toISOString(),
+      server: 'Railway Production',
+      endpoints: {
+        'POST /create-checkout/:bookingId': 'Create checkout session for booking payment',
+        'POST /webhook': 'Stripe webhook handler',
+        'GET /session/:sessionId': 'Get checkout session status',
+        'POST /refund/:paymentIntentId': 'Process refund'
+      },
+      stripe: process.env.STRIPE_PUBLISHABLE_KEY ? 'configured' : 'not configured'
+    });
+  } catch (error) {
+    console.error('Payment route error:', error);
+    res.status(500).json({ error: 'Payment route error', details: error.message });
+  }
 });
 
 // Test endpoint to verify route registration
 router.get('/test', (req, res) => {
   res.json({
     message: 'Payment route test endpoint working',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    success: true
   });
+});
+
+// Simple ping endpoint
+router.get('/ping', (req, res) => {
+  res.json({ pong: true, timestamp: new Date().toISOString() });
 });
 
 // Create checkout session for booking payment
