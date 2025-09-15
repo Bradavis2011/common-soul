@@ -25,9 +25,10 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-// Google OAuth Strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
+// Google OAuth Strategy - only initialize if credentials are available
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/api/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
@@ -149,10 +150,14 @@ passport.use(new GoogleStrategy({
         return done(error, null);
     }
 }));
+} else {
+    console.log('Google OAuth not configured - skipping Google strategy');
+}
 
-// Facebook OAuth Strategy
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
+// Facebook OAuth Strategy - only initialize if credentials are available
+if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
+    passport.use(new FacebookStrategy({
+        clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "/api/auth/facebook/callback",
     profileFields: ['id', 'emails', 'name', 'picture.type(large)']
@@ -274,5 +279,8 @@ passport.use(new FacebookStrategy({
         return done(error, null);
     }
 }));
+} else {
+    console.log('Facebook OAuth not configured - skipping Facebook strategy');
+}
 
 module.exports = passport;
