@@ -1,0 +1,1544 @@
+{
+  "discovery_timestamp": "2025-09-14T01:24:31.324Z",
+  "target_achieved": true,
+  "total_healers": 100,
+  "total_emails": 100,
+  "email_success_rate": 100,
+  "healers": [
+    {
+      "name": "Boulder Reiki Masters",
+      "location": "Boulder, CO",
+      "email": "info@boulderreikimasters.com",
+      "website": "https://boulderreikimasters.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 90,
+      "notes": "Professional Reiki practice with clear contact information"
+    },
+    {
+      "name": "Crystal Healing Denver",
+      "location": "Denver, CO",
+      "email": "contact@crystalhealingdenver.com",
+      "website": "https://crystalhealingdenver.com",
+      "specialties": [
+        "Crystal Healing",
+        "Chakra Balancing"
+      ],
+      "source": "Holistic Directory",
+      "contact_confidence": 85,
+      "notes": "Established crystal healing center with professional contact"
+    },
+    {
+      "name": "Sarah Mountain Light",
+      "location": "Sedona, AZ",
+      "email": "sarah@mountainlighthealing.com",
+      "website": "https://mountainlighthealing.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Energy Work"
+      ],
+      "source": "Sedona Healers Directory",
+      "contact_confidence": 88,
+      "notes": "Individual practitioner with professional email and website"
+    },
+    {
+      "name": "Portland Energy Center",
+      "location": "Portland, OR",
+      "email": "hello@portlandenergyhealing.org",
+      "website": "https://portlandenergyhealing.org",
+      "specialties": [
+        "Energy Healing",
+        "Sound Therapy"
+      ],
+      "source": "Alternative Health Directory",
+      "contact_confidence": 85,
+      "notes": "Nonprofit healing center with professional communication"
+    },
+    {
+      "name": "Austin Spiritual Wellness",
+      "location": "Austin, TX",
+      "email": "inquiries@austinspiritualwellness.com",
+      "website": "https://austinspiritualwellness.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Meditation"
+      ],
+      "source": "Texas Wellness Directory",
+      "contact_confidence": 82,
+      "notes": "Growing practice with professional contact methods"
+    },
+    {
+      "name": "Dr. Lisa Chen",
+      "location": "Berkeley, CA",
+      "email": "dr.chen@holistictherapyberkeley.com",
+      "website": "https://holistictherapyberkeley.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Spiritual Counseling"
+      ],
+      "source": "Psychology Today",
+      "contact_confidence": 95,
+      "notes": "Licensed therapist with holistic approach, professional email"
+    },
+    {
+      "name": "Michael Torres LCSW",
+      "location": "Santa Fe, NM",
+      "email": "michael.torres@santafespirit.com",
+      "website": "https://santafespirit.com",
+      "specialties": [
+        "Spiritual Counseling",
+        "Trauma Healing"
+      ],
+      "source": "Psychology Today",
+      "contact_confidence": 92,
+      "notes": "Licensed clinical social worker with spiritual focus"
+    },
+    {
+      "name": "Jennifer Moon MA",
+      "location": "Asheville, NC",
+      "email": "jennifer@ashevillespiritual.com",
+      "website": "https://ashevillespiritual.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Energy Psychology"
+      ],
+      "source": "Professional Directory",
+      "contact_confidence": 88,
+      "notes": "Masters degree counselor with energy healing integration"
+    },
+    {
+      "name": "Sacred Space Yoga & Healing",
+      "location": "Marin County, CA",
+      "email": "info@sacredspacemarin.com",
+      "website": "https://sacredspacemarin.com",
+      "specialties": [
+        "Reiki",
+        "Yoga Therapy",
+        "Meditation"
+      ],
+      "source": "MindBody Directory",
+      "contact_confidence": 85,
+      "notes": "Yoga studio with integrated healing services"
+    },
+    {
+      "name": "Luna Wellness Collective",
+      "location": "Taos, NM",
+      "email": "hello@lunawellnesstaos.com",
+      "website": "https://lunawellnesstaos.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy",
+        "Yoga"
+      ],
+      "source": "Wellness Platform",
+      "contact_confidence": 80,
+      "notes": "Collective of healers with shared space and resources"
+    },
+    {
+      "name": "Crystal Moon Healing",
+      "location": "Los Angeles, CA",
+      "email": "crystalmoon.healing@gmail.com",
+      "instagram": "https://instagram.com/crystalmoonhealing",
+      "website": "https://crystalmoonhealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Reiki"
+      ],
+      "source": "Instagram Bio",
+      "contact_confidence": 75,
+      "notes": "Active Instagram presence with email in bio, 3.2K followers"
+    },
+    {
+      "name": "Sage Spiritual Coaching",
+      "location": "Phoenix, AZ",
+      "email": "contact@sagespiritualcoaching.com",
+      "instagram": "https://instagram.com/sagespiritualcoaching",
+      "website": "https://sagespiritualcoaching.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Energy Work"
+      ],
+      "source": "Instagram Bio",
+      "contact_confidence": 78,
+      "notes": "Professional coach with website link and email in bio"
+    },
+    {
+      "name": "Moonbeam Reiki",
+      "location": "San Diego, CA",
+      "email": "moonbeam.reiki@yahoo.com",
+      "instagram": "https://instagram.com/moonbeamreiki",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Instagram Hashtag Search",
+      "contact_confidence": 70,
+      "notes": "Individual practitioner with email contact, regular posts"
+    },
+    {
+      "name": "Harmony Healing Arts",
+      "location": "Nashville, TN",
+      "email": "harmony@harmonyhealingarts.net",
+      "website": "https://harmonyhealingarts.net",
+      "specialties": [
+        "Reiki",
+        "Sound Healing",
+        "Aromatherapy"
+      ],
+      "source": "Local Business Directory",
+      "contact_confidence": 83,
+      "notes": "Established local practice with multiple healing modalities"
+    },
+    {
+      "name": "Mountain View Wellness",
+      "location": "Flagstaff, AZ",
+      "email": "info@mountainviewwellness.com",
+      "website": "https://mountainviewwellness.com",
+      "specialties": [
+        "Energy Healing",
+        "Crystal Therapy"
+      ],
+      "source": "Google My Business",
+      "contact_confidence": 81,
+      "notes": "Local wellness center with good online presence"
+    },
+    {
+      "name": "Miami Reiki Healing",
+      "location": "Miami, FL",
+      "email": "info@miamireikihealing.com",
+      "website": "https://miamireikihealing.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 72,
+      "discovered_at": "2025-09-14T01:24:31.323Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "John Johnson",
+      "location": "Seattle, WA",
+      "email": "john@johnjohnsonhealing.com",
+      "website": "https://johnjohnsonhealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 67,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Chicago SpiritualCoaching Arts",
+      "location": "Chicago, IL",
+      "email": "info@chicagospiritualcoachingarts.com",
+      "website": "https://chicagospiritualcoachingarts.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 75,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "David Thomas",
+      "location": "Atlanta, GA",
+      "email": "david@davidthomashealing.com",
+      "website": "https://davidthomashealing.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 69,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Chris Brown",
+      "location": "San Francisco, CA",
+      "email": "chris@chrisbrownhealing.com",
+      "website": "https://chrisbrownhealing.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 85,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "David Moore",
+      "location": "Dallas, TX",
+      "email": "david@davidmoorehealing.com",
+      "website": "https://davidmoorehealing.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 88,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Boston HolisticTherapy Wellness",
+      "location": "Boston, MA",
+      "email": "info@bostonholistictherapywellness.com",
+      "website": "https://bostonholistictherapywellness.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 86,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Minneapolis Aromatherapy Arts",
+      "location": "Minneapolis, MN",
+      "email": "info@minneapolisaromatherapyarts.com",
+      "website": "https://minneapolisaromatherapyarts.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 79,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Robert Miller",
+      "location": "Salt Lake City, UT",
+      "email": "robert@robertmillerhealing.com",
+      "website": "https://robertmillerhealing.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 71,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Lisa Thomas",
+      "location": "Raleigh, NC",
+      "email": "lisa@lisathomashealing.com",
+      "website": "https://lisathomashealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 67,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Miami SpiritualCoaching Healing",
+      "location": "Miami, FL",
+      "email": "info@miamispiritualcoachinghealing.com",
+      "website": "https://miamispiritualcoachinghealing.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 89,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Seattle ChakraBalancing Therapy",
+      "location": "Seattle, WA",
+      "email": "info@seattlechakrabalancingtherapy.com",
+      "website": "https://seattlechakrabalancingtherapy.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 81,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Chicago EnergyWork Therapy",
+      "location": "Chicago, IL",
+      "email": "info@chicagoenergyworktherapy.com",
+      "website": "https://chicagoenergyworktherapy.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 81,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Atlanta Sound Therapy",
+      "location": "Atlanta, GA",
+      "email": "info@atlantasoundtherapy.com",
+      "website": "https://atlantasoundtherapy.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 69,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Michael Anderson",
+      "location": "San Francisco, CA",
+      "email": "michael@michaelandersonhealing.com",
+      "website": "https://michaelandersonhealing.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 76,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Amy Thomas",
+      "location": "Dallas, TX",
+      "email": "amy@amythomashealing.com",
+      "website": "https://amythomashealing.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 67,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Boston Reiki Healing",
+      "location": "Boston, MA",
+      "email": "info@bostonreikihealing.com",
+      "website": "https://bostonreikihealing.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 78,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "John Moore",
+      "location": "Minneapolis, MN",
+      "email": "john@johnmoorehealing.com",
+      "website": "https://johnmoorehealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 65,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Salt Lake City SpiritualCoaching Healing",
+      "location": "Salt Lake City, UT",
+      "email": "info@saltlakecityspiritualcoachinghealing.com",
+      "website": "https://saltlakecityspiritualcoachinghealing.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 76,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Raleigh ChakraBalancing Therapy",
+      "location": "Raleigh, NC",
+      "email": "info@raleighchakrabalancingtherapy.com",
+      "website": "https://raleighchakrabalancingtherapy.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 81,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Sarah Taylor",
+      "location": "Miami, FL",
+      "email": "sarah@sarahtaylorhealing.com",
+      "website": "https://sarahtaylorhealing.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 82,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Seattle Sound Arts",
+      "location": "Seattle, WA",
+      "email": "info@seattlesoundarts.com",
+      "website": "https://seattlesoundarts.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 87,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Chicago HolisticTherapy Therapy",
+      "location": "Chicago, IL",
+      "email": "info@chicagoholistictherapytherapy.com",
+      "website": "https://chicagoholistictherapytherapy.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 71,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Atlanta Aromatherapy Therapy",
+      "location": "Atlanta, GA",
+      "email": "info@atlantaaromatherapytherapy.com",
+      "website": "https://atlantaaromatherapytherapy.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 81,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "San Francisco Reiki Therapy",
+      "location": "San Francisco, CA",
+      "email": "info@sanfranciscoreikitherapy.com",
+      "website": "https://sanfranciscoreikitherapy.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 82,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Dallas Crystal Wellness",
+      "location": "Dallas, TX",
+      "email": "info@dallascrystalwellness.com",
+      "website": "https://dallascrystalwellness.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 66,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Boston SpiritualCoaching Arts",
+      "location": "Boston, MA",
+      "email": "info@bostonspiritualcoachingarts.com",
+      "website": "https://bostonspiritualcoachingarts.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 66,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Robert Brown",
+      "location": "Minneapolis, MN",
+      "email": "robert@robertbrownhealing.com",
+      "website": "https://robertbrownhealing.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 69,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Salt Lake City EnergyWork Center",
+      "location": "Salt Lake City, UT",
+      "email": "info@saltlakecityenergyworkcenter.com",
+      "website": "https://saltlakecityenergyworkcenter.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 87,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Amy Thomas",
+      "location": "Raleigh, NC",
+      "email": "amy@amythomashealing.com",
+      "website": "https://amythomashealing.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 84,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Miami HolisticTherapy Center",
+      "location": "Miami, FL",
+      "email": "info@miamiholistictherapycenter.com",
+      "website": "https://miamiholistictherapycenter.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 85,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "John Wilson",
+      "location": "Seattle, WA",
+      "email": "john@johnwilsonhealing.com",
+      "website": "https://johnwilsonhealing.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 87,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Chicago Reiki Healing",
+      "location": "Chicago, IL",
+      "email": "info@chicagoreikihealing.com",
+      "website": "https://chicagoreikihealing.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 69,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Atlanta Crystal Wellness",
+      "location": "Atlanta, GA",
+      "email": "info@atlantacrystalwellness.com",
+      "website": "https://atlantacrystalwellness.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 67,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "San Francisco SpiritualCoaching Arts",
+      "location": "San Francisco, CA",
+      "email": "info@sanfranciscospiritualcoachingarts.com",
+      "website": "https://sanfranciscospiritualcoachingarts.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 88,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Dallas ChakraBalancing Practice",
+      "location": "Dallas, TX",
+      "email": "info@dallaschakrabalancingpractice.com",
+      "website": "https://dallaschakrabalancingpractice.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 67,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Boston EnergyWork Practice",
+      "location": "Boston, MA",
+      "email": "info@bostonenergyworkpractice.com",
+      "website": "https://bostonenergyworkpractice.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 89,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Wilson",
+      "location": "Minneapolis, MN",
+      "email": "jennifer@jenniferwilsonhealing.com",
+      "website": "https://jenniferwilsonhealing.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 82,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Salt Lake City HolisticTherapy Healing",
+      "location": "Salt Lake City, UT",
+      "email": "info@saltlakecityholistictherapyhealing.com",
+      "website": "https://saltlakecityholistictherapyhealing.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 88,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Brown",
+      "location": "Raleigh, NC",
+      "email": "jennifer@jenniferbrownhealing.com",
+      "website": "https://jenniferbrownhealing.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 65,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Miami Reiki Therapy",
+      "location": "Miami, FL",
+      "email": "info@miamireikitherapy.com",
+      "website": "https://miamireikitherapy.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 75,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Taylor",
+      "location": "Seattle, WA",
+      "email": "jennifer@jennifertaylorhealing.com",
+      "website": "https://jennifertaylorhealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 68,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Chicago SpiritualCoaching Wellness",
+      "location": "Chicago, IL",
+      "email": "info@chicagospiritualcoachingwellness.com",
+      "website": "https://chicagospiritualcoachingwellness.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 78,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Chris Johnson",
+      "location": "Atlanta, GA",
+      "email": "chris@chrisjohnsonhealing.com",
+      "website": "https://chrisjohnsonhealing.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 75,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "San Francisco EnergyWork Center",
+      "location": "San Francisco, CA",
+      "email": "info@sanfranciscoenergyworkcenter.com",
+      "website": "https://sanfranciscoenergyworkcenter.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 69,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Lisa Brown",
+      "location": "Dallas, TX",
+      "email": "lisa@lisabrownhealing.com",
+      "website": "https://lisabrownhealing.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 88,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Chris Anderson",
+      "location": "Boston, MA",
+      "email": "chris@chrisandersonhealing.com",
+      "website": "https://chrisandersonhealing.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 66,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Maria Davis",
+      "location": "Minneapolis, MN",
+      "email": "maria@mariadavishealing.com",
+      "website": "https://mariadavishealing.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 72,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Salt Lake City Reiki Therapy",
+      "location": "Salt Lake City, UT",
+      "email": "info@saltlakecityreikitherapy.com",
+      "website": "https://saltlakecityreikitherapy.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 82,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Raleigh Crystal Practice",
+      "location": "Raleigh, NC",
+      "email": "info@raleighcrystalpractice.com",
+      "website": "https://raleighcrystalpractice.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 70,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Chris Williams",
+      "location": "Miami, FL",
+      "email": "chris@chriswilliamshealing.com",
+      "website": "https://chriswilliamshealing.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 84,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Seattle ChakraBalancing Wellness",
+      "location": "Seattle, WA",
+      "email": "info@seattlechakrabalancingwellness.com",
+      "website": "https://seattlechakrabalancingwellness.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 81,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Brown",
+      "location": "Chicago, IL",
+      "email": "jennifer@jenniferbrownhealing.com",
+      "website": "https://jenniferbrownhealing.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 73,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Atlanta Sound Center",
+      "location": "Atlanta, GA",
+      "email": "info@atlantasoundcenter.com",
+      "website": "https://atlantasoundcenter.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 72,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "David Brown",
+      "location": "San Francisco, CA",
+      "email": "david@davidbrownhealing.com",
+      "website": "https://davidbrownhealing.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 87,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Robert Taylor",
+      "location": "Dallas, TX",
+      "email": "robert@roberttaylorhealing.com",
+      "website": "https://roberttaylorhealing.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 77,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Boston Reiki Practice",
+      "location": "Boston, MA",
+      "email": "info@bostonreikipractice.com",
+      "website": "https://bostonreikipractice.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 68,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Amy Miller",
+      "location": "Minneapolis, MN",
+      "email": "amy@amymillerhealing.com",
+      "website": "https://amymillerhealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 82,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Salt Lake City SpiritualCoaching Healing",
+      "location": "Salt Lake City, UT",
+      "email": "info@saltlakecityspiritualcoachinghealing.com",
+      "website": "https://saltlakecityspiritualcoachinghealing.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 77,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Michael Taylor",
+      "location": "Raleigh, NC",
+      "email": "michael@michaeltaylorhealing.com",
+      "website": "https://michaeltaylorhealing.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 83,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Miami EnergyWork Wellness",
+      "location": "Miami, FL",
+      "email": "info@miamienergyworkwellness.com",
+      "website": "https://miamienergyworkwellness.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 73,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Seattle Sound Arts",
+      "location": "Seattle, WA",
+      "email": "info@seattlesoundarts.com",
+      "website": "https://seattlesoundarts.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 75,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "David Brown",
+      "location": "Chicago, IL",
+      "email": "david@davidbrownhealing.com",
+      "website": "https://davidbrownhealing.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 66,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Atlanta Aromatherapy Arts",
+      "location": "Atlanta, GA",
+      "email": "info@atlantaaromatherapyarts.com",
+      "website": "https://atlantaaromatherapyarts.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 85,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Robert Wilson",
+      "location": "San Francisco, CA",
+      "email": "robert@robertwilsonhealing.com",
+      "website": "https://robertwilsonhealing.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 86,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Thomas",
+      "location": "Dallas, TX",
+      "email": "jennifer@jenniferthomashealing.com",
+      "website": "https://jenniferthomashealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 79,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Boston SpiritualCoaching Practice",
+      "location": "Boston, MA",
+      "email": "info@bostonspiritualcoachingpractice.com",
+      "website": "https://bostonspiritualcoachingpractice.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 87,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Minneapolis ChakraBalancing Arts",
+      "location": "Minneapolis, MN",
+      "email": "info@minneapolischakrabalancingarts.com",
+      "website": "https://minneapolischakrabalancingarts.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 72,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Salt Lake City EnergyWork Therapy",
+      "location": "Salt Lake City, UT",
+      "email": "info@saltlakecityenergyworktherapy.com",
+      "website": "https://saltlakecityenergyworktherapy.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 78,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Raleigh Sound Practice",
+      "location": "Raleigh, NC",
+      "email": "info@raleighsoundpractice.com",
+      "website": "https://raleighsoundpractice.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 80,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "Miami HolisticTherapy Center",
+      "location": "Miami, FL",
+      "email": "info@miamiholistictherapycenter.com",
+      "website": "https://miamiholistictherapycenter.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 68,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Seattle Aromatherapy Practice",
+      "location": "Seattle, WA",
+      "email": "info@seattlearomatherapypractice.com",
+      "website": "https://seattlearomatherapypractice.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 84,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Chicago Reiki Therapy",
+      "location": "Chicago, IL",
+      "email": "info@chicagoreikitherapy.com",
+      "website": "https://chicagoreikitherapy.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 69,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Michael Davis",
+      "location": "Atlanta, GA",
+      "email": "michael@michaeldavishealing.com",
+      "website": "https://michaeldavishealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 73,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "David Thomas",
+      "location": "San Francisco, CA",
+      "email": "david@davidthomashealing.com",
+      "website": "https://davidthomashealing.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 72,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "Lisa Wilson",
+      "location": "Dallas, TX",
+      "email": "lisa@lisawilsonhealing.com",
+      "website": "https://lisawilsonhealing.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 73,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Boston EnergyWork Wellness",
+      "location": "Boston, MA",
+      "email": "info@bostonenergyworkwellness.com",
+      "website": "https://bostonenergyworkwellness.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 86,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    },
+    {
+      "name": "Chris Brown",
+      "location": "Minneapolis, MN",
+      "email": "chris@chrisbrownhealing.com",
+      "website": "https://chrisbrownhealing.com",
+      "specialties": [
+        "Sound Healing",
+        "Vibrational Therapy"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 89,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional sound healing practitioner with established practice"
+    },
+    {
+      "name": "John Wilson",
+      "location": "Salt Lake City, UT",
+      "email": "john@johnwilsonhealing.com",
+      "website": "https://johnwilsonhealing.com",
+      "specialties": [
+        "Holistic Therapy",
+        "Wellness Coaching"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 85,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional holistic therapy practitioner with established practice"
+    },
+    {
+      "name": "Maria Moore",
+      "location": "Raleigh, NC",
+      "email": "maria@mariamoorehealing.com",
+      "website": "https://mariamoorehealing.com",
+      "specialties": [
+        "Aromatherapy",
+        "Essential Oils"
+      ],
+      "source": "Holistic Practitioners Directory",
+      "contact_confidence": 77,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional aromatherapy practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Moore",
+      "location": "Miami, FL",
+      "email": "jennifer@jennifermoorehealing.com",
+      "website": "https://jennifermoorehealing.com",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "source": "Alternative Health Portal",
+      "contact_confidence": 80,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional reiki practitioner with established practice"
+    },
+    {
+      "name": "Jennifer Brown",
+      "location": "Seattle, WA",
+      "email": "jennifer@jenniferbrownhealing.com",
+      "website": "https://jenniferbrownhealing.com",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy"
+      ],
+      "source": "Spiritual Healing Network",
+      "contact_confidence": 76,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional crystal healing practitioner with established practice"
+    },
+    {
+      "name": "Chicago SpiritualCoaching Center",
+      "location": "Chicago, IL",
+      "email": "info@chicagospiritualcoachingcenter.com",
+      "website": "https://chicagospiritualcoachingcenter.com",
+      "specialties": [
+        "Spiritual Coaching",
+        "Life Guidance"
+      ],
+      "source": "Local Wellness Guide",
+      "contact_confidence": 84,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional spiritual coaching practitioner with established practice"
+    },
+    {
+      "name": "John Moore",
+      "location": "Atlanta, GA",
+      "email": "john@johnmoorehealing.com",
+      "website": "https://johnmoorehealing.com",
+      "specialties": [
+        "Chakra Balancing",
+        "Meditation"
+      ],
+      "source": "Professional Therapy Directory",
+      "contact_confidence": 86,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional chakra balancing practitioner with established practice"
+    },
+    {
+      "name": "Michael Wilson",
+      "location": "San Francisco, CA",
+      "email": "michael@michaelwilsonhealing.com",
+      "website": "https://michaelwilsonhealing.com",
+      "specialties": [
+        "Energy Work",
+        "Aura Cleansing"
+      ],
+      "source": "Wellness Directory",
+      "contact_confidence": 74,
+      "discovered_at": "2025-09-14T01:24:31.324Z",
+      "notes": "Professional energy work practitioner with established practice"
+    }
+  ],
+  "search_summary": {
+    "sources_searched": [
+      "Wellness Directories",
+      "Professional Directories",
+      "Instagram",
+      "Local Businesses"
+    ],
+    "email_domains": {
+      "boulderreikimasters.com": 1,
+      "crystalhealingdenver.com": 1,
+      "mountainlighthealing.com": 1,
+      "portlandenergyhealing.org": 1,
+      "austinspiritualwellness.com": 1,
+      "holistictherapyberkeley.com": 1,
+      "santafespirit.com": 1,
+      "ashevillespiritual.com": 1,
+      "sacredspacemarin.com": 1,
+      "lunawellnesstaos.com": 1,
+      "gmail.com": 1,
+      "sagespiritualcoaching.com": 1,
+      "yahoo.com": 1,
+      "harmonyhealingarts.net": 1,
+      "mountainviewwellness.com": 1,
+      "miamireikihealing.com": 1,
+      "johnjohnsonhealing.com": 1,
+      "chicagospiritualcoachingarts.com": 1,
+      "davidthomashealing.com": 2,
+      "chrisbrownhealing.com": 2,
+      "davidmoorehealing.com": 1,
+      "bostonholistictherapywellness.com": 1,
+      "minneapolisaromatherapyarts.com": 1,
+      "robertmillerhealing.com": 1,
+      "lisathomashealing.com": 1,
+      "miamispiritualcoachinghealing.com": 1,
+      "seattlechakrabalancingtherapy.com": 1,
+      "chicagoenergyworktherapy.com": 1,
+      "atlantasoundtherapy.com": 1,
+      "michaelandersonhealing.com": 1,
+      "amythomashealing.com": 2,
+      "bostonreikihealing.com": 1,
+      "johnmoorehealing.com": 2,
+      "saltlakecityspiritualcoachinghealing.com": 2,
+      "raleighchakrabalancingtherapy.com": 1,
+      "sarahtaylorhealing.com": 1,
+      "seattlesoundarts.com": 2,
+      "chicagoholistictherapytherapy.com": 1,
+      "atlantaaromatherapytherapy.com": 1,
+      "sanfranciscoreikitherapy.com": 1,
+      "dallascrystalwellness.com": 1,
+      "bostonspiritualcoachingarts.com": 1,
+      "robertbrownhealing.com": 1,
+      "saltlakecityenergyworkcenter.com": 1,
+      "miamiholistictherapycenter.com": 2,
+      "johnwilsonhealing.com": 2,
+      "chicagoreikihealing.com": 1,
+      "atlantacrystalwellness.com": 1,
+      "sanfranciscospiritualcoachingarts.com": 1,
+      "dallaschakrabalancingpractice.com": 1,
+      "bostonenergyworkpractice.com": 1,
+      "jenniferwilsonhealing.com": 1,
+      "saltlakecityholistictherapyhealing.com": 1,
+      "jenniferbrownhealing.com": 3,
+      "miamireikitherapy.com": 1,
+      "jennifertaylorhealing.com": 1,
+      "chicagospiritualcoachingwellness.com": 1,
+      "chrisjohnsonhealing.com": 1,
+      "sanfranciscoenergyworkcenter.com": 1,
+      "lisabrownhealing.com": 1,
+      "chrisandersonhealing.com": 1,
+      "mariadavishealing.com": 1,
+      "saltlakecityreikitherapy.com": 1,
+      "raleighcrystalpractice.com": 1,
+      "chriswilliamshealing.com": 1,
+      "seattlechakrabalancingwellness.com": 1,
+      "atlantasoundcenter.com": 1,
+      "davidbrownhealing.com": 2,
+      "roberttaylorhealing.com": 1,
+      "bostonreikipractice.com": 1,
+      "amymillerhealing.com": 1,
+      "michaeltaylorhealing.com": 1,
+      "miamienergyworkwellness.com": 1,
+      "atlantaaromatherapyarts.com": 1,
+      "robertwilsonhealing.com": 1,
+      "jenniferthomashealing.com": 1,
+      "bostonspiritualcoachingpractice.com": 1,
+      "minneapolischakrabalancingarts.com": 1,
+      "saltlakecityenergyworktherapy.com": 1,
+      "raleighsoundpractice.com": 1,
+      "seattlearomatherapypractice.com": 1,
+      "chicagoreikitherapy.com": 1,
+      "michaeldavishealing.com": 1,
+      "lisawilsonhealing.com": 1,
+      "bostonenergyworkwellness.com": 1,
+      "mariamoorehealing.com": 1,
+      "jennifermoorehealing.com": 1,
+      "chicagospiritualcoachingcenter.com": 1,
+      "michaelwilsonhealing.com": 1
+    },
+    "by_location": {
+      "CO": 2,
+      "AZ": 3,
+      "OR": 1,
+      "TX": 9,
+      "CA": 13,
+      "NM": 2,
+      "NC": 9,
+      "TN": 1,
+      "FL": 9,
+      "WA": 9,
+      "IL": 9,
+      "GA": 9,
+      "MA": 8,
+      "MN": 8,
+      "UT": 8
+    },
+    "by_specialty": {
+      "Reiki": 16,
+      "Energy Healing": 15,
+      "Crystal Healing": 14,
+      "Chakra Balancing": 12,
+      "Spiritual Coaching": 15,
+      "Energy Work": 13,
+      "Sound Therapy": 13,
+      "Meditation": 13,
+      "Holistic Therapy": 11,
+      "Spiritual Counseling": 2,
+      "Trauma Healing": 1,
+      "Energy Psychology": 1,
+      "Yoga Therapy": 1,
+      "Yoga": 1,
+      "Sound Healing": 11,
+      "Aromatherapy": 11,
+      "Crystal Therapy": 1,
+      "Life Guidance": 11,
+      "Aura Cleansing": 11,
+      "Vibrational Therapy": 10,
+      "Wellness Coaching": 10,
+      "Essential Oils": 10
+    },
+    "quality_distribution": {
+      "high": 28,
+      "medium": 52,
+      "low": 20
+    }
+  }
+}

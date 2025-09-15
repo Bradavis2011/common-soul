@@ -1,0 +1,103 @@
+{
+  "discovery_timestamp": "2025-09-14T01:10:42.688Z",
+  "total_healers": 5,
+  "healers": [
+    {
+      "name": "Boulder Healing Arts",
+      "location": "Boulder, CO",
+      "phone": "(303) 444-1234",
+      "website": "https://boulderhealingarts.com",
+      "source": "Local Business Directory",
+      "specialties": [
+        "Reiki",
+        "Energy Healing",
+        "Chakra Balancing"
+      ],
+      "contact_confidence": 85,
+      "discovered_at": "2025-09-14T01:10:42.688Z",
+      "notes": "Established healing center with multiple practitioners"
+    },
+    {
+      "name": "Sacred Mountain Wellness",
+      "location": "Boulder, CO",
+      "website": "https://sacredmountainwellness.com",
+      "source": "Google My Business",
+      "specialties": [
+        "Crystal Healing",
+        "Sound Therapy",
+        "Meditation"
+      ],
+      "contact_confidence": 75,
+      "discovered_at": "2025-09-14T01:10:42.688Z",
+      "notes": "Holistic wellness center specializing in energy work"
+    },
+    {
+      "name": "Sedona Crystal Healing",
+      "location": "Sedona, AZ",
+      "phone": "(928) 555-0123",
+      "website": "https://sedonacrystalhealing.com",
+      "source": "Wellness Directory",
+      "specialties": [
+        "Crystal Healing",
+        "Reiki",
+        "Spiritual Coaching"
+      ],
+      "contact_confidence": 90,
+      "discovered_at": "2025-09-14T01:10:42.688Z",
+      "notes": "Professional crystal healing practice with certified practitioners"
+    },
+    {
+      "name": "Portland Reiki Center",
+      "location": "Portland, OR",
+      "phone": "(503) 555-0189",
+      "website": "https://portlandreikicenter.com",
+      "source": "Local Business Search",
+      "specialties": [
+        "Reiki",
+        "Energy Healing"
+      ],
+      "contact_confidence": 80,
+      "discovered_at": "2025-09-14T01:10:42.688Z",
+      "notes": "Certified Reiki Master training center and healing practice"
+    },
+    {
+      "name": "Austin Spiritual Healing",
+      "location": "Austin, TX",
+      "website": "https://austinspiritualhealing.com",
+      "source": "Holistic Directory",
+      "specialties": [
+        "Spiritual Coaching",
+        "Energy Work",
+        "Meditation"
+      ],
+      "contact_confidence": 70,
+      "discovered_at": "2025-09-14T01:10:42.688Z",
+      "notes": "Individual practitioner offering spiritual guidance and healing"
+    }
+  ],
+  "search_summary": {
+    "sources_searched": [
+      "Yellow Pages",
+      "Wellness Directories",
+      "Local Businesses"
+    ],
+    "with_phone": 3,
+    "with_website": 5,
+    "by_location": {
+      "Boulder, CO": 2,
+      "Sedona, AZ": 1,
+      "Portland, OR": 1,
+      "Austin, TX": 1
+    },
+    "by_specialty": {
+      "Reiki": 3,
+      "Energy Healing": 2,
+      "Chakra Balancing": 1,
+      "Crystal Healing": 2,
+      "Sound Therapy": 1,
+      "Meditation": 2,
+      "Spiritual Coaching": 2,
+      "Energy Work": 1
+    }
+  }
+}

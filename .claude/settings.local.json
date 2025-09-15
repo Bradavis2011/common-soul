@@ -1,18 +1,14 @@
 {
   "permissions": {
     "allow": [
+      "WebSearch",
+      "Bash(\"D:\\Python313\\python.exe\":*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(curl:*)",
-      "Bash(npx prisma:*)",
-      "WebFetch(domain:thecommonsoul.com)",
       "Bash(git push:*)",
-      "Bash(npm start)",
-      "WebSearch",
       "Bash(npm install:*)",
-      "Bash(npm run test:run:*)",
-      "Bash(npm run dev:*)",
-      "Bash(npm run build:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npm run:*)",
       "Bash(node:*)"
     ],
     "deny": [],

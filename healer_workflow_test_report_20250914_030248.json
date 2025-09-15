@@ -1,0 +1,129 @@
+{
+  "test_summary": {
+    "total_tests": 8,
+    "passed": 1,
+    "failed": 6,
+    "partial": 0,
+    "success_rate": 12.5
+  },
+  "test_results": {
+    "registration": {
+      "status": "failed",
+      "details": []
+    },
+    "profile_setup": {
+      "status": "failed",
+      "details": []
+    },
+    "service_management": {
+      "status": "failed",
+      "details": []
+    },
+    "availability": {
+      "status": "failed",
+      "details": []
+    },
+    "payment_setup": {
+      "status": "failed",
+      "details": []
+    },
+    "dashboard": {
+      "status": "passed",
+      "details": [
+        "\u2713 /api/healers/None/dashboard",
+        "\u2713 /api/healers/None/bookings",
+        "\u2713 /api/healers/None/earnings",
+        "\u2713 /api/healers/None/reviews"
+      ]
+    },
+    "booking_flow": {
+      "status": "failed",
+      "details": []
+    },
+    "notifications": {
+      "status": "pending",
+      "details": []
+    }
+  },
+  "issues_found": [
+    {
+      "category": "Registration",
+      "severity": "CRITICAL",
+      "description": "Registration failed with status 400",
+      "details": "{\"errors\":[{\"type\":\"field\",\"msg\":\"User type must be HEALER or CUSTOMER\",\"path\":\"userType\",\"location\":\"body\"},{\"type\":\"field\",\"value\":\"\",\"msg\":\"First name is required\",\"path\":\"firstName\",\"location\":\"body\"},{\"type\":\"field\",\"value\":\"\",\"msg\":\"Last name is required\",\"path\":\"lastName\",\"location\":\"body\"}]}",
+      "timestamp": "2025-09-14T03:02:32.154216"
+    },
+    {
+      "category": "Profile",
+      "severity": "CRITICAL",
+      "description": "Failed to get healer profile: 404",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:34.225783"
+    },
+    {
+      "category": "Services",
+      "severity": "CRITICAL",
+      "description": "Service creation failed: 404",
+      "details": "{\"error\":\"Route not found\"}",
+      "timestamp": "2025-09-14T03:02:36.259416"
+    },
+    {
+      "category": "Availability",
+      "severity": "HIGH",
+      "description": "Failed to set availability: 404",
+      "details": "{\"error\":\"Route not found\"}",
+      "timestamp": "2025-09-14T03:02:38.331275"
+    },
+    {
+      "category": "Payments",
+      "severity": "HIGH",
+      "description": "Failed to get payment setup status: 404",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:40.361311"
+    },
+    {
+      "category": "Booking",
+      "severity": "HIGH",
+      "description": "Customer registration failed: 400",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:44.503604"
+    },
+    {
+      "category": "Content",
+      "severity": "MEDIUM",
+      "description": "Placeholder content found on https://thecommonsoul.com: placeholder",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:46.979484"
+    },
+    {
+      "category": "Content",
+      "severity": "MEDIUM",
+      "description": "Placeholder content found on https://thecommonsoul.com/healers: placeholder",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:47.506001"
+    },
+    {
+      "category": "Content",
+      "severity": "MEDIUM",
+      "description": "Placeholder content found on https://thecommonsoul.com/about: placeholder",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:47.834378"
+    },
+    {
+      "category": "Content",
+      "severity": "MEDIUM",
+      "description": "Placeholder content found on https://thecommonsoul.com/contact: placeholder",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:48.286894"
+    },
+    {
+      "category": "Content",
+      "severity": "MEDIUM",
+      "description": "Placeholder content found on https://thecommonsoul.com/register: placeholder",
+      "details": "",
+      "timestamp": "2025-09-14T03:02:48.714599"
+    }
+  ],
+  "test_timestamp": "2025-09-14T03:02:48.717024",
+  "test_healer_email": "testHealer1757844151@commonsoultester.com"
+}

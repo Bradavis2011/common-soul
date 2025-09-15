@@ -1,0 +1,55 @@
+{
+  "extraction_time": "20250913_194943",
+  "total_healers": 4,
+  "data_source": "REAL_LIVE_WEBSITES",
+  "healers": [
+    {
+      "name": "Reiki Infinite Healer Course",
+      "website": "https://www.reikiinfinitehealer.com",
+      "emails": [],
+      "phones": [
+        "(102) 169-7954",
+        "(617) 692-6898",
+        "(550) 414-2716"
+      ],
+      "found_at": "2025-09-13T19:49:22.991440"
+    },
+    {
+      "name": "Home",
+      "website": "https://reikihealingarts.com",
+      "emails": [],
+      "phones": [
+        "(152) 234-7135",
+        "(152) 277-7947",
+        "(152) 234-7212"
+      ],
+      "found_at": "2025-09-13T19:49:25.534553"
+    },
+    {
+      "name": "Reiki, Crystal and Sound Healing, Psychic and Medium in Los Angeles",
+      "website": "https://healingwithjules.com",
+      "emails": [
+        "sprite-google-places@2x.db31bcdb.png"
+      ],
+      "phones": [
+        "(175) 400-5746",
+        "(171) 583-7203",
+        "(113) 526-4068"
+      ],
+      "found_at": "2025-09-13T19:49:28.110145"
+    },
+    {
+      "name": "Massage Therapy, Deep Tissue, Myofascial, Active Release",
+      "website": "https://www.spiritofhealing.org",
+      "emails": [
+        "andrewlanghorst@gmail.com"
+      ],
+      "phones": [
+        "(172) 253-4846",
+        "(171) 381-1067",
+        "(149) 861-2753"
+      ],
+      "found_at": "2025-09-13T19:49:31.057214"
+    }
+  ]
+}

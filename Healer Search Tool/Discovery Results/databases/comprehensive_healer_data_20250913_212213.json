@@ -1,0 +1,163 @@
+{
+  "extraction_time": "20250913_212213",
+  "total_urls_tested": 108,
+  "successful_extractions": 15,
+  "total_emails_found": 18,
+  "data_focus": "EMAIL_ADDRESSES_ONLY",
+  "data_source": "COMPREHENSIVE_REAL_WEBSITE_EXTRACTION",
+  "healers": [
+    {
+      "name": "Home",
+      "website": "https://www.reikienergy.com",
+      "emails": [
+        "reiki@reikienergy.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:17:03.743138",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Reiki Healing & Intuitive Chakra Balancing in Long Island NY & Virtually",
+      "website": "https://paritashahhealing.com",
+      "emails": [
+        "parita01s@gmail.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:17:08.704748",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Reiki Jin Kei Do.org",
+      "website": "https://reikijinkeido.org",
+      "emails": [
+        "reikijinkeidonova@gmail.com",
+        "snaught1@gmail.com"
+      ],
+      "email_count": 2,
+      "discovery_date": "2025-09-13T21:17:23.382780",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Crystal Academy of Advanced Healing Arts \u2022 Home",
+      "website": "https://webcrystalacademy.com",
+      "emails": [
+        "thecrystalacademy@gmail.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:17:28.531214",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Crystal Healing course, Crystal Healer, Hibiscus Moon Crystal Academy",
+      "website": "https://hibiscusmoon.com",
+      "emails": [
+        "support@hibiscusmoon.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:17:39.701989",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Souly Holistic",
+      "website": "https://soulyholistic.com",
+      "emails": [
+        "cathy@soulyholistic.com",
+        "name@domain.com"
+      ],
+      "email_count": 2,
+      "discovery_date": "2025-09-13T21:17:59.564870",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Life Force Practices",
+      "website": "https://www.lifeforcepractices.com",
+      "emails": [
+        "info@lifeforcepractices.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:18:07.595690",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Healing Music Instruments for Sale",
+      "website": "https://healing-sounds.com",
+      "emails": [
+        "contact@healing-sounds.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:18:40.616887",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Spiritual Life Coach I Ulrika Sullivan",
+      "website": "https://ulrikasullivan.com",
+      "emails": [
+        "ulrika@ulrikasullivan.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:19:00.137873",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Soul Shepherding",
+      "website": "https://www.soulshepherding.org",
+      "emails": [
+        "%20contact@soulshepherding.org",
+        "20contact@soulshepherding.org"
+      ],
+      "email_count": 2,
+      "discovery_date": "2025-09-13T21:19:05.203626",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Massage Therapy, Deep Tissue, Myofascial, Active Release",
+      "website": "https://www.spiritofhealing.org",
+      "emails": [
+        "andrewlanghorst@gmail.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:20:22.420452",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "ALTYR",
+      "website": "https://thealtyr.com",
+      "emails": [
+        "info@thealtyr.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:20:29.341354",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Inner Peace Wellness Chesapeake",
+      "website": "https://www.innerpeacewellness.com",
+      "emails": [
+        "relax@innerpeacewellness.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:20:46.640823",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Acupuncture and herbs for wellness Robert Dorsett, L.Ac. Harmony Healing Center in Alameda",
+      "website": "https://www.harmonyhealingcenter.com",
+      "emails": [
+        "info@harmonyhealingcenter.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:21:17.095181",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    },
+    {
+      "name": "Home",
+      "website": "https://www.radianthealingcenter.com",
+      "emails": [
+        "rhealingcenter@gmail.com"
+      ],
+      "email_count": 1,
+      "discovery_date": "2025-09-13T21:21:22.580755",
+      "data_source": "REAL_WEBSITE_EXTRACTION"
+    }
+  ]
+}

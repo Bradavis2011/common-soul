@@ -1,0 +1,55 @@
+{
+  "name": "common-soul-healer-discovery",
+  "version": "1.0.0",
+  "description": "Conservative healer discovery and outreach tool for Common Soul spiritual healing platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "discover": "node src/discovery/main.js",
+    "extract": "node src/extraction/main.js",
+    "outreach": "node src/outreach/main.js",
+    "export": "node src/export/main.js",
+    "test": "jest",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "healer-discovery",
+    "spiritual-healers",
+    "outreach-automation",
+    "common-soul",
+    "marketplace-recruitment"
+  ],
+  "author": "Common Soul Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^21.0.0",
+    "nodemailer": "^6.9.0",
+    "xlsx": "^0.18.5",
+    "csv-writer": "^1.6.0",
+    "sqlite3": "^5.1.6",
+    "dotenv": "^16.3.1",
+    "rate-limiter-flexible": "^2.4.2",
+    "node-cron": "^3.0.3",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "validator": "^13.11.0",
+    "winston": "^3.10.0",
+    "moment": "^2.29.4",
+    "lodash": "^4.17.21",
+    "sharp": "^0.32.6",
+    "user-agents": "^1.0.1418"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

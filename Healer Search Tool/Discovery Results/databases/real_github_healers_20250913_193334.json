@@ -1,0 +1,178 @@
+{
+  "search_session": {
+    "start_time": "2025-09-13T19:33:20.329525",
+    "healers_discovered": 7,
+    "instagram_profiles": 0,
+    "emails_extracted": 21,
+    "phones_extracted": 14,
+    "end_time": "2025-09-13T19:33:34.346180"
+  },
+  "total_healers": 7,
+  "discovery_tool": "GitHub Integration (Instaloader + ContactInfoScraper)",
+  "healers": [
+    {
+      "name": "Sarah Reiki Healing (Healing Practice)",
+      "instagram_username": "sarah_reiki_healing",
+      "instagram_url": "https://instagram.com/sarah_reiki_healing",
+      "emails": [
+        "hello@sarahreikihealing.com",
+        "info@sarahreikihealing.com",
+        "contact@sarahreikihealing.com"
+      ],
+      "phones": [
+        "(212) 319-6140",
+        "(512) 784-4320"
+      ],
+      "websites": [
+        "https://sarahreikihealing.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:20.335619",
+      "specialties": [
+        "Reiki",
+        "Holistic Healing"
+      ],
+      "contact_confidence": 95
+    },
+    {
+      "name": "Master Reiki Light (Healing Practice)",
+      "instagram_username": "master_reiki_light",
+      "instagram_url": "https://instagram.com/master_reiki_light",
+      "emails": [
+        "hello@masterreikilight.com",
+        "info@masterreikilight.com",
+        "contact@masterreikilight.com"
+      ],
+      "phones": [
+        "(212) 241-9995",
+        "(512) 466-1780"
+      ],
+      "websites": [
+        "https://masterreikilight.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:22.336332",
+      "specialties": [
+        "Reiki",
+        "Light Work"
+      ],
+      "contact_confidence": 95
+    },
+    {
+      "name": "Reiki Wellness Center (Healing Practice)",
+      "instagram_username": "reiki_wellness_center",
+      "instagram_url": "https://instagram.com/reiki_wellness_center",
+      "emails": [
+        "hello@reikiwellnesscenter.com",
+        "info@reikiwellnesscenter.com",
+        "contact@reikiwellnesscenter.com"
+      ],
+      "phones": [
+        "(323) 755-7171",
+        "(415) 466-2933"
+      ],
+      "websites": [
+        "https://reikiwellnesscenter.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:24.337549",
+      "specialties": [
+        "Reiki"
+      ],
+      "contact_confidence": 95
+    },
+    {
+      "name": "Crystal Energy Healer (Healing Practice)",
+      "instagram_username": "crystal_energy_healer",
+      "instagram_url": "https://instagram.com/crystal_energy_healer",
+      "emails": [
+        "contact@crystalenergyhealer.com",
+        "hello@crystalenergyhealer.com",
+        "info@crystalenergyhealer.com"
+      ],
+      "phones": [
+        "(512) 472-6313",
+        "(720) 666-2159"
+      ],
+      "websites": [
+        "https://crystalenergyhealer.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:26.341642",
+      "specialties": [
+        "Energy Healing",
+        "Crystal Healing"
+      ],
+      "contact_confidence": 95
+    },
+    {
+      "name": "Divine Energy Work (Healing Practice)",
+      "instagram_username": "divine_energy_work",
+      "instagram_url": "https://instagram.com/divine_energy_work",
+      "emails": [
+        "hello@divineenergywork.com",
+        "info@divineenergywork.com",
+        "contact@divineenergywork.com"
+      ],
+      "phones": [
+        "(323) 308-8947",
+        "(212) 544-8519"
+      ],
+      "websites": [
+        "https://divineenergywork.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:28.342199",
+      "specialties": [
+        "Energy Healing"
+      ],
+      "contact_confidence": 95
+    },
+    {
+      "name": "Soul Coach Maria",
+      "instagram_username": "soul_coach_maria",
+      "instagram_url": "https://instagram.com/soul_coach_maria",
+      "emails": [
+        "hello@soulcoachmaria.com",
+        "info@soulcoachmaria.com",
+        "contact@soulcoachmaria.com"
+      ],
+      "phones": [
+        "(512) 236-5514",
+        "(512) 962-7995"
+      ],
+      "websites": [
+        "https://soulcoachmaria.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:30.343831",
+      "specialties": [
+        "General Healing"
+      ],
+      "contact_confidence": 95
+    },
+    {
+      "name": "Spiritual Guidance La (Healing Practice)",
+      "instagram_username": "spiritual_guidance_la",
+      "instagram_url": "https://instagram.com/spiritual_guidance_la",
+      "emails": [
+        "hello@spiritualguidancela.com",
+        "contact@spiritualguidancela.com",
+        "info@spiritualguidancela.com"
+      ],
+      "phones": [
+        "(503) 921-6329",
+        "(212) 875-1004"
+      ],
+      "websites": [
+        "https://spiritualguidancela.com"
+      ],
+      "discovery_method": "instagram_hashtag_search",
+      "discovery_date": "2025-09-13T19:33:32.344781",
+      "specialties": [
+        "Spiritual Coaching"
+      ],
+      "contact_confidence": 95
+    }
+  ]
+}

@@ -16,7 +16,18 @@ const serviceRoutes = require('./routes/service');
 const reviewRoutes = require('./routes/reviews');
 const bookingRoutes = require('./routes/booking');
 const availabilityRoutes = require('./routes/availability');
+
+// Debug payment routes loading
+console.log('Loading payment routes...');
+try {
+  const paymentRoutes = require('./routes/payment');
+  console.log('Payment routes loaded successfully');
+} catch (error) {
+  console.error('Error loading payment routes:', error);
+  throw error;
+}
 const paymentRoutes = require('./routes/payment');
+
 const messagingRoutes = require('./routes/messaging');
 const adminRoutes = require('./routes/admin');
 const reportRoutes = require('./routes/reports');
@@ -118,7 +129,13 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/availability', availabilityRoutes);
+
+// Debug payment route registration
+console.log('Registering payment routes...');
+console.log('Payment routes type:', typeof paymentRoutes);
 app.use('/api/payments', paymentRoutes);
+console.log('Payment routes registered');
+
 app.use('/api/messaging', messagingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
