@@ -192,4 +192,13 @@ router.post('/logout', authenticateToken, (req, res) => {
   res.json({ message: 'Logout successful. Please remove token from client storage.' });
 });
 
+// TEMPORARY: Payment endpoint test in auth routes
+router.get('/payment-test', (req, res) => {
+  res.json({
+    message: 'Payment endpoint working in auth routes!',
+    timestamp: new Date().toISOString(),
+    note: 'This confirms routing works when placed in auth.js'
+  });
+});
+
 module.exports = router;
