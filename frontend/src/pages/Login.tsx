@@ -9,6 +9,7 @@ import { Mail, Lock, User, Heart, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import SocialLogin from "@/components/SocialLogin";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -106,6 +107,7 @@ const Login = () => {
                   </TabsList>
                   
                   <TabsContent value="login">
+                    <SocialLogin mode="login" />
                     <form onSubmit={(e) => handleLogin(e, 'seeker')} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="seeker-email">Email</Label>
@@ -144,6 +146,7 @@ const Login = () => {
                   </TabsContent>
                   
                   <TabsContent value="signup">
+                    <SocialLogin mode="signup" />
                     <form onSubmit={(e) => handleSignup(e, 'seeker')} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="seeker-name">Full Name</Label>
@@ -210,6 +213,7 @@ const Login = () => {
                   </TabsList>
                   
                   <TabsContent value="login">
+                    <SocialLogin mode="login" />
                     <form onSubmit={(e) => handleLogin(e, 'healer')} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="healer-email">Email</Label>
@@ -248,6 +252,7 @@ const Login = () => {
                   </TabsContent>
                   
                   <TabsContent value="signup">
+                    <SocialLogin mode="signup" />
                     <form onSubmit={(e) => handleSignup(e, 'healer')} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="healer-name">Full Name</Label>

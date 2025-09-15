@@ -35,6 +35,7 @@ const Settings = lazy(() => import("./pages/Settings"));
 const DemoAccounts = lazy(() => import("./pages/DemoAccounts"));
 const HealerOnboarding = lazy(() => import("./pages/HealerOnboarding"));
 const CredentialVerification = lazy(() => import("./pages/CredentialVerification"));
+const RoleSelection = lazy(() => import("./components/RoleSelection"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading component
@@ -78,6 +79,7 @@ const AppContent = () => {
           <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/select-role" element={<RoleSelection />} />
           <Route path="/dashboard" element={
             <ProtectedRoute requireHealerOnboarding={true}>
               <Dashboard />
