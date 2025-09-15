@@ -9,8 +9,10 @@ const prisma = new PrismaClient();
 
 // Payment service status endpoint
 router.get('/', (req, res) => {
+  console.log('Payment root endpoint accessed');
   res.json({
     status: 'Payment service operational',
+    timestamp: new Date().toISOString(),
     endpoints: {
       'POST /create-checkout/:bookingId': 'Create checkout session for booking payment',
       'POST /webhook': 'Stripe webhook handler',
@@ -18,6 +20,14 @@ router.get('/', (req, res) => {
       'POST /refund/:paymentIntentId': 'Process refund'
     },
     stripe: process.env.STRIPE_PUBLISHABLE_KEY ? 'configured' : 'not configured'
+  });
+});
+
+// Test endpoint to verify route registration
+router.get('/test', (req, res) => {
+  res.json({
+    message: 'Payment route test endpoint working',
+    timestamp: new Date().toISOString()
   });
 });
 
